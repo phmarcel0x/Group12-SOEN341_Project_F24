@@ -2,10 +2,10 @@
 ### SOEN 341 Software Process - Team Project Fall 2024 
 ### A Peer Assessment Application
 
-### Project Description
+#### Project Description
 - 
 
-### Team Members
+#### Team Members
 - Marcelo Pedroza Hernandez - 40200901
 - Evelyne Redjebian - 
 - Christopher Tan - 
