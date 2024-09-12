@@ -7,9 +7,9 @@
 
 #### Team Members
 - Marcelo Pedroza Hernandez - 40200901
-- Evelyne Redjebian - 
-- Christopher Tan - 
+- Evelyne Redjebian - 40250996
+- Christopher Tan - 40265795
 - Yash Dilipkumar Nathani - 
 - Tristan Lepage - 
-- Fabio Binu Koshy -
+- Fabio Binu Koshy - 40231803
 
