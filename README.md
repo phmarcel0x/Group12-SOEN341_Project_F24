@@ -3,7 +3,7 @@
 ### A Peer Assessment Application
 
 #### Project Description
-- 
+- TBD
 
 #### Team Members
 - Marcelo Pedroza Hernandez - 40200901
