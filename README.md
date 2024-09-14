@@ -10,6 +10,6 @@
 - Evelyne Redjebian - 40250996
 - Christopher Tan - 40265795
 - Yash Dilipkumar Nathani - 
-- Tristan Lepage - 
+- Tristan Lepage - 40287610
 - Fabio Binu Koshy - 40231803
 
