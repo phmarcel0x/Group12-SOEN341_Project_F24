@@ -20,7 +20,7 @@ Objective: Develop a middle-fidelity prototype of a Peer Assessment System
 #### Team Members
 - Marcelo Pedroza Hernandez - 40200901
 - Evelyne Redjebian - 40250996
-- Christopher Tan - 40265795
+- Christopher Tan - 40275695
 - Yash Dilipkumar Nathani - 40248536
 - Tristan Lepage - 40287610
 - Fabio Binu Koshy - 40231803
