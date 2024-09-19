@@ -9,7 +9,7 @@
 - Marcelo Pedroza Hernandez - 40200901
 - Evelyne Redjebian - 40250996
 - Christopher Tan - 40265795
-- Yash Dilipkumar Nathani - 
+- Yash Dilipkumar Nathani - 40248536
 - Tristan Lepage - 40287610
 - Fabio Binu Koshy - 40231803
 
