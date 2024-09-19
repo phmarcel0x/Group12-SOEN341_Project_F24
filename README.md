@@ -1,3 +1,5 @@
+![GitHub issues](https://img.shields.io/github/issues/phmarcel0x/Group12-SOEN341_Project_F24)
+
 # Group12-SOEN341_Project_F24
 ### SOEN 341 Software Process - Team Project Fall 2024 
 ### A Peer Assessment Application
