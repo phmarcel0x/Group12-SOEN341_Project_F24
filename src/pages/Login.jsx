@@ -1,49 +1,73 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+//Login.jsx
+
+import React, { useState } from 'react';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const auth = getAuth();
+    
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log('User logged in:', userCredential.user);
+
+      // Redirect to the profile page after successful login
+      navigate('/Profile'); // Redirect to profile page
+    } catch (error) {
+      console.error("Error logging in:", error.message);
+      setError(error.message);
+    }
+  };
+
   return (
     <div className="container">
-        <div className="login-register-container">
-          <form>
+      <div className="login-register-container">
+        <form onSubmit={handleSubmit}>
+          <div className="form-field-wrapper">
+            <label>Email:</label>
+            <input 
+              required
+              type="email" 
+              name="email"
+              placeholder="Enter email..."
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
 
-            <div className="form-field-wrapper">
-                <label>Email:</label>
-                <input 
-                  required
-                  type="email" 
-                  name="email"
-                  placeholder="Enter email..."
-                  />
-            </div>
+          <div className="form-field-wrapper">
+            <label>Password:</label>
+            <input 
+              type="password" 
+              name="password"
+              placeholder="Enter password..."
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
 
-            <div className="form-field-wrapper">
-                <label>Password:</label>
-                <input 
-                  type="password" 
-                  name="password"
-                  placeholder="Enter password..."
-                  />
-            </div>
+          {error && <p style={{ color: 'red' }}>{error}</p>}
 
+          <div className="form-field-wrapper">
+            <input 
+              type="submit" 
+              value="Login"
+              className="btn"
+            />
+          </div>
+        </form>
 
-            <div className="form-field-wrapper">
-    
-                <input 
-                  type="submit" 
-                  value="Login"
-                  className="btn"
-                  />
-
-            </div>
-
-          </form>
-
-          <p>Don't have an account? <Link to="/register">Register</Link></p>
-
-        </div>
+        <p>Don't have an account? <Link to="/register">Register</Link></p>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
