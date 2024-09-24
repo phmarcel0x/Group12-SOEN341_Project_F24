@@ -47,6 +47,20 @@ const Register = () => {
     <div className="container">
       <div className="login-register-container">
         <form onSubmit={handleSubmit}>
+
+          <div className="form-field-wrapper">
+            <label>Role:&nbsp;</label>
+            <select 
+              required
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              className="form-control"
+            >
+              <option value="Instructor">Instructor</option>
+              <option value="Student">Student</option>
+            </select>
+          </div>
+          
           <div className="form-field-wrapper">
             <label>Name:</label>
             <input 
