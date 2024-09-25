@@ -11,6 +11,8 @@ const Register = () => {
   const [password2, setPassword2] = useState('');
   const [name, setName] = useState(''); // Name field
   const [error, setError] = useState('');
+  const [role, setRole] = useState(''); // Add this line to define the role state
+
   const navigate = useNavigate(); // Initialize navigate for redirection
 
   const handleSubmit = async (e) => {
@@ -57,7 +59,7 @@ const Register = () => {
               className="form-control"
             >
               <option value="Instructor">Instructor</option>
-              <option value="Student">Student</option>
+              <option value="Student">Student</option>              
             </select>
           </div>
           
