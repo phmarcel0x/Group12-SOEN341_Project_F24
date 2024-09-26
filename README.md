@@ -25,3 +25,8 @@ Objective: Develop a middle-fidelity prototype of a Peer Assessment System
 - Tristan Lepage - 40287610
 - Fabio Binu Koshy - 40231803
 
+
+Adding React to an Existing Project
+
+This guide explains how to install and set up React in an existing project. React is a JavaScript library for building user interfaces, and this guide assumes you already have a project with a package manager like npm or yarn.
+
