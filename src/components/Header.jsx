@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth"; // Import signOut and onAuthStateChanged from Firebase Auth
-import logo from '../images/4.svg';
+import logo from '../../images/4.svg'
 
 const Header = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false); // Track the user's login state
@@ -52,7 +52,7 @@ const Header = () => {
                     <Link to="/profile" className="header--link">Profile</Link>
 
                     <button onClick={logoutClick} className="btn">
-                        {isLoggedIn ? "Logout" : "Login"}
+                        {isLoggedIn ? "Sign Out" : "Sign In"}
                     </button>
                 </>
             </div>

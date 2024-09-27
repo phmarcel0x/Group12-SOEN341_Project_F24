@@ -31,7 +31,7 @@
     margin: auto;
     padding: 2em 2em;
     /* padding: 20px; */
-    /* border: 1px solid red */
+    /* border: 1px solid red  */
   }
 
 .header{
@@ -122,3 +122,10 @@ input{
       }
 }
 
+
+
+/* Logo Spacing */
+  .logo-padding{
+  padding-left: 3em;
+  padding-top: 3em;
+  }
