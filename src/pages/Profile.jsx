@@ -32,6 +32,7 @@ const Profile = () => {
   return (
     <div className="container">
       <h1>Welcome to my profile, my name is {userName ? userName : 'User'}!</h1>
+      
     </div>
   );
 };

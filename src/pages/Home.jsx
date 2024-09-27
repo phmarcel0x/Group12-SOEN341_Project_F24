@@ -1,6 +1,7 @@
 import React from 'react'
 import image1 from '../../images/photo1.webp'
 import image2 from '../../images/photo2.jpg'
+import Footer from '../components/Footer'
 
 
 const Home = () => {

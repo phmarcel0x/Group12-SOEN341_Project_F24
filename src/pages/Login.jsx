@@ -25,7 +25,7 @@ const Login = () => {
       console.error("Error logging in:", error.message);
       setError(error.message);
     }
-  };
+  }
 
   return (
     <div className="container">
