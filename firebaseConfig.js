@@ -2,19 +2,20 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
+import { getDatabase, ref, set } from 'firebase/database';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "API_KEY",
+  apiKey: "AIzaSyC-GgVnoeRB7KSgRIEBTpyNrtCuUKjk4TA",
   authDomain: "soen341-project-group12.firebaseapp.com",
   projectId: "soen341-project-group12",
   storageBucket: "soen341-project-group12.appspot.com",
-  messagingSenderId: "MESSAGING_SENDER_ID",
-  appId: "APP_ID",
-  measurementId: "MEASUREMENT_ID"
+  messagingSenderId: "551475228011",
+  appId: "1:551475228011:web:d14120a0b7549888d0f02e",
+  measurementId: "G-S286NL2V3Z"
 };
 
 // Initialize Firebase

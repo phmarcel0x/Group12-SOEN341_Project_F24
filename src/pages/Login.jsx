@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getDatabase, ref, get } from 'firebase/database';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
@@ -14,40 +15,47 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const auth = getAuth();
-    
+
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      console.log('User logged in:', userCredential.user);
+      const user = userCredential.user;
+      console.log('User logged in:', user);
 
-      // Redirect to the profile page after successful login
-      navigate('/Profile'); // Redirect to profile page
+      // Fetch user role from Firebase RTDB
+      const db = getDatabase();
+      const userRoleRef = ref(db, `users/${user.uid}/role`);
+      const roleSnapshot = await get(userRoleRef);
+
+      if (roleSnapshot.exists()) {
+        const userRole = roleSnapshot.val();
+        setRole(userRole);
+
+        // Redirect based on role
+        if (userRole === 'Instructor') {
+          navigate('/instructor-dashboard');
+        } else if (userRole === 'Student') {
+          navigate('/student-dashboard');
+        }
+      } else {
+        console.error("User role not found");
+        setError("User role not found");
+      }
+
     } catch (error) {
       console.error("Error logging in:", error.message);
       setError(error.message);
     }
-  }
+  };
 
   return (
     <div className="container">
       <div className="login-register-container">
         <form onSubmit={handleSubmit}>
-           <div className="form-field-wrapper">
-            <label>Log in as:&nbsp;</label>
-            <select 
-              required
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              className="form-control"
-            >
-              <option value="Instructor">Instructor</option>
-              <option value="Student">Student</option>
-            </select>
-          </div>
           <div className="form-field-wrapper">
             <label>Email:</label>
-            <input 
+            <input
               required
-              type="email" 
+              type="email"
               name="email"
               placeholder="Enter email..."
               value={email}
@@ -57,8 +65,8 @@ const Login = () => {
 
           <div className="form-field-wrapper">
             <label>Password:</label>
-            <input 
-              type="password" 
+            <input
+              type="password"
               name="password"
               placeholder="Enter password..."
               value={password}
@@ -69,11 +77,7 @@ const Login = () => {
           {error && <p style={{ color: 'red' }}>{error}</p>}
 
           <div className="form-field-wrapper">
-            <input 
-              type="submit" 
-              value="Login"
-              className="btn"
-            />
+            <input type="submit" value="Login" className="btn" />
           </div>
         </form>
 
