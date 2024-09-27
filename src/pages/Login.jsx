@@ -9,7 +9,6 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [role, setRole] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -28,14 +27,9 @@ const Login = () => {
 
       if (roleSnapshot.exists()) {
         const userRole = roleSnapshot.val();
-        setRole(userRole);
 
-        // Redirect based on role
-        if (userRole === 'Instructor') {
-          navigate('/instructor-dashboard');
-        } else if (userRole === 'Student') {
-          navigate('/student-dashboard');
-        }
+        // Redirect all users to profile page
+        navigate('/profile');
       } else {
         console.error("User role not found");
         setError("User role not found");

@@ -49,7 +49,8 @@ const Register = () => {
       });
 
       console.log('User registered:', user);
-      navigate('/login'); // Redirect after successful registration
+      // Automatically log in the user and redirect to profile
+      navigate('/profile'); // Redirect after successful registration
 
     } catch (error) {
       console.error("Error registering user:", error.message);
