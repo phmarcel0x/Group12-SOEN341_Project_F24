@@ -1,17 +1,15 @@
-// Register.jsx
-
 import React, { useState } from 'react';
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { getDatabase, ref, set } from 'firebase/database';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom';
-import { auth } from '../../firebaseConfig';
+import { auth, db } from '../../firebaseConfig'; // Import Firebase Auth and Firestore
 
 const Register = () => {
   const [email, setEmail] = useState('');
   const [password1, setPassword1] = useState('');
   const [password2, setPassword2] = useState('');
   const [name, setName] = useState('');
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState(''); // Role selected from dropdown
   const [error, setError] = useState('');
   const [instructorKey, setInstructorKey] = useState(''); // For instructor key validation
   const navigate = useNavigate();
@@ -19,39 +17,37 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Password matching validation
+    // Validate that passwords match
     if (password1 !== password2) {
       setError("Passwords do not match");
       return;
     }
 
-    // Instructor role validation with a key (you can define a better validation)
-    const instructorValidationKey = "IAMOPTIMUSPRIME";
+    // Validate Instructor key if the selected role is "Instructor"
+    const instructorValidationKey = "IAMOPTIMUSPRIME"; // Hardcoded validation key
     if (role === 'Instructor' && instructorKey !== instructorValidationKey) {
       setError("Invalid Instructor Key");
       return;
     }
 
     try {
-      // Create user with email and password
+      // Create user in Firebase Authentication with email and password
       const userCredential = await createUserWithEmailAndPassword(auth, email, password1);
       const user = userCredential.user;
 
-      // Update user profile with display name
+      // Update Firebase Auth user profile with display name
       await updateProfile(user, { displayName: name });
 
-      // Store user role in Firebase RTDB
-      const db = getDatabase();
-      await set(ref(db, `users/${user.uid}`), {
+      // Save the user details and role in Firestore (automatically creates the document and collection)
+      await setDoc(doc(db, 'users', user.uid), {
         name: name,
         email: email,
-        role: role
+        role: role // This role will either be "Instructor" or "Student"
       });
 
-      console.log('User registered:', user);
-      // Automatically log in the user and redirect to profile
-      navigate('/profile'); // Redirect after successful registration
-
+      // Redirect to profile page after successful registration
+      navigate('/profile');
+      
     } catch (error) {
       console.error("Error registering user:", error.message);
       setError(error.message);
@@ -71,7 +67,6 @@ const Register = () => {
             </select>
           </div>
 
-          {/* Show instructor key input only if Instructor role is selected */}
           {role === "Instructor" && (
             <div className="form-field-wrapper">
               <label>Instructor Key:</label>

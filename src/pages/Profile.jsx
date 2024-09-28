@@ -1,36 +1,45 @@
 import React, { useState, useEffect } from 'react';
-import { getAuth } from "firebase/auth";
-import { getDatabase, ref, onValue } from "firebase/database";
-import InstructorDashboard from './InstructorDashboard'; // Import Instructor Dashboard
-import StudentDashboard from './StudentDashboard'; // Import Student Dashboard
+import { getAuth } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
+import InstructorDashboard from './InstructorDashboard';
+import StudentDashboard from './StudentDashboard';
+import { db } from '../../firebaseConfig';
 
 const Profile = () => {
   const [userName, setUserName] = useState('');
-  const [role, setRole] = useState(''); // Store the user's role
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login status
-  const [loading, setLoading] = useState(true); // Track loading state
+  const [role, setRole] = useState('');  // Store the user's role
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
+  const [loading, setLoading] = useState(true); 
   const auth = getAuth();
-  const db = getDatabase();
 
   useEffect(() => {
-    const user = auth.currentUser; // Get the currently logged-in user
+    const user = auth.currentUser;
 
     if (user) {
-      setUserName(user.displayName); // Set the user's display name
-      setIsLoggedIn(true); // User is logged in
+      setUserName(user.displayName);  // Set the user's display name
+      setIsLoggedIn(true);  // User is logged in
 
-      // Fetch user role from Firebase RTDB
-      const userRoleRef = ref(db, `users/${user.uid}/role`);
-      onValue(userRoleRef, (snapshot) => {
-        const userRole = snapshot.val();
-        setRole(userRole);
-        setLoading(false); // Set loading to false once the role is fetched
-      });
+      const userDocRef = doc(db, 'users', user.uid);  // Reference to the Firestore document
+      getDoc(userDocRef)
+        .then((docSnapshot) => {
+          if (docSnapshot.exists()) {
+            const userData = docSnapshot.data();
+            setRole(userData.role);  // Set role from Firestore
+            setLoading(false);  // Stop loading
+          } else {
+            console.log('No such document!');
+            setLoading(false);
+          }
+        })
+        .catch((error) => {
+          console.log('Error fetching user data:', error);
+          setLoading(false);
+        });
     } else {
-      setIsLoggedIn(false); // User is logged out
-      setLoading(false); // Stop loading if the user is not logged in
+      setIsLoggedIn(false);
+      setLoading(false);
     }
-  }, [auth, db]);
+  }, [auth]);
 
   if (!isLoggedIn) {
     return (
@@ -40,7 +49,6 @@ const Profile = () => {
     );
   }
 
-  // Show loading message while role is being fetched
   if (loading) {
     return (
       <div className="container">
@@ -52,9 +60,6 @@ const Profile = () => {
   return (
     <div className="container">
       <h1>Welcome to your profile, {userName ? userName : 'User'}.</h1>
-      <p> </p>
-
-      {/* Render Instructor or Student Dashboard based on role */}
       {role === 'Instructor' && <InstructorDashboard />}
       {role === 'Student' && <StudentDashboard />}
     </div>
