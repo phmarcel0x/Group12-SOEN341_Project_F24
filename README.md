@@ -26,95 +26,64 @@ Objective: Develop a middle-fidelity prototype of a Peer Assessment System
 - Fabio Binu Koshy - 40231803
 
 
-#### **Adding React to an Existing Project**
+### Installation Guide
 
-This guide explains how to install and set up React in an existing project. React is a JavaScript library for building user interfaces, and this guide assumes you already have a project with a package manager like npm or yarn.
-
+This guide will walk you through the process of installing and setting up a React application using npm.
 
 Prerequisites
+Before you begin, make sure you have the following installed:
 
-Before adding React, ensure you have the following:
+Node.js: React requires Node.js to be installed. You can download it from Node.js Official Website.
+npm: npm (Node Package Manager) comes bundled with Node.js. To check if Node.js and npm are installed, run the following commands:
 
-1. Node.js installed on your system. You can check by running:
-        node -v
+![image](https://github.com/user-attachments/assets/2939312a-5e53-499e-900e-231b80b83e8f)
 
-If not installed, download and install it from Node.js.
-2. Package Manager (npm or yarn). You can check npm by running:
-        npm -v
 
-Alternatively, if you prefer using Yarn, install it by following instructions at Yarn's website.
+Installation Steps
+1. Create a React Application
+The easiest way to create a new React application is by using create-react-app, a tool that sets up the project with all necessary configurations.
 
-**Step-by-Step Instructions**
+Using npx (Recommended)
+If you're using npm 5.2 or later, you can use npx to create a React app without needing to install create-react-app globally:
 
-1. Navigate to Your Project Directory
-        First, open your terminal and navigate to the root folder of your project:
-                cd /path/to/your/project
+![image](https://github.com/user-attachments/assets/298deaff-5c4f-43e4-96e2-479b44f60dfd)
 
-2. Install React and ReactDOM
-        React requires two packages: react for building components and react-dom for rendering those         components to the DOM. Install both by running:
+Replace my-react-app with your desired project name.
 
-Using npm:
-        npm install react react-dom
+Using npm
+If you want to install create-react-app globally, use:
 
-Using yarn:
-        yarn add react react-dom
+![image](https://github.com/user-attachments/assets/40e7ee63-fc66-446e-9861-0ff203182095)
 
-3. Create Your First React Component
-        Now, let’s create a React component to ensure everything is working. Inside your project,         create a new file, for example, App.js, and add the following code:
+If you want add react library for existing project:
 
-import React from 'react';
+![image](https://github.com/user-attachments/assets/7506398e-db5d-4c5d-a3fd-0a8705b6c448)
 
-const App = () => {
-  return (
-    <div>
-      <h1>Hello, React!</h1>
-    </div>
-  );
-};
+2. Navigate to Your Project Directory
+Once the installation is complete, change your working directory to the project folder:
 
-export default App;
+![image](https://github.com/user-attachments/assets/cd8cb323-5ac4-415f-8117-96900e563607)
 
-4. Integrate React with Your Existing Project
-        Vanilla HTML/JS Setup
+3. Run the Development Server
 
-**If your project is based on vanilla JavaScript (without a build tool like Webpack), you can integrate React using a CDN.**
+![image](https://github.com/user-attachments/assets/9796bff7-1322-4b9b-b034-0d6d7e19c450)
 
-1. Add the following lines to your HTML file within the <head> section:        
-        <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-        <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin>            </script>
+ Folder Structure
+ 
+After installation, your project structure should look like this
 
-2. In your HTML file, create a <div> where React will render the component:
-        <div id="root"></div>
+![image](https://github.com/user-attachments/assets/94630815-ffdd-469b-a42d-aead983409d5)
 
-3.In your existing JS file (e.g., index.js), render your React component:
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
+Key Files:
 
-**With Webpack/Bundlers**
+public/index.html: The main HTML file for your React app.
+src/index.js: Entry point of your application.
+src/App.js: Main component of your app.
 
-If you’re using a build tool like Webpack, Babel, or another bundler, ensure you have the appropriate loader configurations for JSX and JavaScript.
+Troubleshooting:
 
-For example, with Babel, install the necessary dependencies:
-        npm install @babel/core @babel/preset-react babel-loader --save-dev
+If you encounter permission issues, try using sudo (Linux/macOS) or running your terminal as an administrator (Windows).
+If you receive any warnings/errors, consider deleting the node_modules folder and running npm install again.
 
-And add the following to your .babelrc:
-        {
-          "presets": ["@babel/preset-react"]
-        }        
-
-Then, in your entry JS file (e.g., index.js):
-
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
-
-5. Start the Project
-        Finally, depending on your project setup, start or build your project to see React in                action. If using a bundler like Webpack, run:
-                npm start
-
-**Or if using a simple HTML setup, open your HTML file in the browser, and you should see your React component rendered!**
 
 
