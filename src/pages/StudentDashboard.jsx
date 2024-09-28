@@ -1,13 +1,15 @@
 // StudentDashboard.jsx
 
 import React, { useEffect, useState } from "react";
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { db, auth } from "../../firebaseConfig"; // Import the Firebase utils
-import './studentDB.css'; // Import CSS file for styling
+import { collection, query, where, getDocs, onSnapshot } from "firebase/firestore";
+import { db, auth } from "../../firebaseConfig";
+import './studentDB.css'
 
 const StudentDashboard = () => {
   const [team, setTeam] = useState(null);
   const [teamMembers, setTeamMembers] = useState([]);
+  const [groups, setGroups] = useState([]);
+  const [students, setStudents] = useState([]);
 
   useEffect(() => {
     const fetchStudentTeam = async () => {
@@ -39,7 +41,26 @@ const StudentDashboard = () => {
       }
     };
 
+    const fetchAllGroupsAndStudents = async () => {
+      // Subscribe to changes in the 'groups' collection
+      const unsubscribeGroups = onSnapshot(collection(db, "groups"), (snapshot) => {
+        const fetchedGroups = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setGroups(fetchedGroups);
+      });
+
+      // Fetch all users with the role "Student"
+      const q = query(collection(db, "users"), where("role", "==", "Student"));
+      const querySnapshot = await getDocs(q);
+      const fetchedStudents = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setStudents(fetchedStudents);
+
+      return () => {
+        unsubscribeGroups();
+      };
+    };
+
     fetchStudentTeam();
+    fetchAllGroupsAndStudents();
   }, []);
 
   return (
@@ -67,6 +88,19 @@ const StudentDashboard = () => {
       ) : (
         <p>You are not assigned to any team yet.</p>
       )}
+
+      <h2>Groups Overview</h2>
+      <ul>
+        {groups.map(group => (
+          <li key={group.id}>
+            <strong>{group.name}</strong>
+            <p>Members: {group.members.map(memberId => {
+              const student = students.find(student => student.id === memberId);
+              return student ? student.name : "Unknown Student";
+            }).join(", ")}</p>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
