@@ -1,60 +1,71 @@
 // StudentDashboard.jsx
 
-import React, { useEffect, useState } from 'react';
-import { getAuth } from "firebase/auth";
-import { getDatabase, ref, onValue } from "firebase/database";
+import React, { useEffect, useState } from "react";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { db, auth } from "../../firebaseConfig"; // Import the Firebase utils
+import './studentDB.css'; // Import CSS file for styling
 
 const StudentDashboard = () => {
   const [team, setTeam] = useState(null);
-  const [error, setError] = useState('');
-  const auth = getAuth();
-  const user = auth.currentUser;
+  const [teamMembers, setTeamMembers] = useState([]);
 
   useEffect(() => {
-    if (user) {
-      const db = getDatabase();
-      const teamsRef = ref(db, 'teams');
+    const fetchStudentTeam = async () => {
+      try {
+        const user = auth.currentUser;
+        if (!user) return;
 
-      // Find the team the current student belongs to
-      onValue(teamsRef, (snapshot) => {
-        const teams = snapshot.val();
-        let foundTeam = null;
+        // Query to find the group that contains the logged-in student's UID
+        const q = query(collection(db, "groups"), where("members", "array-contains", user.uid));
+        const querySnapshot = await getDocs(q);
 
-        for (let teamId in teams) {
-          const team = teams[teamId];
-          if (team.members.some(member => member.email === user.email)) {
-            foundTeam = team;
-            break;
+        if (!querySnapshot.empty) {
+          const teamData = querySnapshot.docs[0].data();
+          setTeam({ id: querySnapshot.docs[0].id, ...teamData });
+
+          // Fetching team members' details
+          const membersDetails = [];
+          for (let memberId of teamData.members) {
+            const studentDoc = await getDocs(query(collection(db, "users"), where("__name__", "==", memberId)));
+            if (!studentDoc.empty) {
+              const studentData = studentDoc.docs[0].data();
+              membersDetails.push({ name: studentData.name, email: studentData.email });
+            }
           }
+          setTeamMembers(membersDetails);
         }
+      } catch (error) {
+        console.error("Error fetching student team: ", error);
+      }
+    };
 
-        if (foundTeam) {
-          setTeam(foundTeam);
-        } else {
-          setError("You are not assigned to a team yet.");
-        }
-      });
-    }
-  }, [user]);
-
-  if (error) {
-    return <p>{error}</p>;
-  }
+    fetchStudentTeam();
+  }, []);
 
   return (
-    <div className="student-dashboard">
-      {/* <h1>Dashboard:</h1> */}
+    <div>
       {team ? (
         <div>
-          <h2>Your Team: {team.teamName}</h2>
-          <ul>
-            {team.members.map((member, index) => (
-              <li key={index}>{member.name} ({member.email})</li>
-            ))}
-          </ul>
+          <h2>{team.name}</h2>
+          <table className="team-table">
+            <thead>
+              <tr>
+                <th>Members</th>
+                <th>Emails</th>
+              </tr>
+            </thead>
+            <tbody>
+              {teamMembers.map((member, index) => (
+                <tr key={index}>
+                  <td>{member.name}</td>
+                  <td>{member.email}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       ) : (
-        <p>Loading your team...</p>
+        <p>You are not assigned to any team yet.</p>
       )}
     </div>
   );

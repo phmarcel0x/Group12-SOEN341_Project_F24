@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { getDatabase, ref, get } from 'firebase/database';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
@@ -14,24 +14,26 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const auth = getAuth();
+    const db = getFirestore();
 
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       console.log('User logged in:', user);
 
-      // Fetch user role from Firebase RTDB
-      const db = getDatabase();
-      const userRoleRef = ref(db, `users/${user.uid}/role`);
-      const roleSnapshot = await get(userRoleRef);
+      // Fetch user role from Firestore
+      const userDocRef = doc(db, 'users', user.uid);
+      const userDoc = await getDoc(userDocRef);
 
-      if (roleSnapshot.exists()) {
-        const userRole = roleSnapshot.val();
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        console.log('User role:', userData.role);
 
         // Redirect all users to profile page
+        setError(""); // Clear any existing error messages
         navigate('/profile');
       } else {
-        console.error("User role not found");
+        console.warn("User role not found in Firestore, but user logged in successfully.");
         setError("User role not found");
       }
 
