@@ -3,10 +3,10 @@ Here below are the documents regarding each team member's logs detailing their c
 ## Marcelo:
 
 
-## Yash:
+## Yash: [40248536 Sprint-1-Contribution Log.pdf](https://github.com/user-attachments/files/17181690/Sprint-1-Contribution.Log.pdf)
 
 
-## Fabio:
+## Fabio: 
 
 
 ## Christopher: [40275695_Sprint1_Contribution Log.pdf](https://github.com/user-attachments/files/17180929/40275695_Sprint1_Contribution.Log.pdf)
