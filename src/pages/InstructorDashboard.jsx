@@ -99,16 +99,16 @@ const InstructorDashboard = () => {
 
   return (
     <div>
-      <h2>Create a New Group</h2>
+      <h2 style={{ textAlign: 'center' }}>Create a New Group</h2>
       <input
         type="text"
         placeholder="Group Name"
         value={groupName}
         onChange={(e) => setGroupName(e.target.value)}
       />
-      <button onClick={handleCreateGroup}>Create Group</button>
+      <button className="create-button" onClick={handleCreateGroup}>Create Group</button>
 
-      <h2>All Students</h2>
+      <h2 style={{ textAlign: 'center' }}>All Students</h2>
       <table className="students-table">
         <thead>
           <tr>
@@ -140,7 +140,7 @@ const InstructorDashboard = () => {
         </tbody>
       </table>
 
-      <h2>Groups Overview</h2>
+      <h2 style={{ textAlign: 'center' }}>Groups Overview</h2>
       <ul>
         {groups.map(group => (
           <li key={group.id}>
@@ -149,7 +149,7 @@ const InstructorDashboard = () => {
               const student = students.find(student => student.id === memberId);
               return student ? student.name : "Unknown Student";
             }).join(", ")}</p>
-            <button onClick={() => handleDeleteGroup(group.id)}>Delete</button>
+            <button className="delete-button" onClick={() => handleDeleteGroup(group.id)}>Delete</button>
           </li>
         ))}
       </ul>
