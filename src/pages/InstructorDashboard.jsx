@@ -34,15 +34,22 @@ const InstructorDashboard = () => {
   }, []);
 
   // Function to handle group creation
-  const handleCreateGroup = async () => {
+   const handleCreateGroup = async () => {
+    if (!groupName.trim()) {
+      alert("Group name cannot be empty"); 
+      return;
+    }
+    setIsCreating(true); 
     try {
       await addDoc(collection(db, "groups"), {
         name: groupName,
         members: [],
       });
-      setGroupName("");
+      setGroupName(""); 
     } catch (error) {
       console.error("Error creating group: ", error);
+    } finally {
+      setIsCreating(false); 
     }
   };
 
