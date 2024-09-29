@@ -1,6 +1,6 @@
 Here below are the documents regarding each team member's logs detailing their contributions to project during Sprint Plan 1:
 
-## Mareclo:
+## Marcelo:
 
 
 ## Yash:
