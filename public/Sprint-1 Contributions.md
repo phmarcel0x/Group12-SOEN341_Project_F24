@@ -1,6 +1,6 @@
 Here below are the documents regarding each team member's logs detailing their contributions to project during Sprint Plan 1:
 
-## Marcelo:
+## Marcelo: [40200901_Sprint1_ContributionLog.pdf](https://github.com/user-attachments/files/17181697/40200901_Sprint1_ContributionLog.pdf)
 
 
 ## Yash: [40248536 Sprint-1-Contribution Log.pdf](https://github.com/user-attachments/files/17181690/Sprint-1-Contribution.Log.pdf)
