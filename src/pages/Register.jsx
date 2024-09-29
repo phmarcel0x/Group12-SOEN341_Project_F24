@@ -61,7 +61,7 @@ const Register = () => {
           <div className="form-field-wrapper">
             <label>Role:</label>
             <select required value={role} onChange={(e) => setRole(e.target.value)} className="form-control">
-              <option value="">Select Role</option>
+              <option value="" disabled>Select Role</option>
               <option value="Instructor">Instructor</option>
               <option value="Student">Student</option>
             </select>
