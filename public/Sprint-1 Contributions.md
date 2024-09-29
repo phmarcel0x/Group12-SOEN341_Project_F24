@@ -9,7 +9,7 @@ Here below are the documents regarding each team member's logs detailing their c
 ## Fabio:
 
 
-## Christopher:[40275695_Sprint1_Contribution Log.pdf](https://github.com/user-attachments/files/17180929/40275695_Sprint1_Contribution.Log.pdf)
+## Christopher: [40275695_Sprint1_Contribution Log.pdf](https://github.com/user-attachments/files/17180929/40275695_Sprint1_Contribution.Log.pdf)
 
 
 
