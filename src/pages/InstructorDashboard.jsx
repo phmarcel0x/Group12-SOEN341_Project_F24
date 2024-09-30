@@ -9,6 +9,7 @@ const InstructorDashboard = () => {
   const [groupName, setGroupName] = useState("");
   const [groups, setGroups] = useState([]);
   const [students, setStudents] = useState([]);
+  const [isCreating, setIsCreating] = useState(false);
 
   // Fetching Groups and Students
   useEffect(() => {
