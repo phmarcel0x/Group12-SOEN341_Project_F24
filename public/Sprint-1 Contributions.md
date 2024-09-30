@@ -15,5 +15,6 @@ Here below are the documents regarding each team member's logs detailing their c
 
 ## Evelyne: [40250996_ContributionLog.pdf](https://github.com/user-attachments/files/17177557/40250996_ContributionLog.pdf)
 
-## Tristan:
+## Tristan: [40287610_Sprint1_ContributionLog.pdf](https://github.com/user-attachments/files/17182750/40287610_Sprint1_ContributionLog.pdf)
+
 
