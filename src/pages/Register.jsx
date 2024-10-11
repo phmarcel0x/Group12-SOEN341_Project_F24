@@ -8,12 +8,17 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password1, setPassword1] = useState('');
   const [password2, setPassword2] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState('');
   const [role, setRole] = useState(''); // Role selected from dropdown
   const [error, setError] = useState('');
   const [instructorKey, setInstructorKey] = useState(''); // For instructor key validation
   const navigate = useNavigate();
 
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -104,7 +109,7 @@ const Register = () => {
           <div className="form-field-wrapper">
             <label>Password:</label>
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               placeholder="Enter password..."
               value={password1}
               onChange={(e) => setPassword1(e.target.value)}
@@ -114,11 +119,21 @@ const Register = () => {
           <div className="form-field-wrapper">
             <label>Confirm Password:</label>
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               placeholder="Confirm password..."
               value={password2}
               onChange={(e) => setPassword2(e.target.value)}
+              className="password-field"
             />
+            <div className="checkbox-container">
+              <input
+                type="checkbox"
+                checked={showPassword}
+                onChange={handleTogglePasswordVisibility}
+                className="show-password-checkbox"
+              />
+              < label className="checkbox-label">Show password</label>
+            </div>
           </div>
 
           {error && <p style={{ color: 'red' }}>{error}</p>}
