@@ -1,11 +1,5 @@
 /* StudentDashboard.css */
 
-/* Styling the container */
-div {
-  padding: 20px;
-  font-family: Arial, sans-serif;
-}
-
 /* Styling the team name heading */
 h2 {
   margin-bottom: 20px;
@@ -16,7 +10,7 @@ h2 {
 }
 
 /* Styling for the table */
-.team-table {
+.team-table , .group-table-student{
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
@@ -28,14 +22,16 @@ h2 {
 
 /* Table headers */
 .team-table th,
-.team-table td {
+.team-table td ,
+.group-table-student th, 
+.group-table-student td{
   padding: 20px; 
   text-align: center; 
   border-bottom: 1px solid #eee; 
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.team-table th {
+.team-table th, .group-table-student th {
   background: linear-gradient(90deg, #1f2d3d, #4682B4); 
   color: #fff; 
   font-weight: bold;
@@ -50,17 +46,23 @@ h2 {
   padding-right: 20px;
 }
 
-.team-table tr:nth-child(even) {
+.team-table tr:nth-child(even) ,
+.group-table-student tr:nth-child(even) {
   background-color: #f4f4f4; 
 }
 
-.team-table tr:hover {
+.team-table tr:hover , .group-table-student tr:hover ,.group-table-student tr:hover {
   background-color: #e0f7fa; 
   cursor: pointer;
   color: #2980b9; 
 }
 
-/* Rounded corners for first and last cells */
+p{
+  font-size: 18px;
+  color: #666;
+}
+
+/* Rounded corners for first and last cells
 .team-table th:first-child {
   border-top-left-radius: 12px;
 }
@@ -75,10 +77,11 @@ h2 {
 
 .team-table td:last-child {
   border-bottom-right-radius: 12px;
-}
+} */
+
 
 /* Responsive design for smaller screens */
-@media (max-width: 768px) {
+/*@media (max-width: 768px) {
   .team-table, .team-table thead, .team-table tbody, .team-table th, .team-table td, .team-table tr {
     display: block;
     width: 100%;
@@ -104,10 +107,10 @@ h2 {
     align-items: center;
     font-size: 14px;
   }
-}
+} */
 
-/* Styling for the message when no team is assigned */
-p {
-  font-size: 18px;
-  color: #666;
-}
+/* Styling the container */
+/* div {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+} */
