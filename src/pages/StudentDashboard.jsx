@@ -67,8 +67,7 @@ const StudentDashboard = () => {
     <div>
       {team ? (
         <div>
-          <h2>The Official name of your team is: {team.name}</h2>
-          <h2>The following are your team members:</h2>
+          <h2>{team.name}</h2>
           <table className="team-table">
             <thead>
               <tr>
@@ -90,8 +89,8 @@ const StudentDashboard = () => {
         <p>You are not assigned to any team yet.</p>
       )}
 
-      <h2>The other groups of this course are as follows:</h2>
-      <ul>
+      <h2>Groups Overview</h2>
+      {/* <ul>
         {groups.map(group => (
           <li key={group.id}>
             <strong>{group.name}</strong>
@@ -101,7 +100,30 @@ const StudentDashboard = () => {
             }).join(", ")}</p>
           </li>
         ))}
-      </ul>
+      </ul> */}
+
+      <table className="group-table-student">
+        <thead>
+          <tr>
+            <th>Group Name</th>
+            <th>Members</th>
+          </tr>
+        </thead>
+        <tbody>
+          {groups.map(group => (
+            <tr key={group.id}>
+              <td><strong>{group.name}</strong></td>
+              <td>
+                {group.members.map(memberId => {
+                  const student = students.find(student => student.id === memberId);
+                  return student ? student.name : "Unknown Student";
+                }).join(", ")}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
     </div>
   );
 };
