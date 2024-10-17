@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { collection, query, where, getDocs, onSnapshot } from "firebase/firestore";
 import { db, auth } from "../../firebaseConfig";
 import './studentDB.css'
+import { Link } from "react-router-dom";
 
 const StudentDashboard = () => {
   const [team, setTeam] = useState(null);
@@ -67,7 +68,7 @@ const StudentDashboard = () => {
     <div>
       {team ? (
         <div>
-          <h2>{team.name}</h2>
+          <h2 className="text-position">You are assigned to {team.name} group</h2>
           <table className="team-table">
             <thead>
               <tr>
@@ -88,9 +89,8 @@ const StudentDashboard = () => {
       ) : (
         <p>You are not assigned to any team yet.</p>
       )}
-
-      <h2>Groups Overview</h2>
-      <ul>
+      <h2 className="text-position">Other groups</h2>
+      {/* <ul>
         {groups.map(group => (
           <li key={group.id}>
             <strong>{group.name}</strong>
@@ -100,7 +100,35 @@ const StudentDashboard = () => {
             }).join(", ")}</p>
           </li>
         ))}
-      </ul>
+      </ul> */}
+
+      <table className="group-table-student">
+        <thead>
+          <tr>
+            <th>Group Name</th>
+            <th>Members</th>
+          </tr>
+        </thead>
+        <tbody>
+          {groups.map(group => (
+            <tr key={group.id}>
+              <td><strong>{group.name}</strong></td>
+              <td>
+                {group.members.map(memberId => {
+                  const student = students.find(student => student.id === memberId);
+                  return student ? student.name : "Unknown Student";
+                }).join(", ")}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <div>
+      <h2 className="text-position">Evalution</h2>
+      <p> Click here to  evaluate the team members</p>
+      <Link to="/evaluation">Evaluate</Link>
+      </div>
     </div>
   );
 };
