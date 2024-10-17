@@ -68,7 +68,12 @@ const StudentDashboard = () => {
     <div>
       {team ? (
         <div>
+<<<<<<< HEAD
           <h2 className="text-position">You are assigned to {team.name} group</h2>
+=======
+          <h2>The official name of your team is: {team.name}</h2>
+          <h2> The following are your team members:</h2>
+>>>>>>> fe6a03ac9ac69f2fb392c399244dba956c6145c0
           <table className="team-table">
             <thead>
               <tr>
@@ -89,7 +94,12 @@ const StudentDashboard = () => {
       ) : (
         <p>You are not assigned to any team yet.</p>
       )}
+<<<<<<< HEAD
       <h2 className="text-position">Other groups</h2>
+=======
+
+      <h2>The other groups of this course are as follows: </h2>
+>>>>>>> fe6a03ac9ac69f2fb392c399244dba956c6145c0
       {/* <ul>
         {groups.map(group => (
           <li key={group.id}>
@@ -124,11 +134,14 @@ const StudentDashboard = () => {
         </tbody>
       </table>
 
+<<<<<<< HEAD
       <div>
       <h2 className="text-position">Evalution</h2>
       <p> Click here to  evaluate the team members</p>
       <Link to="/evaluation">Evaluate</Link>
       </div>
+=======
+>>>>>>> fe6a03ac9ac69f2fb392c399244dba956c6145c0
     </div>
   );
 };

@@ -62,9 +62,12 @@ p{
   color: #666;
 }
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> fe6a03ac9ac69f2fb392c399244dba956c6145c0
 /* Rounded corners for first and last cells
 .team-table th:first-child {
   border-top-left-radius: 12px;
@@ -116,4 +119,8 @@ p{
 /* div {
   padding: 20px;
   font-family: Arial, sans-serif;
+<<<<<<< HEAD
 } */
+=======
+} */
+>>>>>>> fe6a03ac9ac69f2fb392c399244dba956c6145c0
