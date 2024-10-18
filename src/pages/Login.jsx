@@ -8,9 +8,18 @@ import { Link, useNavigate } from 'react-router-dom';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
+
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     const auth = getAuth();
@@ -59,15 +68,25 @@ const Login = () => {
             />
           </div>
 
-          <div className="form-field-wrapper">
+          <div className="form-field-wrapper password-input">
             <label>Password:</label>
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               name="password"
               placeholder="Enter password..."
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handlePasswordChange}
+              className="password-field"
             />
+            <div className="checkbox-container">
+              <input
+                type="checkbox"
+                checked={showPassword}
+                onChange={handleTogglePasswordVisibility}
+                className="show-password-checkbox"
+              />
+              <label className="checkbox-label">Show password</label>
+            </div>
           </div>
 
           {error && <p style={{ color: 'red' }}>{error}</p>}

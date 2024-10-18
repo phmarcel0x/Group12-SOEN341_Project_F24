@@ -37,7 +37,7 @@ const Footer = () => {
           <div class="row">
             <div class="col-md-8 col-sm-6 col-xs-12">
               <p class="copyright-text">Copyright &copy; 2024 All Rights Reserved by
-                <a href="#"> Concordia</a>.
+                <a href="#"> Team GodLike</a>.
               </p>
             </div>
           </div>

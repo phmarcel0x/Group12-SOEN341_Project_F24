@@ -35,22 +35,22 @@ const InstructorDashboard = () => {
   }, []);
 
   // Function to handle group creation
-   const handleCreateGroup = async () => {
+  const handleCreateGroup = async () => {
     if (!groupName.trim()) {
-      alert("Group name cannot be empty"); 
+      alert("Group name cannot be empty");
       return;
     }
-    setIsCreating(true); 
+    setIsCreating(true);
     try {
       await addDoc(collection(db, "groups"), {
         name: groupName,
         members: [],
       });
-      setGroupName(""); 
+      setGroupName("");
     } catch (error) {
       console.error("Error creating group: ", error);
     } finally {
-      setIsCreating(false); 
+      setIsCreating(false);
     }
   };
 
@@ -81,7 +81,7 @@ const InstructorDashboard = () => {
 
     try {
       const group = groups.find(group => group.id === groupId);
-      
+
       // Unassign all members of the group
       const updatedStudents = students.map(student => {
         if (group.members.includes(student.id)) {
@@ -115,7 +115,7 @@ const InstructorDashboard = () => {
           <tr>
             <th>Name</th>
             <th>Email</th>
-            <th>ID</th>
+            {/* <th>ID</th> */}   
             <th>Assign to Team</th>
           </tr>
         </thead>
@@ -124,7 +124,7 @@ const InstructorDashboard = () => {
             <tr key={student.id}>
               <td>{student.name}</td>
               <td>{student.email}</td>
-              <td>{student.id}</td>
+              {/* <td>{student.id}</td> */}
               <td>
                 <select
                   onChange={(e) => handleAssignStudentToGroup(student.id, e.target.value)}
@@ -142,18 +142,32 @@ const InstructorDashboard = () => {
       </table>
 
       <h2 style={{ textAlign: 'center' }}>Groups Overview</h2>
-      <ul>
-        {groups.map(group => (
-          <li key={group.id}>
-            <strong>{group.name}</strong>
-            <p>Members: {group.members.map(memberId => {
-              const student = students.find(student => student.id === memberId);
-              return student ? student.name : "Unknown Student";
-            }).join(", ")}</p>
-            <button className="delete-button" onClick={() => handleDeleteGroup(group.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+      <table className="group-table">
+        <thead>
+          <tr>
+            <th>Group Name</th>
+            <th>Members</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {groups.map(group => (
+            <tr key={group.id}>
+              <td><strong>{group.name}</strong></td>
+              <td>
+                {group.members.map(memberId => {
+                  const student = students.find(student => student.id === memberId);
+                  return student ? student.name : "Unknown Student";
+                }).join(", ")}
+              </td>
+              <td>
+                <button className="delete-button" onClick={() => handleDeleteGroup(group.id)}>Delete</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
     </div>
   );
 };

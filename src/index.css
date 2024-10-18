@@ -42,18 +42,20 @@
     
 }
 
-.header > .links--wrapper{
+.header .links--wrapper{
     display: flex;
     gap: 1em;
     text-decoration-line: none;
     align-items: center;
+    justify-content: center;
 }
 
-.header > .links--wrapper > .header--link{
+.header .links--wrapper .header--link{
     text-decoration-line: none;
     color: #000;
     text-transform: uppercase;
     align-items: center;
+    justify-content: center;
 }
 
 
@@ -65,7 +67,7 @@
     
 }
 .btn{
-    display: block;  
+    /* display: block;   */
     cursor: pointer;
     border:none;
     background-color: #000;
@@ -74,7 +76,9 @@
     transition: 0.3s;
     border:1px solid #000;
     text-decoration: none;
-    line-height: normal;
+    height: 3em;
+    margin-top: 1em; 
+
 }
 
 
@@ -126,6 +130,37 @@ input{
 
 /* Logo Spacing */
   .logo-padding{
-  padding-left: 3em;
-  padding-top: 3em;
+  padding-left: 1.5em;
+  padding-top: 1.5em;
+  /* border: 1px solid red; */
   }
+
+  .password-input {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.password-field {
+    padding: 1rem;
+    border: 1px solid #000000; 
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.show-password-checkbox {
+    height: 1rem;
+    width: 1rem;
+    border: none; 
+    color: #3b82f6; 
+}
+
+.checkbox-label {
+    font-size: 1rem; 
+    color: #4b5563; 
+}

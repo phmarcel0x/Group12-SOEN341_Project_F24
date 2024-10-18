@@ -32,7 +32,7 @@ button {
 
 /* Hover effect for Delete button  */
 .delete-button:hover {
-  background-color: #c0392b; 
+  background-color: #ff1900; 
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
@@ -56,7 +56,8 @@ input[type="text"]:focus {
 }
 
 /* Students Table Styling */
-.students-table {
+.students-table,
+.group-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 40px; 
@@ -67,14 +68,15 @@ input[type="text"]:focus {
   background-color: white;
 }
 
-.students-table th, .students-table td {
+.students-table th, .students-table td ,
+.group-table th, .group-table td {
   padding: 20px;
   text-align: center; 
   border-bottom: 1px solid #eee; 
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.students-table th {
+.students-table th, .group-table th {
   background: linear-gradient(90deg, #1f2d3d, #2c3e50); 
   color: #fff;
   font-weight: bold;
@@ -89,11 +91,13 @@ input[type="text"]:focus {
   font-size: 16px;
 }
 
-.students-table tr:nth-child(even) {
+.students-table tr:nth-child(even),
+.group-table tr:nth-child(even) {
   background-color: #f4f4f4;
 }
 
-.students-table tr:hover {
+.students-table tr:hover ,
+.group-table tr:hover {
   background-color: #e0f7fa;
   cursor: pointer;
   color: #2980b9;
@@ -116,7 +120,7 @@ input[type="text"]:focus {
 }
 
 /* Responsive design for smaller screens */
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
   .students-table, .students-table thead, .students-table tbody, .students-table th, .students-table td, .students-table tr {
       display: block;
       width: 100%;
@@ -142,7 +146,7 @@ input[type="text"]:focus {
       align-items: center;
       font-size: 14px;
   }
-}
+} */
 
 /* Typography for headers */
 h1, h2 {
@@ -164,3 +168,47 @@ h2 {
   color: #34495e;
   margin-bottom: 40px; 
 }
+
+.delete-button {
+  background-color: #ff4c4c;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: #ff1a1a;
+}
+
+
+/* 
+Group overview  */
+
+/* Add some padding and center align */
+/* .group-table {
+  width: 80%;
+  margin: 20px auto;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+} */
+
+/* .group-table th, .group-table td {
+  border: 1px solid #dddddd;
+  padding: 12px;
+  text-align: left;
+} */
+
+/* .group-table th {
+  background: linear-gradient(90deg, #1f2d3d, #2c3e50);
+  color: #fff
+} */
+
+/* .group-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+} */
+
+/* .group-table tr:hover {
+  background-color: #f1f1f1;
+} */
