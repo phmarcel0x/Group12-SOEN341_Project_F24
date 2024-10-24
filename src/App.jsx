@@ -8,7 +8,8 @@ import Register from './pages/Register';
 import Footer from './components/Footer';
 import InstructorDashboard from './pages/InstructorDashboard';
 import StudentDashboard from './pages/StudentDashboard';
-import Evaluation from './pages/evaluation';
+import Evaluation from './pages/Evaluation';
+import Confirmation from './pages/Confirmation';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <Route path="/instructor-dashboard" element={<InstructorDashboard/>}/> {/* Add route for Instructor */}
           <Route path="/student-dashboard" element={<StudentDashboard/>}/> {/* Add route for Student */}
           <Route path="/evaluation" element={<Evaluation/>}/>
+          <Route path="/confirmation" element={<Confirmation/>}/>
         </Routes>
         <Footer/>
     </Router>
