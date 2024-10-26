@@ -1,6 +1,7 @@
 // InstructorDashboard.jsx
 
 import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import { collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import './instructorDB.css';
@@ -10,6 +11,13 @@ const InstructorDashboard = () => {
   const [groups, setGroups] = useState([]);
   const [students, setStudents] = useState([]);
   const [isCreating, setIsCreating] = useState(false);
+
+
+  const navigate = useNavigate();
+
+  const handleNavigation = () => {
+    navigate('/result'); // Navigate to the About page
+  };
 
   // Fetching Groups and Students
   useEffect(() => {
@@ -115,7 +123,7 @@ const InstructorDashboard = () => {
           <tr>
             <th>Name</th>
             <th>Email</th>
-            {/* <th>ID</th> */}   
+            {/* <th>ID</th> */}
             <th>Assign to Team</th>
           </tr>
         </thead>
@@ -168,6 +176,7 @@ const InstructorDashboard = () => {
         </tbody>
       </table>
 
+      <button onClick={handleNavigation}>Evaluation Result</button>
     </div>
   );
 };
