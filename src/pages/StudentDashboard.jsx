@@ -5,12 +5,14 @@ import { collection, query, where, getDocs, onSnapshot } from "firebase/firestor
 import { db, auth } from "../../firebaseConfig";
 import './studentDB.css'
 import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 const StudentDashboard = () => {
   const [team, setTeam] = useState(null);
   const [teamMembers, setTeamMembers] = useState([]);
   const [groups, setGroups] = useState([]);
   const [students, setStudents] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchStudentTeam = async () => {
@@ -68,7 +70,8 @@ const StudentDashboard = () => {
     <div>
       {team ? (
         <div>
-          <h2 className="text-position">You are assigned to {team.name} group</h2>
+          <h2 className="text-position">You are assigned to: {team.name} </h2>
+          <h2> The following are your team members:</h2>
           <table className="team-table">
             <thead>
               <tr>
@@ -89,7 +92,7 @@ const StudentDashboard = () => {
       ) : (
         <p>You are not assigned to any team yet.</p>
       )}
-      <h2 className="text-position">Other groups</h2>
+      <h2 className="text-position">The other groups of this course are as follows:</h2>
       {/* <ul>
         {groups.map(group => (
           <li key={group.id}>
@@ -125,9 +128,14 @@ const StudentDashboard = () => {
       </table>
 
       <div>
-      <h2 className="text-position">Evalution</h2>
-      <p> Click here to  evaluate the team members</p>
-      <Link to="/evaluation">Evaluate</Link>
+      <div className="button-container">
+          <button
+            className="evaluate-button"
+            onClick={() => navigate("/evaluation", { state: { teamMembers } })}
+          >
+            Evaluate your team members
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -39,7 +39,7 @@
     justify-content: space-between;
     padding: 0px 5px;
     border-bottom: 3px solid #000;
-    
+
 }
 
 .header .links--wrapper{
@@ -164,3 +164,4 @@ input{
     font-size: 1rem; 
     color: #4b5563; 
 }
+

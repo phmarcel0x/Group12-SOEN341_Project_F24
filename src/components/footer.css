@@ -8,6 +8,7 @@ html, body {
 
 .container {
   flex: 1; /* Ensures that the content fills remaining space */
+
 }
 
 /* Footer container */
@@ -166,3 +167,5 @@ h6, h6 {
 .li-1, .li-2, .li-3, .li-4, .li-5 {
   background-color: #26272b;
 }
+
+

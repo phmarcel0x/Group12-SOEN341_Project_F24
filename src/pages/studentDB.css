@@ -2,18 +2,18 @@
 
 /* Styling the team name heading */
 .text-position{
-  margin-bottom: 20px;
-  font-size: 24px;
+  margin-bottom: 40px;
+  font-size: 28px;
   font-weight: bold;
-  color: #333;
-  text-align: left; 
+  color: #34495e;
+  text-align: center; 
 }
 
 /* Styling for the table */
 .team-table , .group-table-student{
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
   border-radius: 12px; 
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05); 
   overflow: hidden;
@@ -27,7 +27,7 @@
 .group-table-student td{
   padding: 20px; 
   text-align: center; 
-  border-bottom: 1px solid #eee; 
+  border: 1px solid #4682B4;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -62,7 +62,41 @@ p{
   color: #666;
 }
 
+.evaluate-button{
+  background-color: #1f2d3d;
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  justify-content: center;
+}
 
+.evaluate-button:hover {
+  background-color: #27ae60;
+  transform: translateY(-2px);
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+
+  .evaluate-button {
+    width: 80%;
+    margin-bottom: 10px;
+}
+
+.button-container {
+  flex-direction: column;
+  align-items: center;
+}
+
+}
 
 
 /* Rounded corners for first and last cells
