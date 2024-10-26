@@ -1,0 +1,39 @@
+.submission-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #ffffff; /* Set the background color to white */
+}
+
+.submission-message {
+    font-weight: bold;
+    font-size: 2rem;
+    text-align: center;
+    max-width: 80%;
+    word-wrap: break-word;
+    margin-bottom: 20px; /* Adds space between the message and button */
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+button {
+    background-color: #1f2d3d;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #27ae60;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}

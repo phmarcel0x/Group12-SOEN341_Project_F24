@@ -1,0 +1,98 @@
+/* Ensures that the page takes up the full height of the viewport and footer stays at the bottom */
+.groupevaluation-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Full height of the viewport */
+}
+
+.groupevaluation-container {
+    flex: 1; /* Makes the container grow and take up available space */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+h2 {
+    font-size: 28px;
+    color: #34495e;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.group-select {
+    width: 60%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 30px;
+}
+
+.evaluation-table-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.evaluation-table {
+    width: 80%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: white;
+}
+
+.evaluation-table th, .evaluation-table td {
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+.evaluation-table th {
+    background: linear-gradient(90deg, #1f2d3d, #4682B4);
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.evaluation-table td {
+    background-color: #f9f9f9;
+    font-size: 16px;
+}
+
+.evaluation-table tr:nth-child(even) {
+    background-color: #f4f4f4;
+}
+
+.evaluation-table tr:hover {
+    background-color: #e0f7fa;
+    cursor: pointer;
+    color: #2980b9;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+button {
+    background-color: #1f2d3d;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #27ae60;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
