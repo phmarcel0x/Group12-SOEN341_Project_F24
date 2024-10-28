@@ -88,24 +88,50 @@ Total: 16 hours
 
 
 
-Evelynne:
+Evelyne:
 
-| Date        | Duration       | Task               | Description                                   | Difficulty |
-| ----------- | -------------- | ------------------ | --------------------------------------------- | ---------- |
-| 10/10/2024  | 1 hour         | Task               | Description                                   | 1-10       |
-| Date        | Duration       | Task               | Description                                   | 1-10       |
-| Date        | Duration       | Task               | Description                                   | 1-10       |
-| Date        | Duration       | Task               | Description                                   | 1-10       |
-| Date        | Duration       | Task               | Description                                   | 1-10       |
-| Date        | Duration       | Task               | Description                                   | 1-10       |
-| Date        | Duration       | Task               | Description                                   | 1-10       |
-| Date        | Duration       | Task               | Description                                   | 1-10       |
-| Date        | Duration       | Task               | Description                                   | 1-10       |
-| Date        | Duration       | Task               | Description                                   | 1-10       |
-| Date        | Duration       | Task               | Description                                   | 1-10       |
-| Date        | Duration       | Task               | Description                                   | 1-10       |
-| Date        | Duration       | Task               | Description                                   | 1-10       |
+| Date        | Duration       | Task                | Description                                     | Difficulty |
+| ----------- | -------------- | ------------------  | ---------------------------------------------   | ---------- |
+| 10/10/2024  | 2 hour         | Initial system      | Develop a system to allow selection of          | 2          |
+|             |                | prototype to select | students or team members for evaluation,        |            |  
+|             |                | students to evaluate| ensuring user validation and storage of         |            |
+|             |                |                     | selected students.                              |            |
 
+| 11/10/2024  | 3 hour         | Create an initial   | Design a prototype feedback system with a 1-5   | 3          |
+|             |                | prototype of the    | rating scale for each assessment criterion and  |            |
+|             |                | feedback rating     | ensure proper processing of feedback.           |            |
+|             |                | system              |                                                 |            |
+
+| 13/11/2024  | 1 hour         | Colour-code the     | Implement a color-coded hover effect on         | 1          |
+|             |                | assessment criteria | assessment criteria boxes for better user       |            |
+|             |                | box when hovering   | experience, using accessible color              |            |
+|             |                | over it             | combinations.                                   |            |
+
+| 14/10/2024  | 1h 40          | Group Discussion    | Discussed more into detail about the coding     | 5          |
+|             |                |                     | of the 2 new system requirements and its        |            |
+|             |                |                     | potential issues                                |            |
+
+| 20/10/2024  | 1 hour         | Include the submit  | Add a functional submit button that             | 1          |
+|             |                | button after        | activates when all required feedback sections   |            |
+|             |                | completing the      | are completed, ensuring proper feedback         |            |
+|             |                | feedback            | submission.                                     |            |
+
+| 23/10/2024  | 3 hours        | Include a function  | Implement validation to check if all required   | 5          |
+|             |                | that checks if you  | are completed before submission, with real-time |            |
+|             |                | completed all       | checks and user-friendly error messages.        |            |
+|             |                | required sections   |                                                 |            |
+
+
+| 26/10/2024  | 4 hours        | User wanted to rate | Allow users to complete feedback for each team  | 5          |
+|             |                | the team members,   | (all criteria) before moving on to the next     |            |
+|             |                | but had to rate the | member, optimizing for smooth transitions.      |            |
+|             |                | assessment critera  |                                                 |            |
+|             |                | for each team member|                                                 |            |
+|             |                | individually first. |                                                 |            |
+
+| 27/10/2024  | 2 hour         | Editing             | Adding last minute changes to the GitHub        | 4          |
+
+Total hours: 18
 
 Tristan:
 
