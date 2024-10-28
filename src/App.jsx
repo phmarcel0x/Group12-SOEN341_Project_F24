@@ -10,7 +10,7 @@ import InstructorDashboard from './pages/InstructorDashboard';
 import StudentDashboard from './pages/StudentDashboard';
 import Evaluation from './pages/Evaluation';
 import Confirmation from './pages/Confirmation';
-import Result from './pages/result';
+import Result from './pages/Result';
 
 
 function App() {
