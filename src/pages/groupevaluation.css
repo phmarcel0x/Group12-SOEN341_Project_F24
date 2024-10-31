@@ -2,10 +2,10 @@
 .groupevaluation-page {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centers content horizontally */
+    align-items: center;
     min-height: 100vh;
     background-color: #f0f4f8;
-    padding: 20px; /* Adds spacing around the page */
+    padding: 20px;
 }
 
 /* Container for Group Selection and Evaluations */
@@ -49,8 +49,25 @@ h3 {
     border: 1px solid #ccc;
     margin-bottom: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    text-align: center; 
+    text-align: center;
+}
+
+/* Average Rating Table */
+.average-rating-section {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Summary text */
+.summary-text {
+    font-size: 24px;
+    font-weight: 600;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    color: #2c3e50;
+    text-align: center;
+    width: 100%;
+    max-width: 800px;
 }
 
 /* Evaluation Tables */
@@ -66,7 +83,7 @@ h3 {
     max-width: 800px;
     margin-top: 20px;
     display: flex;
-    justify-content: center; /* Centers the table */
+    justify-content: center;
 }
 
 .evaluation-table {
@@ -105,35 +122,4 @@ h3 {
     background-color: #e0f7fa;
     cursor: pointer;
     color: #2980b9;
-}
-
-/* Button container alignment */
-.button-container {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-button {
-    background-color: #1f2d3d;
-    color: white;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-button:hover {
-    background-color: #27ae60;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-button:focus {
-    outline: none;
-    box-shadow: 0 0 8px rgba(70, 130, 180, 0.6);
 }
