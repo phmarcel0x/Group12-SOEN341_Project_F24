@@ -73,23 +73,31 @@ const GroupEvaluation = () => {
               <table className="evaluation-table">
                 <thead>
                   <tr>
-                    <th>Dimension</th>
                     <th>Member</th>
+                    <th>Dimension</th>
                     <th>Rating</th>
                     <th>Comment</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {dimensions.map(dimension =>
-                    Object.keys(evaluation.evaluationData[dimension] || {}).map((member) => (
+                  {Object.keys(evaluation.evaluationData)
+                    .flatMap(dimension =>
+                      Object.keys(evaluation.evaluationData[dimension] || {}).map(member => ({
+                        member,
+                        dimension,
+                        rating: evaluation.evaluationData[dimension][member]?.rating || "No rating",
+                        comment: evaluation.evaluationData[dimension][member]?.comment || "No comment"
+                      }))
+                    )
+                    .sort((a, b) => a.member.localeCompare(b.member)) // Sort by "Member" alphabetically
+                    .map(({ member, dimension, rating, comment }) => (
                       <tr key={`${evaluation.id}-${dimension}-${member}`}>
-                        <td>{dimension}</td>
                         <td>{member}</td>
-                        <td>{evaluation.evaluationData[dimension][member]?.rating || "No rating"}</td>
-                        <td>{evaluation.evaluationData[dimension][member]?.comment || "No comment"}</td>
+                        <td>{dimension}</td>
+                        <td>{rating}</td>
+                        <td>{comment}</td>
                       </tr>
-                    ))
-                  )}
+                    ))}
                 </tbody>
               </table>
             </div>
