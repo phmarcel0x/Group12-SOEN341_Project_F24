@@ -79,24 +79,15 @@ const Evaluation = () => {
     };
 
     const handleSubmit = async () => {
-        const user = auth.currentUser; // Get current authenticated user
-        const userId = user.uid; // Get user ID
-        const groupId = await fetchStudentGroupId(userId); // Fetch the student's groupId from the 'groups' collection
-
+        const user = auth.currentUser;
+        const userId = user.uid;
+        const groupId = await fetchStudentGroupId(userId);
+    
         if (groupId) {
-            try {
-                // Store evaluation in Firestore
-                await addDoc(collection(db, "evaluations"), {
-                    groupId: groupId, // This groupId is from the 'groups' collection
-                    evaluatorId: userId, // Store evaluator ID
-                    evaluationData: evaluationData, // Store the evaluation data
-                    timestamp: new Date(), // Add timestamp
-                });
-
-                navigate("/confirmation", { state: { evaluationData, selectedMembers, dimensions } });
-            } catch (error) {
-                console.error("Error storing evaluation: ", error);
-            }
+            // Navigate to the Confirmation page, passing evaluation data via state without uploading
+            navigate("/confirmation", {
+                state: { evaluationData, selectedMembers, dimensions, groupId, userId }
+            });
         } else {
             console.error("Error: No groupId found for the user");
         }
@@ -184,7 +175,7 @@ const Evaluation = () => {
 
                 <div className="button-container">
                     <button className="back-button" onClick={() => navigate("/profile")}>Go Back</button>
-                    <button className="submit-button" onClick={handleSubmit}>Submit</button>
+                    <button className="submit-button" onClick={handleSubmit}>Confirm</button>
                 </div>
             </div>
         </div>

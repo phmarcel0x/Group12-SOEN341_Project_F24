@@ -1,16 +1,41 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { db } from "../../firebaseConfig"; // Firebase config
+import { collection, addDoc } from "firebase/firestore"; // Firestore methods
 import './confirmation.css';
 
 const Confirmation = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const { evaluationData, selectedMembers, dimensions } = location.state || {};
+    const { evaluationData, selectedMembers, dimensions, groupId, userId } = location.state || {};
 
-    if (!evaluationData || !selectedMembers || !dimensions) {
+    if (!evaluationData || !selectedMembers || !dimensions || !groupId || !userId) {
         return <div>No data available for confirmation.</div>;
     }
+
+    const handleFinalSubmit = async () => {
+        try {
+            // Store evaluation in Firestore
+            await addDoc(collection(db, "evaluations"), {
+                groupId: groupId,
+                evaluatorId: userId,
+                evaluationData: evaluationData,
+                timestamp: new Date(),
+            });
+
+            // Show success message as an alert
+            alert("Successfully submitted!");
+
+            // Redirect to profile page
+            navigate("/profile");
+        } catch (error) {
+            console.error("Error storing evaluation: ", error);
+
+            // Show error message as an alert
+            alert("Submission failed. Please try again.");
+        }
+    };
 
     return (
         <div className="confirmation-container">
@@ -37,7 +62,7 @@ const Confirmation = () => {
 
             <div className="button-container">
                 <button onClick={() => navigate("/profile")}>Back to Dashboard</button>
-                <button onClick={() => navigate("/submission")}>Submit</button>
+                <button onClick={handleFinalSubmit}>Confirm & Submit</button>
             </div>
         </div>
     );
