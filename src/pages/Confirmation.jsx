@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { db } from "../../firebaseConfig"; // Firebase config
-import { collection, addDoc } from "firebase/firestore"; // Firestore methods
+import { db } from "../../firebaseConfig";
+import { collection, addDoc } from "firebase/firestore";
 import './confirmation.css';
 
 const Confirmation = () => {
@@ -14,25 +14,31 @@ const Confirmation = () => {
         return <div>No data available for confirmation.</div>;
     }
 
+    const calculateOverallRating = (member) => {
+        const ratings = dimensions.map(dimension => evaluationData[dimension]?.[member]?.rating || 0);
+        const total = ratings.reduce((sum, rating) => sum + rating, 0);
+        return (total / dimensions.length).toFixed(1);
+    };
+
     const handleFinalSubmit = async () => {
+        const overallRatings = {};
+        selectedMembers.forEach(member => {
+            overallRatings[member] = calculateOverallRating(member);
+        });
+
         try {
-            // Store evaluation in Firestore
             await addDoc(collection(db, "evaluations"), {
                 groupId: groupId,
                 evaluatorId: userId,
                 evaluationData: evaluationData,
+                overallRatings: overallRatings,
                 timestamp: new Date(),
             });
 
-            // Show success message as an alert
             alert("Successfully submitted!");
-
-            // Redirect to profile page
             navigate("/profile");
         } catch (error) {
             console.error("Error storing evaluation: ", error);
-
-            // Show error message as an alert
             alert("Submission failed. Please try again.");
         }
     };
@@ -40,7 +46,7 @@ const Confirmation = () => {
     return (
         <div className="confirmation-container">
             <h2>Evaluation Summary</h2>
-            
+
             {selectedMembers.map((member) => (
                 <div className="member-summary-box" key={member}>
                     <h3 className="member-name">{member}</h3>
@@ -57,11 +63,12 @@ const Confirmation = () => {
                             </div>
                         </div>
                     ))}
+                    <p><strong>Overall Rating:</strong> {calculateOverallRating(member)}</p>
                 </div>
             ))}
 
             <div className="button-container">
-                <button onClick={() => navigate("/profile")}>Back to Dashboard</button>
+                <button onClick={() => navigate("/evaluation")}>Back to Evaluation</button>
                 <button onClick={handleFinalSubmit}>Confirm & Submit</button>
             </div>
         </div>
