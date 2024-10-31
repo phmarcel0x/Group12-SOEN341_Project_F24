@@ -20,18 +20,18 @@ const GroupEvaluation = () => {
   ];
 
   useEffect(() => {
-    // Fetch all groups from Firestore
     const fetchGroups = async () => {
       const groupSnapshot = await getDocs(collection(db, "groups"));
       const fetchedGroups = groupSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setGroups(fetchedGroups);
     };
 
-    // Fetch all users from Firestore to map evaluator names
     const fetchUsers = async () => {
       const userSnapshot = await getDocs(collection(db, "users"));
       const fetchedUsers = userSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setUsers(fetchedUsers);
+      
+      console.log('Loaded Users:', fetchedUsers);  // Debug to check loaded users
     };
 
     fetchGroups();
@@ -40,21 +40,18 @@ const GroupEvaluation = () => {
 
   const handleGroupSelect = async (groupId) => {
     setSelectedGroup(groupId);
-    setSelectedMember(null); // Reset selected member when group changes
+    setSelectedMember(null);
 
-    // Get the members of the selected group
     const group = groups.find(g => g.id === groupId);
     const members = group ? group.members : [];
     setGroupMembers(members);
 
-    // Fetch all evaluations for the selected group
     const q = query(collection(db, "evaluations"), where("groupId", "==", groupId));
     const evaluationSnapshot = await getDocs(q);
     const fetchedEvaluations = evaluationSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     setEvaluations(fetchedEvaluations);
 
-    // Debugging: Log the fetched evaluations to check structure
-    console.log('Fetched Evaluations:', fetchedEvaluations);
+    console.log('Fetched Evaluations:', fetchedEvaluations);  // Debug fetched evaluations
   };
 
   const handleMemberSelect = (memberId) => {
@@ -76,7 +73,6 @@ const GroupEvaluation = () => {
       <div className="groupevaluation-container">
         <h2>Select a Group to View Evaluations</h2>
 
-        {/* Group Selection Dropdown */}
         <select
           className="group-select"
           onChange={(e) => handleGroupSelect(e.target.value)}
@@ -88,7 +84,6 @@ const GroupEvaluation = () => {
           ))}
         </select>
 
-        {/* Member Selection Dropdown (only shown after group is selected) */}
         {selectedGroup && (
           <>
             <h3>Select a Member</h3>
@@ -98,46 +93,46 @@ const GroupEvaluation = () => {
               value={selectedMember || ""}
             >
               <option value="" disabled>Select a Member</option>
-              {groupMembers.map(memberId => {
-                const member = users.find(user => user.id === memberId);
-                return (
-                  <option key={memberId} value={memberId}>
-                    {member ? member.name : "Unknown Member"}
-                  </option>
-                );
-              })}
+              {groupMembers.map(memberId => (
+                <option key={memberId} value={memberId}>
+                  {getEvaluatedMemberName(memberId)}
+                </option>
+              ))}
             </select>
           </>
         )}
 
-        {/* Show Evaluations for the Selected Member */}
         {selectedMember && (
           <div className="evaluation-table-container">
-            <h3>Evaluations Done by {users.find(user => user.id === selectedMember)?.name || "Unknown Member"}</h3>
+            <h3>Evaluations Done by {getEvaluatorName(selectedMember)}</h3>
             <table className="evaluation-table">
               <thead>
                 <tr>
                   <th>Dimension</th>
-                  <th>Member Evaluated</th> {/* Updated to show evaluated member's name */}
+                  <th>Member Evaluated</th>
                   <th>Rating</th>
                   <th>Comment</th>
                 </tr>
               </thead>
               <tbody>
                 {evaluations
-                  .filter(evaluation => evaluation.evaluatorId === selectedMember) // Filter evaluations done by the selected member
-                  .map(evaluation => (
-                    dimensions.map((dimension) => (
-                      Object.keys(evaluation.evaluationData).map((evaluatedMemberId) => (
-                        <tr key={`${evaluation.id}-${dimension}-${evaluatedMemberId}`}>
-                          <td>{dimension}</td>
-                          <td>{getEvaluatedMemberName(evaluatedMemberId)}</td> {/* Updated to show evaluated member's name */}
-                          <td>{evaluation.evaluationData[dimension]?.[evaluatedMemberId]?.rating || "No rating"}</td>
-                          <td>{evaluation.evaluationData[dimension]?.[evaluatedMemberId]?.comment || "No comment"}</td>
-                        </tr>
-                      ))
-                    ))
-                  ))}
+                  .filter(evaluation => evaluation.evaluatorId === selectedMember)
+                  .flatMap(evaluation =>
+                    dimensions.map(dimension =>
+                      Object.keys(evaluation.evaluationData[dimension] || {}).map(evaluatedMemberId => {
+                        const rating = evaluation.evaluationData[dimension]?.[evaluatedMemberId]?.rating || "No rating";
+                        const comment = evaluation.evaluationData[dimension]?.[evaluatedMemberId]?.comment || "No comment";
+                        return (
+                          <tr key={`${evaluation.id}-${dimension}-${evaluatedMemberId}`}>
+                            <td>{dimension}</td>
+                            <td>{getEvaluatedMemberName(evaluatedMemberId)}</td>
+                            <td>{rating}</td>
+                            <td>{comment}</td>
+                          </tr>
+                        );
+                      })
+                    )
+                  )}
               </tbody>
             </table>
           </div>
