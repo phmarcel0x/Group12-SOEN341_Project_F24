@@ -96,37 +96,39 @@ const Evaluation = () => {
     return (
         <div>
             <div className="evaluation-title"> Evaluation</div>
-            <p className='evaluate-p'>Select members to evaluate</p>
-
-            <div className='evaluate-div'>
-                <table className='evaluation-table'>
-                    <thead>
-                        <tr>
-                            <th>Members</th>
-                            <th>Evaluate</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredMembers.map((member, index) => (
-                            <tr key={index}>
-                                <td>{member.name}</td>
-                                <td>
-                                    <label>
-                                        <input
-                                            type="checkbox"
-                                            name="selectedMember"
-                                            className="checkmark"
-                                            onClick={() => handleSelectMember(member.name)}
-                                            checked={selectedMembers.includes(member.name)}
-                                        />
-                                        <span className="checkmark"></span>
-                                    </label>
-                                </td>
+            <p className="evaluate-p">Select members to evaluate</p>
+    
+            <div className="evaluate-div">
+                <div className="evaluation-table-wrapper"> {/* Wrapper for centering */}
+                    <table className="evaluation-table">
+                        <thead>
+                            <tr>
+                                <th>Members</th>
+                                <th>Evaluate</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-
+                        </thead>
+                        <tbody>
+                            {filteredMembers.map((member, index) => (
+                                <tr key={index}>
+                                    <td>{member.name}</td>
+                                    <td>
+                                        <label>
+                                            <input
+                                                type="checkbox"
+                                                name="selectedMember"
+                                                className="checkmark"
+                                                onClick={() => handleSelectMember(member.name)}
+                                                checked={selectedMembers.includes(member.name)}
+                                            />
+                                            <span className="checkmark"></span>
+                                        </label>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+    
                 <div className="dimensions-container">
                     <div className="scroll-bar">
                         {dimensions.map((dimension) => (

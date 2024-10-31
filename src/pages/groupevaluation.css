@@ -1,58 +1,84 @@
-/* Ensures that the page takes up the full height of the viewport and footer stays at the bottom */
+/* Page setup and alignment */
 .groupevaluation-page {
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Full height of the viewport */
+    min-height: 100vh;
+    background-color: #f0f4f8;
 }
 
 .groupevaluation-container {
-    flex: 1; /* Makes the container grow and take up available space */
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 20px;
-    margin: auto;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 80px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /*Soft shadow for depth*/
+    border-radius: 12px;
 }
 
-h2, h3 {
-    font-size: 28px;
+/* Heading styles */
+h2 {
+    font-size: 32px;
     color: #34495e;
+    margin-bottom: 10px;
     text-align: center;
-    margin-bottom: 30px;
+    font-weight: 700;
 }
 
+h3 {
+    font-size: 24px;
+    color: #34495e;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* Dropdown styles for better spacing and alignment */
 .group-select, .member-select {
-    width: 60%;
-    padding: 10px;
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
     font-size: 16px;
-    border-radius: 5px;
+    border-radius: 8px;
     border: 1px solid #ccc;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
 }
 
+.group-select:focus, .member-select:focus {
+    border-color: #4682B4;
+    box-shadow: 0 2px 10px rgba(70, 130, 180, 0.2); /* Emphasize focus */
+}
 
+/* Table container */
 .evaluation-table-container {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 20px;
 }
 
+/* Evaluation table styling */
 .evaluation-table {
-    width: 80%;
+    width: 100%;
+    max-width: 800px;
     border-collapse: collapse;
-    margin-top: 20px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
     border-radius: 12px;
     overflow: hidden;
-    background-color: white;
+    background-color: #ffffff;
+    margin: 20px 0;
 }
 
 .evaluation-table th, .evaluation-table td {
-    padding: 20px;
+    padding: 15px 20px;
     text-align: center;
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
 }
 
 .evaluation-table th {
@@ -77,24 +103,34 @@ h2, h3 {
     color: #2980b9;
 }
 
+/* Button container alignment */
 .button-container {
     display: flex;
     justify-content: center;
+    gap: 15px; /* Space between buttons */
     margin-top: 20px;
 }
 
+/* Button styling */
 button {
     background-color: #1f2d3d;
     color: white;
-    padding: 10px 20px;
+    padding: 12px 24px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     font-size: 16px;
+    font-weight: 500;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 button:hover {
     background-color: #27ae60;
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+button:focus {
+    outline: none;
+    box-shadow: 0 0 8px rgba(70, 130, 180, 0.6); /* Subtle focus outline */
 }
