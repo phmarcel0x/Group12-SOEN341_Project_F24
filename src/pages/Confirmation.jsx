@@ -1,7 +1,9 @@
+// Confirmation.jsx
+
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { db } from "../../firebaseConfig";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, addDoc, updateDoc, doc } from "firebase/firestore";
 import './confirmation.css';
 
 const Confirmation = () => {
@@ -27,15 +29,39 @@ const Confirmation = () => {
         });
 
         try {
-            await addDoc(collection(db, "evaluations"), {
-                groupId: groupId,
-                evaluatorId: userId,
-                evaluationData: evaluationData,
-                overallRatings: overallRatings,
-                timestamp: new Date(),
-            });
+            // Query for an existing evaluation document by this user in this group
+            const evaluationQuery = query(
+                collection(db, "evaluations"),
+                where("evaluatorId", "==", userId),
+                where("groupId", "==", groupId)
+            );
+            const evaluationSnapshot = await getDocs(evaluationQuery);
 
-            alert("Successfully submitted!");
+            if (!evaluationSnapshot.empty) {
+                // If an existing evaluation is found, update it
+                const existingDocId = evaluationSnapshot.docs[0].id;
+                const existingDocRef = doc(db, "evaluations", existingDocId);
+
+                await updateDoc(existingDocRef, {
+                    evaluationData: evaluationData,
+                    overallRatings: overallRatings,
+                    timestamp: new Date(),
+                });
+
+                alert("Your evaluation has been updated successfully!");
+            } else {
+                // If no evaluation is found, add a new document
+                await addDoc(collection(db, "evaluations"), {
+                    groupId: groupId,
+                    evaluatorId: userId,
+                    evaluationData: evaluationData,
+                    overallRatings: overallRatings,
+                    timestamp: new Date(),
+                });
+
+                alert("Your evaluation has been submitted successfully!");
+            }
+
             navigate("/profile");
         } catch (error) {
             console.error("Error storing evaluation: ", error);

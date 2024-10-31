@@ -1,3 +1,5 @@
+
+// Profile.jsx 
 import React, { useState, useEffect } from 'react';
 import { getAuth } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
