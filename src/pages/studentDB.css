@@ -81,7 +81,7 @@ p{
 .button-container {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  margin: 20px 0;
 }
 
 @media (max-width: 768px) {

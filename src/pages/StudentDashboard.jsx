@@ -92,6 +92,17 @@ const StudentDashboard = () => {
       ) : (
         <p>You are not assigned to any team yet.</p>
       )}
+      <div>
+      <div className="button-container">
+          <button
+            className="evaluate-button"
+            onClick={() => navigate("/evaluation", { state: { teamMembers } })}
+          >
+            Evaluate your team members
+          </button>
+        </div>
+      </div>
+
       <h2 className="text-position">The other groups of this course are as follows:</h2>
       {/* <ul>
         {groups.map(group => (
@@ -127,16 +138,7 @@ const StudentDashboard = () => {
         </tbody>
       </table>
 
-      <div>
-      <div className="button-container">
-          <button
-            className="evaluate-button"
-            onClick={() => navigate("/evaluation", { state: { teamMembers } })}
-          >
-            Evaluate your team members
-          </button>
-        </div>
-      </div>
+      
     </div>
   );
 };
