@@ -66,23 +66,37 @@ const StudentDashboard = () => {
     };
 
     const fetchAllGroupsAndStudents = async () => {
-      const unsubscribeGroups = onSnapshot(collection(db, "groups"), (snapshot) => {
-        const fetchedGroups = {};
-        snapshot.docs.forEach(doc => {
-          fetchedGroups[doc.id] = doc.data().name; // Store group name by ID
+      try {
+        const groupSnapshot = await getDocs(collection(db, "groups"));
+        const fetchedGroups = [];
+    
+        groupSnapshot.forEach(doc => {
+          const groupData = doc.data();
+          fetchedGroups.push({
+            id: doc.id,
+            name: groupData.name,
+            members: groupData.members
+          });
         });
-        setGroupNames(fetchedGroups);
-      });
-
-      const q = query(collection(db, "users"), where("role", "==", "Student"));
-      const querySnapshot = await getDocs(q);
-      const fetchedStudents = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setStudents(fetchedStudents);
-
-      return () => {
-        unsubscribeGroups();
-      };
-    };
+    
+        const studentSnapshot = await getDocs(query(collection(db, "users"), where("role", "==", "Student")));
+        const fetchedStudents = studentSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        
+        // Populate groups with student names for display
+        const groupsWithNames = fetchedGroups.map(group => ({
+          ...group, 
+          memberNames: group.members.map(memberId => {
+            const student = fetchedStudents.find(student => student.id === memberId);
+            return student ? student.name : "Unknown Student";
+          })
+        }));
+    
+        setGroups(groupsWithNames);
+        setStudents(fetchedStudents);
+      } catch (error) {
+        console.error("Error fetching groups and students:", error);
+      }
+    };    
 
     fetchStudentTeam();
     fetchEvaluations();
@@ -214,15 +228,10 @@ const StudentDashboard = () => {
           </tr>
         </thead>
         <tbody>
-          {groups.map((group) => (
+          {groups.map(group => (
             <tr key={group.id}>
               <td><strong>{group.name}</strong></td>
-              <td>
-                {group.members.map((memberId) => {
-                  const student = students.find(student => student.id === memberId);
-                  return student ? student.name : "Unknown Student";
-                }).join(", ")}
-              </td>
+              <td>{group.memberNames.join(", ")}</td>
             </tr>
           ))}
         </tbody>
