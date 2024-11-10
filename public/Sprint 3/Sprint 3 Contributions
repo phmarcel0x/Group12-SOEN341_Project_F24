@@ -1,1 +1,237 @@
 
+Marcelo: ///////////////// the template was copy pasted from sprint 2, just edit your old contributions and replace them with your new ones/////////////////////////////////////////////////////
+
+| Date        | Duration       | Task               | Description                                   | Difficulty |
+| ----------- | -------------- | ------------------ | --------------------------------------------- | ---------- |
+| 12/10/2024  | 4 hours        | Task 2             | Created an initial prototype of the feedback  | 8          |
+| &           |                |                    | rating system, allowing students to evaluate  |            |
+| 13/10/2024  | 3 hours        |                    | peers based on four criteria with a 5-point   |            |
+|             |                |                    | rating scale and optional comment sections    |            |
+|             |                |                    | for each criterion, enabling comprehensive    |            |
+|             |                |                    | peer evaluation.                              |            |
+|             |                |                    |                                               |            |                                                    
+| 15/10/2024  | 3 hours        | Task 5             | Updated the backend to support the feedback   | 7          |
+|             |                |                    | rating system in Firestore, allowing students |            | 
+|             |                |                    | to submit evaluations of each                 |            |
+|             |                |                    | other-s contributions and storing data.       |            |
+|             |                |                    |                                               |            |
+| 17/10/2024  | 2 hours        | Task 6             | Added color-coding to highlight each          | 4          |
+|             |                |                    | assessment criteria box with a unique color   |            |
+|             |                |                    | when hovered over, improving clarity in the   |            |
+|             |                |                    | feedback interface.                           |            |
+|             |                |                    |                                               |            | 
+| 18/10/2024  | 2 hours        | Task 8             | Included a function to check completion of    | 7          |
+|             |                |                    | all required rating sections, prompting users |            |
+|             |                |                    | if fields were incomplete and allowing them   |            |
+|             |                |                    | to return to their assessment.                |            |
+|             |                |                    |                                               |            | 
+| 23/10/2024  | 2 hours        | User Story 9       | Adjusted the assessment flow to guide users   | 8          |
+| &           |                |                    | in completing all assessment criteria for     |            |
+| 24/10/2024  | 2 hours        |                    | each individual team member consecutively     |            |
+|             |                |                    | before moving to the next member,             |            |
+|             |                |                    | improving the feedback process.               |            |
+|             |                |                    |                                               |            | 
+| 25/10/2024  | 3 hours        | Task 12            | Displayed total evaluation scores and average | 5          | 
+|             |                |                    | ratings for each team member, calculated from |            |
+|             |                |                    | individual criteria, with this information    |            |
+|             |                |                    | accessible to instructors only.               |            |
+Total: 21 hours
+
+
+Yash:
+
+| Date        | Duration       | Task               | Description                                       | Difficulty |
+| ----------- | -------------- | ------------------ | ------------------------------------------------- | ---------- |
+| 10/10/2024	| 1hr 20 min     | Review Sprint 2    | Look over new requirements for Sprint 2 together  |    2       |
+|             |                |                    | with the team.                                    |            |
+|             |                |                    |                                                   |            | 
+| 12/10/2024  | 2 hr 15 min    | Task 3             | This task focuses on reorganizing the repository’s|    3       |
+|             |                |                    | branch structure to enhance clarity and usability |            |
+|             |                |                    | for both readers and the development team.The goal|            | 
+|             |                |                    | is to create a logical and intuitive branch that  |            |
+|             |                |                    | allows users to easily navigate and understand the|            |
+|             |                |                    | project’s components.                             |            |
+|             |                |                    |                                                   |            | 
+| 14/10/2024	| 4 hr           | Task 10            | This task involves replacing all existing student |    6       |
+|             |                |                    | records within the application with newly created |            |
+|             |                |                    | entries that are properly named and enumerated in |            |
+|             |                |                    | a clear and consistent order. The objective is to |            |
+|             |                |                    | eliminate any potential confusion during testing  |            |
+|             |                |                    | or demonstrations of the application.             |            |
+|             |                |                    |                                                   |            | 
+| 17/10/2024  | 2 hr           | Task 10            | Aims to update the database by replacing all      |     5      |
+|             |                |                    | existing student records with newly created       |            |
+|             |                |                    | entries that are properly named and enumerated in |            |
+|             |                |                    | a clear order.                                    |            |      
+|             |                |                    |                                                   |            | 
+| 20/10/2024  | 2 hr           | Task 15            | Research and select appropriate CI/CD tools and   |     5      |
+|             |                |                    | frameworks for integration with the repository.   |            |
+|             |                |                    | This includes reviewing documentation and best    |            |
+|             |                |                    | practices to ensure compatibility and efficiency  |            |
+|             |                |                    |                                                   |            | 
+| 23/10/2024	| 1 hr 30 min    | Task 15            | Focus shifts to configuring the CI/CD pipeline to |     6      |
+|             |                |                    | work seamlessly with the repository. This includes|            |
+|             |                |                    | setting up necessary build and deployment scripts |            |
+|             |                |                    | as well as defining workflows for automated       |            |
+|             |                |                    | testing and code quality checks.                  |            |
+|             |                |                    |                                                   |            | 
+| 27/10/2024  | 2 hr           | Task 15            | Thorough testing of the CI/CD pipeline to identify|     4      |
+|             |                |                    | and resolve any issues. This includes running     |            |
+|             |                |                    | sample builds and deployments to verify that the  |            |
+|             |                |                    | process functions smoothly. Additionally,         |            |
+|             |                |                    | comprehensive documentation is created to outline |            |
+|             |                |                    | the pipeline setup and usage guidelines, ensuring |            |
+|             |                |                    | that the dev team can easily utilize the CI/CD    |            |
+|             |                |                    | process for future sprints.                       |            |
+|             |                |                    |                                                   |            | 
+
+Total : 15 hours
+
+
+
+
+Fabio: 40231803
+
+| Date        | Duration       | Task               | Description                                   | Difficulty |
+| ----------- | -------------- | ------------------ | --------------------------------------------- | ---------- |
+| 10/10/2024  | 1 hour         | Review Sprint 2    | Look over the new requirements for Sprint 2   | 2          |
+|             |                |                    | together with team                            |            |
+|             |                |                    |                                               |            |
+| 17/10/24    | 4 hours        | 1-Team Member      | Developed a prototype to demonstrate to       | 8          |
+|             |                |   Evaluation       | demonstrate the ability for students to       |            |
+|             |                |                    | select any member within their own team to    |            |
+|             |                |                    | evaluate                                      |            |
+|             |                |                    |                                               |            |
+| 17/10/24    | 4 hours        | 4- Firebase        | Updated the firebase to be able to support    | 9          |
+|             |                |    Prototype       | the new prototype feature that will allow     |            |
+|             |                |    Update          | students to select any student within the     |            |
+|             |                |                    | team to evaluate                              |            |
+|             |                |                    |                                               |            |
+| 25/10/24    | 3 hours        | 7-Confirmation     | Developed a confirmation page, where once it  | 7          |
+|             |                |   Page             | pops up, a button shall appear in the bottom  |            |
+|             |                |   Development      | center of the confirmation page, in which it  |            |
+|             |                |                    | will send the data back to firebase and stores|            |
+|             |                |                    |                                               |            |
+| 25/10/24    | 3 hours        | 11-Average         | Developed an average calculation that shall   | 6          |
+|             |                |    Calculation     | be calculated by considering the points for   |            |
+|             |                |    Display         | each of the individual assessment dimension,  |            |
+|             |                |                    | and will be displayed only for the instructor |            |
+|             |                |                    | to see, next to their name (student's name)   |            |
+|             |                |                    |                                               |            |
+| 27/10/24    | 3 hours        | 14-Instructor      | Developed a instructor page where they shall  | 6          |
+|             |                |    Overview        | see a overview of all the team member's       |            |
+|             |                |    Page            | score, before deciding whether or not to      |            |
+|             |                |                    | individually select a particular student to   |            |
+|             |                |                    | view their score in more detail               |            |
+
+Total: 18 Hours
+
+Christopher:
+
+| Date        | Duration       | Task               | Description                                   | Difficulty |
+| ----------- | -------------- | ------------------ | --------------------------------------------- | ---------- |
+| 10/10/2024  | 1h 20          | Review Sprint 2    | Look over the new requirements for Sprint 2   | 2          |
+|             |                |                    | together with the team                        |            |
+| 10/10/2024  | 1h 30          | Learn the basics   | Learn the basics on how to create and assign  | 6          |
+|             |                |                    | issues on the GitHub, alongside its other     |            |
+|             |                |                    | intricacies that come along with it           |            |
+| 12/10/2024  | 2h 35          | Research           | Did additional research to further get        | 4          |
+|             |                |                    | familiar with creating tasks and issues       |            |
+| 14/10/2024  | 1h 40          | Group Discussion   | Discussed more into detail about the coding   | 5          |
+|             |                |                    | of the 2 new system requirements and its      |            |
+|             |                |                    | potential issues                              |            |
+| 17/10/2024  | 1h 35          | Viewing tasks      | Started to view and analyze the tasks on the  | 3          |
+|             |                |                    | Sprint plan with the Scrum master             |            |
+| 24/10/2024  | 1h 50          | Taking notes       | Took notes of the particularly important      | 4          |
+|             |                |                    | issues and new issues that will need to be    |            |
+|             |                |                    | later implemeneted in the GitHub              |            |
+| 24/10/2024  | 1h 30          | Test               | Became a user to test some of the system's    | 3          |
+|             |                |                    | new features (user test)                      |            |
+| 25/10/2024  | 1h 40          | Overview           | Final organization of the issues and tasks to | 5          |
+|             |                |                    | be uploaded on GitHub as issues or user       |            |
+|             |                |                    | stories                                       |            |
+| 27/10/2024  | 2h 45          | Issue creation     | Proper creation of all the listed issues and  | 6          |
+|             |                |                    | user stories listed on the Sprint plan as     |            |
+|             |                |                    | GitHub issues (full translation of issues)    |            |
+| 27/10/2024  | 1 hour         | Editing            | Adding last minute changes to the GitHub      | 4          |
+Total: around 16 hours
+
+
+
+Evelyne:
+
+| Date        | Duration       | Task                | Description                                     | Difficulty |
+| ----------- | -------------- | ------------------  | ---------------------------------------------   | ---------- |
+| 10/10/2024  | 2 hour         | Initial system      | Develop a system to allow selection of          | 2          |
+|             |                | prototype to select | students or team members for evaluation,        |            |  
+|             |                | students to evaluate| ensuring user validation and storage of         |            |
+|             |                |                     | selected students.                              |            |
+
+| 11/10/2024  | 3 hour         | Create an initial   | Design a prototype feedback system with a 1-5   | 3          |
+|             |                | prototype of the    | rating scale for each assessment criterion and  |            |
+|             |                | feedback rating     | ensure proper processing of feedback.           |            |
+|             |                | system              |                                                 |            |
+
+| 13/11/2024  | 1 hour         | Colour-code the     | Implement a color-coded hover effect on         | 1          |
+|             |                | assessment criteria | assessment criteria boxes for better user       |            |
+|             |                | box when hovering   | experience, using accessible color              |            |
+|             |                | over it             | combinations.                                   |            |
+
+| 14/10/2024  | 1h 40          | Group Discussion    | Discussed more into detail about the coding     | 5          |
+|             |                |                     | of the 2 new system requirements and its        |            |
+|             |                |                     | potential issues                                |            |
+
+| 20/10/2024  | 1 hour         | Include the submit  | Add a functional submit button that             | 1          |
+|             |                | button after        | activates when all required feedback sections   |            |
+|             |                | completing the      | are completed, ensuring proper feedback         |            |
+|             |                | feedback            | submission.                                     |            |
+
+| 23/10/2024  | 3 hours        | Include a function  | Implement validation to check if all required   | 5          |
+|             |                | that checks if you  | are completed before submission, with real-time |            |
+|             |                | completed all       | checks and user-friendly error messages.        |            |
+|             |                | required sections   |                                                 |            |
+
+
+| 26/10/2024  | 4 hours        | User wanted to rate | Allow users to complete feedback for each team  | 5          |
+|             |                | the team members,   | (all criteria) before moving on to the next     |            |
+|             |                | but had to rate the | member, optimizing for smooth transitions.      |            |
+|             |                | assessment critera  |                                                 |            |
+|             |                | for each team member|                                                 |            |
+|             |                | individually first. |                                                 |            |
+
+| 27/10/2024  | 2 hour         | Editing             | Adding last minute changes to the GitHub        | 4          |
+
+Total hours: 18
+
+
+Tristan:
+
+| Date        | Duration       | Task               | Description                                   | Difficulty |
+| ----------- | -------------- | ------------------ | --------------------------------------------- | ---------- |
+| 10/10/2024  | 1h 20          | Meeting (1)        | Explore the requirements of sprint 2 
+                                                      and steps we will take to complete them       | 2          |
+| 10/10/2024  | 45             | Take notes (1)     | Take the notes and plans for meeting one 
+                                                      and compile them into a single document       | 3          |
+| 14/10/2024  | 1h 40          | group meeting (2)  | The team discussed issues with development and
+                                                      possible solutions to them as well as
+                                                      reiterated goals and roles of members         | 3          |
+| 15/10/2024  | 45             | Take notes (2)     | Combined notes from the first and second
+                                                      meeting and organized the document            | 4          |
+| 18/10/2024  | 1h 30           | Sprint plan        | Add tasks and user stories to the sprint
+                                                      plan to start closing completed issues        | 5          |
+| 24/10/2024  | 1h             | group meeting (3)  | Talked about and tested the program while
+                                                      giving feedback to the dev team and assigning 
+                                                      future tasks                                  | 3          |
+| 24/10/2024  | 1h             | Testing            | Further tested the program and gave feedback
+                                                      while adding user stories based on my 
+                                                      experience                                    | 3          |
+| 26/10/2024  | 1h 30          | Review of notes    | Reviewed the notes of the meetings and 
+                                                      reminded people of their final tasks and 
+                                                      of the possibility of adding a meeting        | 5          |
+| 27/10/2024  | 1h             | group meeting (4)  | Final meeting of the group before submission
+                                                      to assure all the correct documents and files 
+                                                      are submitted                                 | 4          |
+| 27/10/2024  | 1h 30          | Comparisons        | Comparing the GitHub and Sprint Logs to assure
+                                                      all tasks and user stories became issues and 
+                                                      that these have been completed and closed     | 6          |
+Total time: 12h
