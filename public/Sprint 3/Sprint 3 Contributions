@@ -38,56 +38,31 @@ Marcelo: ///////////////// the template was copy pasted from sprint 2, just edit
 Total: 21 hours
 
 
-Yash:
+Yash: 40248536
 
-| Date        | Duration       | Task               | Description                                       | Difficulty |
-| ----------- | -------------- | ------------------ | ------------------------------------------------- | ---------- |
-| 10/10/2024	| 1hr 20 min     | Review Sprint 2    | Look over new requirements for Sprint 2 together  |    2       |
-|             |                |                    | with the team.                                    |            |
-|             |                |                    |                                                   |            | 
-| 12/10/2024  | 2 hr 15 min    | Task 3             | This task focuses on reorganizing the repository’s|    3       |
-|             |                |                    | branch structure to enhance clarity and usability |            |
-|             |                |                    | for both readers and the development team.The goal|            | 
-|             |                |                    | is to create a logical and intuitive branch that  |            |
-|             |                |                    | allows users to easily navigate and understand the|            |
-|             |                |                    | project’s components.                             |            |
-|             |                |                    |                                                   |            | 
-| 14/10/2024	| 4 hr           | Task 10            | This task involves replacing all existing student |    6       |
-|             |                |                    | records within the application with newly created |            |
-|             |                |                    | entries that are properly named and enumerated in |            |
-|             |                |                    | a clear and consistent order. The objective is to |            |
-|             |                |                    | eliminate any potential confusion during testing  |            |
-|             |                |                    | or demonstrations of the application.             |            |
-|             |                |                    |                                                   |            | 
-| 17/10/2024  | 2 hr           | Task 10            | Aims to update the database by replacing all      |     5      |
-|             |                |                    | existing student records with newly created       |            |
-|             |                |                    | entries that are properly named and enumerated in |            |
-|             |                |                    | a clear order.                                    |            |      
-|             |                |                    |                                                   |            | 
-| 20/10/2024  | 2 hr           | Task 15            | Research and select appropriate CI/CD tools and   |     5      |
-|             |                |                    | frameworks for integration with the repository.   |            |
-|             |                |                    | This includes reviewing documentation and best    |            |
-|             |                |                    | practices to ensure compatibility and efficiency  |            |
-|             |                |                    |                                                   |            | 
-| 23/10/2024	| 1 hr 30 min    | Task 15            | Focus shifts to configuring the CI/CD pipeline to |     6      |
-|             |                |                    | work seamlessly with the repository. This includes|            |
-|             |                |                    | setting up necessary build and deployment scripts |            |
-|             |                |                    | as well as defining workflows for automated       |            |
-|             |                |                    | testing and code quality checks.                  |            |
-|             |                |                    |                                                   |            | 
-| 27/10/2024  | 2 hr           | Task 15            | Thorough testing of the CI/CD pipeline to identify|     4      |
-|             |                |                    | and resolve any issues. This includes running     |            |
-|             |                |                    | sample builds and deployments to verify that the  |            |
-|             |                |                    | process functions smoothly. Additionally,         |            |
-|             |                |                    | comprehensive documentation is created to outline |            |
-|             |                |                    | the pipeline setup and usage guidelines, ensuring |            |
-|             |                |                    | that the dev team can easily utilize the CI/CD    |            |
-|             |                |                    | process for future sprints.                       |            |
-|             |                |                    |                                                   |            | 
+| Date        | Duration       | Task               | Description                                   | Difficulty |
+| ----------- | -------------- | ------------------ | --------------------------------------------- | ---------- |
+| 10/10/2024  | 2 hour         | CI/CD Pipeline     | Enhanced the CI/CD pipeline by integrating    | 3          |
+|             |                | Updates            | additional checks  improving error handling,  |            |
+|             |                |                    | and optimizing the build process for faster   |            |
+              |                |                    | and more reliable deployments.                |            |
+|             |                |                    |                                               |            |
+| 17/10/24    | 3 hours        | Unit Testing       | Added unit tests to cover edge cases,         | 5          |
+|             |                | (Different Cases)  | improving test coverage and ensuring code     |            |
+|             |                |                    | stability and reliability.                    |            |
+|             |                |                    |                                               |            |
+| 17/10/24    | 3 hours        | Code Refactoring   | Refactored critical sections of the codebase  | 2          |
+|             |                |                    | to improve readability, maintainability, and  |            |
+|             |                |                    | performance, ensuring backward                |            |
+|             |                |                    | compatibility.                                |            |
+|             |                |                    |                                               |            |
+| 25/10/24    | 2 hours        | GitHub Branch      | DCorrected and standardized the GitHub        | 3          |
+|             |                | Structure Fix      | branching strategy to streamline              |            |
+|             |                |                    | collaboration and improve version control     |            |
+|             |                |                    | workflows.                                    |            |
+|             |                |                    |                                               |            |
 
-Total : 15 hours
-
-
+Total hours: 10 hours
 
 
 Fabio: 40231803
