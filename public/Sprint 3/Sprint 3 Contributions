@@ -1,41 +1,28 @@
+///////////////// the template was copy pasted from sprint 2, just edit your old contributions and replace them with your new ones/////////////////////////////////////////////////////
 
-Marcelo: ///////////////// the template was copy pasted from sprint 2, just edit your old contributions and replace them with your new ones/////////////////////////////////////////////////////
-
+Marcelo:
 | Date        | Duration       | Task               | Description                                   | Difficulty |
 | ----------- | -------------- | ------------------ | --------------------------------------------- | ---------- |
-| 12/10/2024  | 4 hours        | Task 2             | Created an initial prototype of the feedback  | 8          |
-| &           |                |                    | rating system, allowing students to evaluate  |            |
-| 13/10/2024  | 3 hours        |                    | peers based on four criteria with a 5-point   |            |
-|             |                |                    | rating scale and optional comment sections    |            |
-|             |                |                    | for each criterion, enabling comprehensive    |            |
-|             |                |                    | peer evaluation.                              |            |
-|             |                |                    |                                               |            |                                                    
-| 15/10/2024  | 3 hours        | Task 5             | Updated the backend to support the feedback   | 7          |
-|             |                |                    | rating system in Firestore, allowing students |            | 
-|             |                |                    | to submit evaluations of each                 |            |
-|             |                |                    | other-s contributions and storing data.       |            |
+| 31/10/2024  | 2 hours        | Refactor database  | Refactored our codebase such that data        | 7          |
+|     &       |                |                    | retrieval from Firestore is now based         |            |
+| 02/11/2024  | 3 hours        |                    | on the user UIDs and the team IDs,            |            |
+|             |                |                    | instead of the user emails and the team       |            |
+|             |                |                    | names. This change was necessary to           |            |
+|             |                |                    | support the new instructor dashboard          |            |
+|             |                |                    | evaluations summary feature.                  |            |
 |             |                |                    |                                               |            |
-| 17/10/2024  | 2 hours        | Task 6             | Added color-coding to highlight each          | 4          |
-|             |                |                    | assessment criteria box with a unique color   |            |
-|             |                |                    | when hovered over, improving clarity in the   |            |
-|             |                |                    | feedback interface.                           |            |
-|             |                |                    |                                               |            | 
-| 18/10/2024  | 2 hours        | Task 8             | Included a function to check completion of    | 7          |
-|             |                |                    | all required rating sections, prompting users |            |
-|             |                |                    | if fields were incomplete and allowing them   |            |
-|             |                |                    | to return to their assessment.                |            |
-|             |                |                    |                                               |            | 
-| 23/10/2024  | 2 hours        | User Story 9       | Adjusted the assessment flow to guide users   | 8          |
-| &           |                |                    | in completing all assessment criteria for     |            |
-| 24/10/2024  | 2 hours        |                    | each individual team member consecutively     |            |
-|             |                |                    | before moving to the next member,             |            |
-|             |                |                    | improving the feedback process.               |            |
-|             |                |                    |                                               |            | 
-| 25/10/2024  | 3 hours        | Task 12            | Displayed total evaluation scores and average | 5          | 
-|             |                |                    | ratings for each team member, calculated from |            |
-|             |                |                    | individual criteria, with this information    |            |
-|             |                |                    | accessible to instructors only.               |            |
-Total: 21 hours
+| 09/11/2024  | 3 hours        | Implemented first  | Implemented the feature where a student may   | 6          |
+|             |                | new feature.       | contest their peer evaluation scores. This    |            |
+|             |                |                    | feature required changes to the backend to    |            |
+|             |                |                    | support the new data flow. A "Contest         |            |
+|             |                |                    | Score" button was added to the frontend in    |            |
+|             |                |                    | the student dashboard.                        |            |
+|             |                |                    |                                               |            |
+| 10/11/2024  | 3 hours        | Implemented second | Implemented the feature where instructors     | 7          |
+|             |                | new feature.       | may view some statistics about the teams,     |            |
+|             |                |                    | with some graphs for visualizations.          |            |
+|             |                |                    |                                               |            |
+Total: 11 hours
 
 
 Yash: 40248536
