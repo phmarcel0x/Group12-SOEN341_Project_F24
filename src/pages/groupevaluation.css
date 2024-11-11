@@ -4,7 +4,6 @@
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
-    background-color: #f0f4f8;
     padding: 20px;
 }
 
@@ -50,6 +49,7 @@ h3 {
     margin-bottom: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     text-align: center;
+    background-color: #ffffff;
 }
 
 /* Average Rating Table */
@@ -100,6 +100,7 @@ h3 {
     padding: 15px 20px;
     text-align: center;
     border: 1px solid #ddd;
+    background-color: #ffffff;
 }
 
 .evaluation-table th {
@@ -110,12 +111,7 @@ h3 {
 }
 
 .evaluation-table td {
-    background-color: #f9f9f9;
     font-size: 16px;
-}
-
-.evaluation-table tr:nth-child(even) {
-    background-color: #f4f4f4;
 }
 
 .evaluation-table tr:hover {
