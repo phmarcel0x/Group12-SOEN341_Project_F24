@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './groupevaluation.css';
 
 const GroupEvaluation = () => {
@@ -9,6 +10,7 @@ const GroupEvaluation = () => {
   const [evaluations, setEvaluations] = useState([]);
   const [users, setUsers] = useState([]);
   const [averageRatings, setAverageRatings] = useState({});
+  const navigate = useNavigate();
 
   const dimensions = [
     "Conceptual Contribution",
@@ -164,6 +166,9 @@ const GroupEvaluation = () => {
           selectedGroup && <p>No evaluations found for this group.</p>
         )}
       </div>
+      <div className="button-container">
+           <button className="back-button" onClick={() => navigate("/profile")}>Go Back</button>
+    </div>
     </div>
   );
 };
