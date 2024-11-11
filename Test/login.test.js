@@ -17,17 +17,7 @@
 // login.test.js
 const { initializeApp } = require("firebase/app");
 const { getAuth, signInWithEmailAndPassword } = require("firebase/auth");
-
-
-const firebaseConfig = {
-  apiKey: "AIzaSyC-GgVnoeRB7KSgRIEBTpyNrtCuUKjk4TA",
-  authDomain: "soen341-project-group12.firebaseapp.com",
-  projectId: "soen341-project-group12",
-  storageBucket: "soen341-project-group12.appspot.com",
-  messagingSenderId: "551475228011",
-  appId: "1:551475228011:web:d14120a0b7549888d0f02e",
-  measurementId: "G-S286NL2V3Z"
-};
+const firebaseConfig = require('./firebaseConfig');
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
