@@ -79,19 +79,21 @@ Christopher:
 
 | Date        | Duration       | Task               | Description                                   | Difficulty |
 | ----------- | -------------- | ------------------ | --------------------------------------------- | ---------- |
-| 4/11/2024   | 1h 05          | Review Sprint 3    | Look over the new requirements for Sprint 3   | 2          |
+| 4/11/2024   | 1h 30          | Review Sprint 3    | Look over the new requirements for Sprint 3   | 2          |
 |             |                |                    | (new instructor dashboard UI)                 |            |
-| 6/11/2024   | 1h 30          | Sprint Plan 3      | Created and started assigning tasks to        | 4          |
+| 6/11/2024   | 1h 45          | Sprint Plan 3      | Created and started assigning tasks to        | 4          |
 |             |                |                    | specified team members                        |            |
 | 6/11/2024   | 1h 20          | New issues         | Created new issues for the Dev team to start  | 3          |
 |             |                |                    | working out as soon as possible               |            |
-| 7/11/2024   | 1h 40          | User story test    | Tested the Dev team's initial prototype as    | 5          |
+| 7/11/2024   | 2h             | User story test    | Tested the Dev team's initial prototype as    | 5          |
 |             |                |                    | an instructor login and provided adequate     |            |
 |             |                |                    | feedback necessary for improvement            |            |
-| 9/11/2024   | 1h 15          |       | Started to view and analyze the tasks on the  | 3          |
-|             |                |                    | Sprint plan with the Scrum master             |            |
-
-Total: around  hours
+| 9/11/2024   | 2h 15          | More issues        | Created additional tests and assigned them,   | 6          |
+|             |                |                    | as well as performed user tests and acceptance|            |
+|             |                |                    | test for the Dev team, and provided feedback  |            |
+| 10/11/2024  | 2h30           | Emergency issues   | Added last minute emergency issues to the     | 5          |
+|             |                |                    | Sprint Plan that were discovered              |            |
+Total: around 10 hours
 
 
 
