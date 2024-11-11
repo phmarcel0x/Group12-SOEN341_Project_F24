@@ -119,11 +119,9 @@ Evelyne:
 |             |                | completing the      | are completed, ensuring proper feedback         |            |
 |             |                | feedback            | submission.                                     |            |
 
-| 10/11/2024  | 3 hours        | Include a function  | Implement validation to check if all required   | 5          |
-|             |                | that checks if you  | are completed before submission, with real-time |            |
-|             |                | completed all       | checks and user-friendly error messages.        |            |
-|             |                | required sections   |                                                 |            |
-
+| 10/11/2024  | 1 hours        |   Updated css &    | Updated the css for the groupevaluation page     | 4          |
+|             |                |    Dashboards      | of the instructor and evaluation page for the    |            |
+|             |                |                    | student for better clarity                       |            |
 
 
 Total hours: 10.5 hr
