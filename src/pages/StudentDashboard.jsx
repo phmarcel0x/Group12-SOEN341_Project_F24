@@ -191,7 +191,7 @@ const StudentDashboard = () => {
                   Object.keys(evaluation.evaluationData[dimension]).map((member) => (
                     member === selectedTeammate.name && (
                       <tr key={`${evaluation.id}-${dimension}-${member}`}>
-                        <td>{groupNames[evaluation.groupId] || "Unknown Group"}</td>
+                        <td>{team.name || "Unknown Group"}</td>
                         <td>{member}</td>
                         <td>{dimension}</td>
                         <td>{evaluation.evaluationData[dimension][member].rating || "No rating"}</td>
