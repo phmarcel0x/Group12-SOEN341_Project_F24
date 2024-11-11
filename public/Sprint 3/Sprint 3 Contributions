@@ -28,21 +28,21 @@ Yash: 40248536
 
 | Date        | Duration       | Task               | Description                                   | Difficulty |
 | ----------- | -------------- | ------------------ | --------------------------------------------- | ---------- |
-| 10/10/2024  | 2 hour         | CI/CD Pipeline     | Enhanced the CI/CD pipeline by integrating    | 3          |
+| 10/28/2024  | 2 hour         | CI/CD Pipeline     | Enhanced the CI/CD pipeline by integrating    | 3          |
 |             |                | Updates            | additional checks  improving error handling,  |            |
 |             |                |                    | and optimizing the build process for faster   |            |
               |                |                    | and more reliable deployments.                |            |
 |             |                |                    |                                               |            |
-| 17/10/24    | 3 hours        | Unit Testing       | Added unit tests to cover edge cases,         | 5          |
+| 31/11/24    | 3 hours        | Unit Testing       | Added unit tests to cover edge cases,         | 5          |
 |             |                | (Different Cases)  | improving test coverage and ensuring code     |            |
 |             |                |                    | stability and reliability.                    |            |
 |             |                |                    |                                               |            |
-| 17/10/24    | 3 hours        | Code Refactoring   | Refactored critical sections of the codebase  | 2          |
+| 5/11/24     | 3 hours        | Code Refactoring   | Refactored critical sections of the codebase  | 2          |
 |             |                |                    | to improve readability, maintainability, and  |            |
 |             |                |                    | performance, ensuring backward                |            |
 |             |                |                    | compatibility.                                |            |
 |             |                |                    |                                               |            |
-| 25/10/24    | 2 hours        | GitHub Branch      | DCorrected and standardized the GitHub        | 3          |
+| 7/11/24     | 2 hours        | GitHub Branch      | DCorrected and standardized the GitHub        | 3          |
 |             |                | Structure Fix      | branching strategy to streamline              |            |
 |             |                |                    | collaboration and improve version control     |            |
 |             |                |                    | workflows.                                    |            |
