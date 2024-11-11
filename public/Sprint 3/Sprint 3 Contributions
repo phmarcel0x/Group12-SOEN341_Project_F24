@@ -56,37 +56,24 @@ Fabio: 40231803
 
 | Date        | Duration       | Task               | Description                                   | Difficulty |
 | ----------- | -------------- | ------------------ | --------------------------------------------- | ---------- |
-| 10/10/2024  | 1 hour         | Review Sprint 2    | Look over the new requirements for Sprint 2   | 2          |
+| 01/11/2024  | 1 hour         | Review Sprint 3    | Look over the new requirements for Sprint 2   | 2          |
 |             |                |                    | together with team                            |            |
 |             |                |                    |                                               |            |
-| 17/10/24    | 4 hours        | 1-Team Member      | Developed a prototype to demonstrate to       | 8          |
-|             |                |   Evaluation       | demonstrate the ability for students to       |            |
-|             |                |                    | select any member within their own team to    |            |
-|             |                |                    | evaluate                                      |            |
+| 09/11/2024  | 4 hours        | Implemented first  | Worked with Marcelo to implement this feature | 6          |   
+|             |                |    new feature     | Allows students to contest peer evaluation    |            |
+|             |                |                    | scores                                        |            |
 |             |                |                    |                                               |            |
-| 17/10/24    | 4 hours        | 4- Firebase        | Updated the firebase to be able to support    | 9          |
-|             |                |    Prototype       | the new prototype feature that will allow     |            |
-|             |                |    Update          | students to select any student within the     |            |
-|             |                |                    | team to evaluate                              |            |
 |             |                |                    |                                               |            |
-| 25/10/24    | 3 hours        | 7-Confirmation     | Developed a confirmation page, where once it  | 7          |
-|             |                |   Page             | pops up, a button shall appear in the bottom  |            |
-|             |                |   Development      | center of the confirmation page, in which it  |            |
-|             |                |                    | will send the data back to firebase and stores|            |
+| 10/11/24    | 4 hours        | Implemented second | Worked with Marcelo to add a feature enabling | 7          |
+|             |                |    new feature     | instructors to view team statistics with      |            |
+|             |                |                    | graphical visualizations                      |            |
 |             |                |                    |                                               |            |
-| 25/10/24    | 3 hours        | 11-Average         | Developed an average calculation that shall   | 6          |
-|             |                |    Calculation     | be calculated by considering the points for   |            |
-|             |                |    Display         | each of the individual assessment dimension,  |            |
-|             |                |                    | and will be displayed only for the instructor |            |
-|             |                |                    | to see, next to their name (student's name)   |            |
 |             |                |                    |                                               |            |
-| 27/10/24    | 3 hours        | 14-Instructor      | Developed a instructor page where they shall  | 6          |
-|             |                |    Overview        | see a overview of all the team member's       |            |
-|             |                |    Page            | score, before deciding whether or not to      |            |
-|             |                |                    | individually select a particular student to   |            |
-|             |                |                    | view their score in more detail               |            |
+| 10/11/24    | 1 hours        |   Updated css &    | Updated the css for the groupevaluation page  | 4          |
+|             |                |    Dashboards      | of the instructor and evaluation page for the |            |
+|             |                |                    | student for better clarity                    |            |
 
-Total: 18 Hours
+Total: 10 Hours
 
 Christopher:
 
