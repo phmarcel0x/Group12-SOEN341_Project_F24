@@ -94,7 +94,7 @@ const Confirmation = () => {
             ))}
 
             <div className="button-container">
-                <button onClick={() => navigate("/evaluation")}>Back to Evaluation</button>
+                <button className="back-button" onClick={() => navigate("/profile")}>Back To Dashboard</button>
                 <button onClick={handleFinalSubmit}>Confirm & Submit</button>
             </div>
         </div>
