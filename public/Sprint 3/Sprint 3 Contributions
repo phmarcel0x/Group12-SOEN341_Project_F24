@@ -146,30 +146,19 @@ Tristan:
 
 | Date        | Duration       | Task               | Description                                   | Difficulty |
 | ----------- | -------------- | ------------------ | --------------------------------------------- | ---------- |
-| 10/10/2024  | 1h 20          | Meeting (1)        | Explore the requirements of sprint 2 
-                                                      and steps we will take to complete them       | 2          |
-| 10/10/2024  | 45             | Take notes (1)     | Take the notes and plans for meeting one 
+| 05/11/2024  | 1h 20          | Sprint 3 review    | Explore the requirements of sprint 3 
+                                                      and steps we will take to complete them       | 3          |
+| 7/11/2024   | 45             | Meeting (1)        | Take the notes and plans for meeting one 
                                                       and compile them into a single document       | 3          |
-| 14/10/2024  | 1h 40          | group meeting (2)  | The team discussed issues with development and
-                                                      possible solutions to them as well as
-                                                      reiterated goals and roles of members         | 3          |
-| 15/10/2024  | 45             | Take notes (2)     | Combined notes from the first and second
-                                                      meeting and organized the document            | 4          |
-| 18/10/2024  | 1h 30           | Sprint plan        | Add tasks and user stories to the sprint
-                                                      plan to start closing completed issues        | 5          |
-| 24/10/2024  | 1h             | group meeting (3)  | Talked about and tested the program while
-                                                      giving feedback to the dev team and assigning 
-                                                      future tasks                                  | 3          |
-| 24/10/2024  | 1h             | Testing            | Further tested the program and gave feedback
-                                                      while adding user stories based on my 
-                                                      experience                                    | 3          |
-| 26/10/2024  | 1h 30          | Review of notes    | Reviewed the notes of the meetings and 
-                                                      reminded people of their final tasks and 
-                                                      of the possibility of adding a meeting        | 5          |
-| 27/10/2024  | 1h             | group meeting (4)  | Final meeting of the group before submission
-                                                      to assure all the correct documents and files 
-                                                      are submitted                                 | 4          |
-| 27/10/2024  | 1h 30          | Comparisons        | Comparing the GitHub and Sprint Logs to assure
-                                                      all tasks and user stories became issues and 
-                                                      that these have been completed and closed     | 6          |
-Total time: 12h
+| 8 /11/2024  | 1h 40          | Sprint plan        | Worked and updated the sprint plan based off
+                                                      comments and goals decided by the team        | 5          |
+| 10/11/2024  | 1h             | Tests              | Tested the dev teams software and gave 
+                                                      feedback to improve the software              | 4          |
+| 10/11/2024  | 2h             | Sprint plan        | Update the sprint plan with user stories 
+                                                       from the testing                             | 3          |
+| 10/11/2024  | 1h 30          | Meeting            | Communication with the team to ensure all
+                                                      documents are ready for submission            | 3          |
+| 10/11/2024  | 1h             | Review             | Final revue of GitHub to ensure clear 
+                                                      structure                                     | 3          |
+
+Total time: 9h 30
