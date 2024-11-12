@@ -1,47 +1,40 @@
 
-// function login(username, password) {
 
-//   return username === 'user' && password === 'pass';
-// }
+const { getAuth, signInWithEmailAndPassword } = require('firebase/auth');
 
-// // Unit test for the login function
-// test('Login with valid credentials', () => {
-//   expect(login('user', 'pass')).toBe(true);
-// });
-
-// test('Login with invalid credentials', () => {
-//   expect(login('user', 'wrongpass')).toBe(false);
-// });
-
-
-// login.test.js
-const { initializeApp } = require("firebase/app");
-const { getAuth, signInWithEmailAndPassword } = require("firebase/auth");
-const firebaseConfig = require('./firebaseConfig');
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+// Mock the Firebase Authentication methods
+jest.mock('firebase/auth');
 
 async function login(email, password) {
   try {
+    const auth = getAuth(); // We'll mock this in the test
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     console.log('Login successful:', userCredential.user);
     return userCredential.user ? true : false;
   } catch (error) {
-    console.error("Login failed:", error.code, error.message); 
+    // console.error("Login failed:", error.code, error.message); 
     return false;
   }
 }
 
-
-test('Login with valid credentials', async (done) => {
+// Test for login with valid credentials
+test('Login with valid credentials', async () => {
+  // Mocking successful login
+  const mockUserCredential = {
+    user: { uid: '12345', email: 'clutchgod@gmail.com' },
+  };
+  signInWithEmailAndPassword.mockResolvedValue(mockUserCredential); // Mock a resolved value
+  
   const isLoggedIn = await login('clutchgod@gmail.com', '123456');
-  expect(isLoggedIn).toBe(true);
-  done();
+  expect(isLoggedIn).toBe(true); // Expecting true because the login is successful
 });
 
-test('Login with invalid credentials', async (done) => {
+// Test for login with invalid credentials
+test('Login with invalid credentials', async () => {
+  // Mocking failed login
+  const mockError = new Error('Invalid credentials');
+  signInWithEmailAndPassword.mockRejectedValue(mockError); // Mock a rejected value
+  
   const isLoggedIn = await login('clutchgod@gmail.com', 'wrongpass');
-  expect(isLoggedIn).toBe(false);
-  done();
+  expect(isLoggedIn).toBe(false); // Expecting false because login failed
 });

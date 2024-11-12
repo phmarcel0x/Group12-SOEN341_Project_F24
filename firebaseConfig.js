@@ -38,5 +38,3 @@ const rtdb = getDatabase(app);  // Realtime Database (if you use it)
 
 // Export the services you need
 export { auth, db, rtdb };
-
-module.exports = firebaseConfig;
