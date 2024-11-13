@@ -77,4 +77,5 @@ describe('Login Component', () => {
       expect(screen.getByText(/Invalid credentials/i)).toBeInTheDocument();
     });
   });
+
 });
