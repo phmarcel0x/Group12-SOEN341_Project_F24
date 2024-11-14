@@ -1,3 +1,4 @@
+// GroupEvaluation.jsx 
 import React, { useState, useEffect } from 'react';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
@@ -114,61 +115,104 @@ const GroupEvaluation = () => {
           </div>
         )}
 
-        {selectedGroup && evaluations.length > 0 ? (
-          <div className="evaluation-results">
-            <p className="summary-text">Overview of Evaluations per Student</p>
-            {evaluations.map((evaluation) => (
-              <div key={evaluation.id} className="evaluation-table-section">
+      {selectedGroup && evaluations.length > 0 ? (
+        <div className="evaluation-results">
+          <p className="summary-text">Overview of Evaluations per Evaluator</p>
+          {evaluations.map((evaluation) => {
+            // Prepare data for both ratings and comments
+            const studentData = {};
+            dimensions.forEach((dimension) => {
+              Object.keys(evaluation.evaluationData[dimension] || {}).forEach((student) => {
+                if (!studentData[student]) {
+                  studentData[student] = { ratings: {}, comments: {} };
+                }
+                studentData[student].ratings[dimension] =
+                  evaluation.evaluationData[dimension][student]?.rating || "-";
+                studentData[student].comments[dimension] =
+                  evaluation.evaluationData[dimension][student]?.comment || "No comment";
+              });
+            });
+
+            // Compute averages for each student
+            const studentAverages = Object.keys(studentData).reduce((acc, student) => {
+              const ratings = Object.values(studentData[student].ratings).filter((rating) =>
+                !isNaN(parseFloat(rating))
+              );
+              const average =
+                ratings.length > 0
+                  ? (ratings.reduce((sum, rating) => sum + parseFloat(rating), 0) / ratings.length).toFixed(2)
+                  : "-";
+              acc[student] = average;
+              return acc;
+            }, {});
+
+            return (
+              <div key={evaluation.id} className="evaluator-card">
                 <h3>Evaluator: {getEvaluatorName(evaluation.evaluatorId)}</h3>
+                <p className="evaluator-subtitle">Ratings</p>
+
+                {/* Ratings Table */}
                 <table className="evaluation-table">
                   <thead>
                     <tr>
                       <th>Member</th>
-                      <th>Dimension</th>
-                      <th>Rating</th>
-                      <th>Comment</th>
+                      {dimensions.map((dimension) => (
+                        <th key={dimension}>{dimension}</th>
+                      ))}
+                      <th>Average Across All</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {Object.keys(evaluation.evaluationData)
-                      .flatMap(dimension =>
-                        Object.keys(evaluation.evaluationData[dimension] || {}).map(member => ({
-                          member,
-                          dimension,
-                          rating: evaluation.evaluationData[dimension][member]?.rating || "No rating",
-                          comment: evaluation.evaluationData[dimension][member]?.comment || "No comment"
-                        }))
-                      )
-                      .sort((a, b) => a.member.localeCompare(b.member)) // Sort by "Member" alphabetically
-                      .map(({ member, dimension, rating, comment }) => (
-                        <tr key={`${evaluation.id}-${dimension}-${member}`}>
-                          <td>{member}</td>
-                          <td>{dimension}</td>
-                          <td>{rating}</td>
-                          <td>{comment}</td>
-                        </tr>
-                      ))}
-                  </tbody>
-                  {/* Adding a row for the overallRating per member in each evaluation table */}
-                  <tfoot>
-                    {Object.keys(evaluation.overallRatings || {}).map(member => (
-                      <tr key={`${evaluation.id}-overall-${member}`}>
-                        <td colSpan="2" style={{ fontWeight: 'bold' }}>Overall Rating for {member}</td>
-                        <td colSpan="2">{evaluation.overallRatings[member] || "No overall rating"}</td>
+                    {Object.keys(studentData).map((student) => (
+                      <tr key={student}>
+                        <td>{student}</td>
+                        {dimensions.map((dimension) => (
+                          <td key={`${student}-${dimension}`}>
+                            {studentData[student].ratings[dimension] || "-"}
+                          </td>
+                        ))}
+                        <td>{studentAverages[student]}</td>
                       </tr>
                     ))}
-                  </tfoot>
+                  </tbody>
+                </table>
+
+                {/* Comments Table */}
+                <p className="evaluator-subtitle">Comments</p>
+                <table className="evaluation-table comments-table">
+                  <thead>
+                    <tr>
+                      <th>Member</th>
+                      {dimensions.map((dimension) => (
+                        <th key={dimension}>{dimension}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Object.keys(studentData).map((student) => (
+                      <tr key={student}>
+                        <td>{student}</td>
+                        {dimensions.map((dimension) => (
+                          <td key={`${student}-${dimension}-comment`}>
+                            {studentData[student].comments[dimension] || "No comment"}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
                 </table>
               </div>
-            ))}
-          </div>
-        ) : (
-          selectedGroup && <p>No evaluations found for this group.</p>
-        )}
+            );
+          })}
+          <button className="visualize-data-button" onClick={() => navigate("/visualize-data")}> Visualize Data </button>
+        </div>
+      ) : (
+        selectedGroup && <p>No evaluations found for this group.</p>
+      )}
       </div>
       <div className="button-container">
            <button className="back-button" onClick={() => navigate("/profile")}>Go Back</button>
-    </div>
+      </div>
     </div>
   );
 };

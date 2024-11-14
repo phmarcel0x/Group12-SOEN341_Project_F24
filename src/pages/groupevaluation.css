@@ -1,16 +1,18 @@
-/* Page Layout */
+/* groupevaluation.css */
+/* Main page container */
 .groupevaluation-page {
     display: flex;
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
     padding: 20px;
+    background-color: #f5f7fa; /* Slightly lighter background for better contrast */
 }
 
-/* Container for Group Selection and Evaluations */
+/* Main container for Group Selection and Evaluations */
 .groupevaluation-container {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1250px; /* Adjusted width for better responsiveness */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -38,7 +40,7 @@ h3 {
     margin-bottom: 20px;
 }
 
-/* Centered Dropdown */
+/* Centered dropdown for group selection */
 .group-select {
     width: 100%;
     max-width: 400px;
@@ -52,13 +54,13 @@ h3 {
     background-color: #ffffff;
 }
 
-/* Average Rating Table */
+/* Average Rating Table section */
 .average-rating-section {
     margin-bottom: 30px;
     text-align: center;
 }
 
-/* Summary text */
+/* Summary text for evaluation sections */
 .summary-text {
     font-size: 24px;
     font-weight: 600;
@@ -70,7 +72,7 @@ h3 {
     max-width: 800px;
 }
 
-/* Evaluation Tables */
+/* Evaluation Results Section */
 .evaluation-results {
     width: 100%;
     display: flex;
@@ -78,6 +80,7 @@ h3 {
     align-items: center;
 }
 
+/* Container for Evaluation Tables */
 .evaluation-table-container {
     width: 100%;
     max-width: 800px;
@@ -86,36 +89,99 @@ h3 {
     justify-content: center;
 }
 
+/* Evaluation Table */
 .evaluation-table {
     width: 100%;
+    max-width: 800px; /* Ensures all tables match in width */
     border-collapse: collapse;
     background-color: #ffffff;
-    border-radius: 12px;
+    border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
 }
 
 .evaluation-table th, 
 .evaluation-table td {
-    padding: 15px 20px;
+    padding: 10px;
     text-align: center;
     border: 1px solid #ddd;
-    background-color: #ffffff;
 }
 
 .evaluation-table th {
     background: linear-gradient(90deg, #1f2d3d, #4682B4);
     color: #fff;
-    font-size: 18px;
     font-weight: bold;
+    width: 16.66%; /* Distribute columns equally for consistent alignment */
 }
 
 .evaluation-table td {
-    font-size: 16px;
+    font-size: 14px;
+    width: 16.66%; /* Match header widths */
 }
 
 .evaluation-table tr:hover {
-    background-color: #e0f7fa;
+    background-color: #f0f8ff; /* Subtle hover effect for rows */
+}
+
+/* Evaluation Table Section Styling */
+.evaluation-table-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.evaluation-table-section h3 {
+    color: #34495e;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+/* Card-like container for evaluator data */
+.evaluator-card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Subtitle for evaluator details */
+.evaluator-subtitle {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+/* Adjust the comments table styling */
+.comments-table th {
+    background: linear-gradient(90deg, #1a2c3d, #5a8fc2);
+}
+
+.comments-table td {
+    font-style: italic;
+    color: #555;
+}
+
+.visualize-data-button {
+    background-color: #27ae60;
+    color: #fff;
+    padding: 12px 24px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
     cursor: pointer;
-    color: #2980b9;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.visualize-data-button:hover {
+    background-color: #1f2d3d;
+}
+
+.back-button:hover {
+    background-color: #555;
 }

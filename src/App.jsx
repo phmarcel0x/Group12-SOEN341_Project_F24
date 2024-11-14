@@ -12,6 +12,7 @@ import Evaluation from './pages/Evaluation';
 import Confirmation from './pages/Confirmation';
 import Submission from './pages/Submission';
 import GroupEvaluation from './pages/GroupEvaluation';
+import VisualizeData from './pages/VisualizeData';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/confirmation" element={<Confirmation />} />
         <Route path="/submission" element={<Submission />} />
         <Route path="/groupevaluation" element={<GroupEvaluation />} />
+        <Route path="/visualize-data" element={<VisualizeData />} />
       </Routes>
       <Footer />
     </Router>
