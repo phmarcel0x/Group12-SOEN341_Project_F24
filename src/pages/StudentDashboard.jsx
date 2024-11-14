@@ -1,22 +1,17 @@
-// StudentDashboard.jsx
-
 import React, { useEffect, useState } from "react";
-import { collection, query, where, getDocs, onSnapshot } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
 import { db, auth } from "../../firebaseConfig";
-import './studentDB.css';
+import "./studentDB.css";
 import { Link, useNavigate } from "react-router-dom";
-import './GroupEvaluation'
 
 const StudentDashboard = () => {
   const [team, setTeam] = useState(null);
   const [teamMembers, setTeamMembers] = useState([]);
   const [groups, setGroups] = useState([]);
-  const [groupNames, setGroupNames] = useState([]);
   const [students, setStudents] = useState([]);
   const [evaluations, setEvaluations] = useState([]);
-  const [selectedTeammate, setSelectedTeammate] = useState(null); // State for selected teammate
-  const [filteredEvaluations, setFilteredEvaluations] = useState([]); // Filtered evaluations based on selection
-  const [loggedInUserId, setLoggedInUserId] = useState(null); // Store logged-in user's ID
+  const [loggedInUserId, setLoggedInUserId] = useState(null);
+  const [overallGrade, setOverallGrade] = useState(null); // State to store overall grade
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,7 +19,7 @@ const StudentDashboard = () => {
       try {
         const user = auth.currentUser;
         if (!user) return;
-        setLoggedInUserId(user.uid); // Store logged-in user ID
+        setLoggedInUserId(user.uid);
 
         const q = query(collection(db, "groups"), where("members", "array-contains", user.uid));
         const querySnapshot = await getDocs(q);
@@ -48,29 +43,34 @@ const StudentDashboard = () => {
       }
     };
 
-    const fetchEvaluations = async () => {
+    const fetchOverallGrade = async () => {
       try {
-        const user = auth.currentUser;
-        if (!user) return;
-
-        const evaluationsQuery = query(collection(db, "evaluations"), where("evaluatorId", "==", user.uid));
-        const evaluationSnapshot = await getDocs(evaluationsQuery);
-
-        const fetchedEvaluations = evaluationSnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setEvaluations(fetchedEvaluations);
+        const user = auth.currentUser; // Ensure the current user is fetched
+        if (!user) {
+          console.error("User not logged in.");
+          return;
+        }
+    
+        const gradeDocRef = doc(db, "overall grades", user.uid); // Fetch grade by UID
+        const gradeDoc = await getDoc(gradeDocRef);
+    
+        if (gradeDoc.exists()) {
+          setOverallGrade(gradeDoc.data().grade); // Set the grade in state
+        } else {
+          console.warn(`No grade found for UID: ${user.uid}`);
+          setOverallGrade("N/A");
+        }
       } catch (error) {
-        console.error("Error fetching evaluations: ", error);
+        console.error("Error fetching overall grade: ", error);
       }
     };
+    
 
     const fetchAllGroupsAndStudents = async () => {
       try {
         const groupSnapshot = await getDocs(collection(db, "groups"));
         const fetchedGroups = [];
-    
+
         groupSnapshot.forEach(doc => {
           const groupData = doc.data();
           fetchedGroups.push({
@@ -79,59 +79,50 @@ const StudentDashboard = () => {
             members: groupData.members
           });
         });
-    
+
         const studentSnapshot = await getDocs(query(collection(db, "users"), where("role", "==", "Student")));
         const fetchedStudents = studentSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        
+
         // Populate groups with student names for display
         const groupsWithNames = fetchedGroups.map(group => ({
-          ...group, 
+          ...group,
           memberNames: group.members.map(memberId => {
             const student = fetchedStudents.find(student => student.id === memberId);
             return student ? student.name : "Unknown Student";
           })
         }));
-    
+
         setGroups(groupsWithNames);
         setStudents(fetchedStudents);
       } catch (error) {
         console.error("Error fetching groups and students:", error);
       }
-    };    
+    };
 
     fetchStudentTeam();
-    fetchEvaluations();
+    fetchOverallGrade();
     fetchAllGroupsAndStudents();
   }, []);
-
-  // Update filtered evaluations based on the selected teammate
-  useEffect(() => {
-    if (selectedTeammate) {
-      const teammateEvaluations = evaluations.filter(evaluation =>
-        Object.keys(evaluation.evaluationData).some(dimension =>
-          Object.keys(evaluation.evaluationData[dimension]).includes(selectedTeammate.name)
-        )
-      );
-      setFilteredEvaluations(teammateEvaluations);
-    }
-  }, [selectedTeammate, evaluations]);
 
   return (
     <div>
       {team ? (
         <div>
           <h2 className="text-position">You are assigned to: {team.name}</h2>
-          <div>
-            <h2 className="text-avg">Your overall peer evaluation grade is: </h2>
-            <div className="button-avg">
-              <button
-              className="evaluate-button"
-              onClick={() => navigate("/evaluation", { state: { teamMembers } })}
-              >
-              CONTEST GRADE
-              </button>
+          <div className="grade-card-container">
+          <div className="grade-card">
+            <h3 className="grade-title">Your Overall Grade</h3>
+            <div className="grade-value">
+              {overallGrade !== null ? overallGrade : "Loading..."}
             </div>
+            <button
+              className="contest-grade-button"
+              onClick={() => navigate("/contest-grade")}
+            >
+              Contest Grade
+            </button>
           </div>
+        </div>
           <h2>The following are your team members:</h2>
           <table className="team-table">
             <thead>
@@ -153,84 +144,14 @@ const StudentDashboard = () => {
       ) : (
         <p>You are not assigned to any team yet.</p>
       )}
-      <div>
-        <div className="button-container">
-          <button
-            className="evaluate-button"
-            onClick={() => navigate("/evaluation", { state: { teamMembers } })}
-          >
-            Evaluate your team members
-          </button>
-        </div>
+      <div className="button-container">
+        <button
+          className="evaluate-button"
+          onClick={() => navigate("/evaluation", { state: { teamMembers } })}
+        >
+          Evaluate your team members
+        </button>
       </div>
-
-      {/* Teammate Selection for Viewing Evaluations */}
-      <h2 className="text-position">Select a student to view previously submitted evaluations</h2>
-      <select
-        className="teammate-select"
-        value={selectedTeammate ? selectedTeammate.id : ""}
-        onChange={(e) => {
-          const selected = teamMembers.find(member => member.id === e.target.value);
-          setSelectedTeammate(selected);
-        }}
-      >
-        <option value="">Select a teammate</option>
-        {teamMembers
-          .filter(member => member.id !== loggedInUserId) // Filter out the logged-in user
-          .map((member) => (
-            <option key={member.id} value={member.id}>
-              {member.name}
-            </option>
-          ))}
-      </select>
-
-      {/* Display selected teammate's evaluations */}
-      {selectedTeammate && filteredEvaluations.length > 0 ? (
-        <div className="table-container">
-          <table className="evaluation-table">
-            <thead>
-              <tr>
-                <th>Group Name</th>
-                <th>Member</th>
-                <th>Dimension</th>
-                <th>Rating</th>
-                <th>Comment</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredEvaluations.map((evaluation) =>
-                Object.keys(evaluation.evaluationData).map((dimension) =>
-                  Object.keys(evaluation.evaluationData[dimension]).map((member) => (
-                    member === selectedTeammate.name && (
-                      <tr key={`${evaluation.id}-${dimension}-${member}`}>
-                        <td>{team.name || "Unknown Group"}</td>
-                        <td>{member}</td>
-                        <td>{dimension}</td>
-                        <td>{evaluation.evaluationData[dimension][member].rating || "No rating"}</td>
-                        <td>{evaluation.evaluationData[dimension][member].comment || "No comment"}</td>
-                      </tr>
-                    )
-                  ))
-                )
-              )}
-            </tbody>
-            {/* Display the overall rating in the table footer */}
-            <tfoot>
-              <tr>
-                <td colSpan="3" style={{ fontWeight: 'bold' }}>Overall Rating</td>
-                <td colSpan="2">
-                  {filteredEvaluations.reduce((acc, evaluation) => {
-                    return acc + (evaluation.overallRatings[selectedTeammate.name] || 0);
-                  }, 0) / filteredEvaluations.length || "No overall rating"}
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-      ) : (
-        selectedTeammate && <p>No evaluations found for {selectedTeammate.name}.</p>
-      )}
-
       <h2 className="text-position">The other groups of this course are as follows:</h2>
       <table className="group-table-student">
         <thead>
