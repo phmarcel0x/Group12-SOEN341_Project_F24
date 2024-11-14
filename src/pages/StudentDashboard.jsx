@@ -5,6 +5,7 @@ import { collection, query, where, getDocs, onSnapshot } from "firebase/firestor
 import { db, auth } from "../../firebaseConfig";
 import './studentDB.css';
 import { Link, useNavigate } from "react-router-dom";
+import './GroupEvaluation'
 
 const StudentDashboard = () => {
   const [team, setTeam] = useState(null);
@@ -120,6 +121,17 @@ const StudentDashboard = () => {
       {team ? (
         <div>
           <h2 className="text-position">You are assigned to: {team.name}</h2>
+          <div>
+            <h2 className="text-avg">Your overall peer evaluation grade is: </h2>
+            <div className="button-avg">
+              <button
+              className="evaluate-button"
+              onClick={() => navigate("/evaluation", { state: { teamMembers } })}
+              >
+              CONTEST GRADE
+              </button>
+            </div>
+          </div>
           <h2>The following are your team members:</h2>
           <table className="team-table">
             <thead>

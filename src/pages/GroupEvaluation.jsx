@@ -1,8 +1,8 @@
 // GroupEvaluation.jsx 
 import React, { useState, useEffect } from 'react';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs, doc, setDoc } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './groupevaluation.css';
 
 const GroupEvaluation = () => {
@@ -54,7 +54,7 @@ const GroupEvaluation = () => {
     return evaluator ? evaluator.name : "Unknown Evaluator";
   };
 
-  const calculateAverageRatings = (evaluations) => {
+  const calculateAverageRatings = async (evaluations) => {
     const ratingSums = {};
     const ratingCounts = {};
 
@@ -74,6 +74,23 @@ const GroupEvaluation = () => {
     });
 
     setAverageRatings(averages);
+
+    // Update Firestore with overall grades
+    await updateOverallGradesInFirestore(averages);
+  };
+
+  const updateOverallGradesInFirestore = async (averages) => {
+    const overallGradesRef = collection(db, "overall grades");
+    const batchPromises = Object.entries(averages).map(([userId, avgRating]) =>
+      setDoc(doc(overallGradesRef, userId), { grade: parseFloat(avgRating) })
+    );
+
+    try {
+      await Promise.all(batchPromises);
+      console.log("Overall grades updated successfully!");
+    } catch (error) {
+      console.error("Error updating overall grades: ", error);
+    }
   };
 
   return (
@@ -115,103 +132,99 @@ const GroupEvaluation = () => {
           </div>
         )}
 
-      {selectedGroup && evaluations.length > 0 ? (
-        <div className="evaluation-results">
-          <p className="summary-text">Overview of Evaluations per Evaluator</p>
-          {evaluations.map((evaluation) => {
-            // Prepare data for both ratings and comments
-            const studentData = {};
-            dimensions.forEach((dimension) => {
-              Object.keys(evaluation.evaluationData[dimension] || {}).forEach((student) => {
-                if (!studentData[student]) {
-                  studentData[student] = { ratings: {}, comments: {} };
-                }
-                studentData[student].ratings[dimension] =
-                  evaluation.evaluationData[dimension][student]?.rating || "-";
-                studentData[student].comments[dimension] =
-                  evaluation.evaluationData[dimension][student]?.comment || "No comment";
+        {selectedGroup && evaluations.length > 0 ? (
+          <div className="evaluation-results">
+            <p className="summary-text">Overview of Evaluations per Evaluator</p>
+            {evaluations.map((evaluation) => {
+              const studentData = {};
+              dimensions.forEach((dimension) => {
+                Object.keys(evaluation.evaluationData[dimension] || {}).forEach((student) => {
+                  if (!studentData[student]) {
+                    studentData[student] = { ratings: {}, comments: {} };
+                  }
+                  studentData[student].ratings[dimension] =
+                    evaluation.evaluationData[dimension][student]?.rating || "-";
+                  studentData[student].comments[dimension] =
+                    evaluation.evaluationData[dimension][student]?.comment || "No comment";
+                });
               });
-            });
 
-            // Compute averages for each student
-            const studentAverages = Object.keys(studentData).reduce((acc, student) => {
-              const ratings = Object.values(studentData[student].ratings).filter((rating) =>
-                !isNaN(parseFloat(rating))
+              const studentAverages = Object.keys(studentData).reduce((acc, student) => {
+                const ratings = Object.values(studentData[student].ratings).filter((rating) =>
+                  !isNaN(parseFloat(rating))
+                );
+                const average =
+                  ratings.length > 0
+                    ? (ratings.reduce((sum, rating) => sum + parseFloat(rating), 0) / ratings.length).toFixed(2)
+                    : "-";
+                acc[student] = average;
+                return acc;
+              }, {});
+
+              return (
+                <div key={evaluation.id} className="evaluator-card">
+                  <h3>Evaluator: {getEvaluatorName(evaluation.evaluatorId)}</h3>
+                  <p className="evaluator-subtitle">Ratings</p>
+
+                  <table className="evaluation-table">
+                    <thead>
+                      <tr>
+                        <th>Member</th>
+                        {dimensions.map((dimension) => (
+                          <th key={dimension}>{dimension}</th>
+                        ))}
+                        <th>Average Across All</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {Object.keys(studentData).map((student) => (
+                        <tr key={student}>
+                          <td>{student}</td>
+                          {dimensions.map((dimension) => (
+                            <td key={`${student}-${dimension}`}>
+                              {studentData[student].ratings[dimension] || "-"}
+                            </td>
+                          ))}
+                          <td>{studentAverages[student]}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+
+                  <p className="evaluator-subtitle">Comments</p>
+                  <table className="evaluation-table comments-table">
+                    <thead>
+                      <tr>
+                        <th>Member</th>
+                        {dimensions.map((dimension) => (
+                          <th key={dimension}>{dimension}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {Object.keys(studentData).map((student) => (
+                        <tr key={student}>
+                          <td>{student}</td>
+                          {dimensions.map((dimension) => (
+                            <td key={`${student}-${dimension}-comment`}>
+                              {studentData[student].comments[dimension] || "No comment"}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               );
-              const average =
-                ratings.length > 0
-                  ? (ratings.reduce((sum, rating) => sum + parseFloat(rating), 0) / ratings.length).toFixed(2)
-                  : "-";
-              acc[student] = average;
-              return acc;
-            }, {});
-
-            return (
-              <div key={evaluation.id} className="evaluator-card">
-                <h3>Evaluator: {getEvaluatorName(evaluation.evaluatorId)}</h3>
-                <p className="evaluator-subtitle">Ratings</p>
-
-                {/* Ratings Table */}
-                <table className="evaluation-table">
-                  <thead>
-                    <tr>
-                      <th>Member</th>
-                      {dimensions.map((dimension) => (
-                        <th key={dimension}>{dimension}</th>
-                      ))}
-                      <th>Average Across All</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {Object.keys(studentData).map((student) => (
-                      <tr key={student}>
-                        <td>{student}</td>
-                        {dimensions.map((dimension) => (
-                          <td key={`${student}-${dimension}`}>
-                            {studentData[student].ratings[dimension] || "-"}
-                          </td>
-                        ))}
-                        <td>{studentAverages[student]}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-
-                {/* Comments Table */}
-                <p className="evaluator-subtitle">Comments</p>
-                <table className="evaluation-table comments-table">
-                  <thead>
-                    <tr>
-                      <th>Member</th>
-                      {dimensions.map((dimension) => (
-                        <th key={dimension}>{dimension}</th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {Object.keys(studentData).map((student) => (
-                      <tr key={student}>
-                        <td>{student}</td>
-                        {dimensions.map((dimension) => (
-                          <td key={`${student}-${dimension}-comment`}>
-                            {studentData[student].comments[dimension] || "No comment"}
-                          </td>
-                        ))}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            );
-          })}
-          <button className="visualize-data-button" onClick={() => navigate(`/visualize-data?groupId=${selectedGroup}`)}> Visualize Data </button>
-        </div>
-      ) : (
-        selectedGroup && <p>No evaluations found for this group.</p>
-      )}
+            })}
+            <button className="visualize-data-button" onClick={() => navigate(`/visualize-data?groupId=${selectedGroup}`)}> Visualize Data </button>
+          </div>
+        ) : (
+          selectedGroup && <p>No evaluations found for this group.</p>
+        )}
       </div>
       <div className="button-container">
-           <button className="back-button" onClick={() => navigate("/profile")}>Go Back</button>
+        <button className="back-button" onClick={() => navigate("/profile")}>Go Back</button>
       </div>
     </div>
   );

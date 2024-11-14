@@ -54,11 +54,12 @@ h3 {
     background-color: #ffffff;
 }
 
-/* Average Rating Table section */
+/* Average Rating Table section
 .average-rating-section {
     margin-bottom: 30px;
     text-align: center;
-}
+    justify-content: right;
+} */
 
 /* Summary text for evaluation sections */
 .summary-text {
@@ -86,7 +87,7 @@ h3 {
     max-width: 800px;
     margin-top: 20px;
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
 }
 
 /* Evaluation Table */
@@ -139,13 +140,14 @@ h3 {
 }
 
 /* Card-like container for evaluator data */
-.evaluator-card {
+.evaluator-card, .average-rating-section {
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 10px;
     padding: 20px;
     margin-bottom: 30px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    justify-items: center;
 }
 
 /* Subtitle for evaluator details */
