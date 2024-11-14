@@ -133,6 +133,7 @@ describe('Register Component', () => {
 
         await waitFor(() => {
             expect(screen.getByText(/Passwords do not match/i)).toBeInTheDocument();
+            console.log('Password Mismatch');
         });
     });
 
