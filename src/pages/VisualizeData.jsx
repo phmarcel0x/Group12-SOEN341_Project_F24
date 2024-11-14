@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Chart as ChartJS,
   ArcElement,
@@ -19,10 +19,21 @@ ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarEle
 const VisualizeData = () => {
   const [groupData, setGroupData] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Extract the groupId from the URL query parameters
+  const groupId = new URLSearchParams(location.search).get('groupId');
 
   useEffect(() => {
+    if (!groupId) {
+      alert('No group selected! Redirecting back to the dashboard.');
+      navigate('/');
+      return;
+    }
+
     const fetchGroupData = async () => {
-      const groupSnapshot = await getDocs(collection(db, 'evaluations'));
+      const q = query(collection(db, 'evaluations'), where('groupId', '==', groupId));
+      const groupSnapshot = await getDocs(q);
       const fetchedData = groupSnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
@@ -31,76 +42,81 @@ const VisualizeData = () => {
     };
 
     fetchGroupData();
-  }, []);
+  }, [groupId, navigate]);
 
-  // Sample Data Processing for Charts
-  const processRatingsData = () => {
-    const ratings = groupData.flatMap((evalData) =>
-      Object.keys(evalData.evaluationData || {}).map((dimension) => ({
-        dimension,
-        ratings: Object.values(evalData.evaluationData[dimension] || {}).map((entry) =>
-          parseFloat(entry.rating)
-        ),
-      }))
-    );
+  // Process data for the grouped bar chart
+  const processGroupedData = () => {
+    const groupedData = {};
 
-    const dimensionRatings = ratings.reduce((acc, curr) => {
-      if (!acc[curr.dimension]) acc[curr.dimension] = [];
-      acc[curr.dimension] = acc[curr.dimension].concat(curr.ratings);
-      return acc;
-    }, {});
+    groupData.forEach((evaluation) => {
+      Object.keys(evaluation.evaluationData || {}).forEach((dimension) => {
+        Object.keys(evaluation.evaluationData[dimension] || {}).forEach((student) => {
+          if (!groupedData[student]) groupedData[student] = {};
+          if (!groupedData[student][dimension]) groupedData[student][dimension] = [];
+          groupedData[student][dimension].push(
+            parseFloat(evaluation.evaluationData[dimension][student]?.rating) || 0
+          );
+        });
+      });
+    });
 
-    const averageRatings = Object.keys(dimensionRatings).map((dimension) => ({
-      dimension,
-      average: (
-        dimensionRatings[dimension].reduce((sum, val) => sum + val, 0) /
-        dimensionRatings[dimension].length
-      ).toFixed(2),
-    }));
-
-    return { dimensionRatings, averageRatings };
+    return groupedData;
   };
 
-  const { dimensionRatings, averageRatings } = processRatingsData();
+  const groupedRatings = processGroupedData();
 
-  // Chart Data
+  // Prepare data for Grouped Bar Chart
+  const dimensions = Object.keys(
+    groupedRatings[Object.keys(groupedRatings)[0]] || {}
+  ); // Get dimension keys
+  const students = Object.keys(groupedRatings); // Get student keys
+
+  const groupedBarChartData = {
+    labels: dimensions, // Dimensions on the x-axis
+    datasets: students.map((student, index) => ({
+      label: student,
+      data: dimensions.map(
+        (dimension) =>
+          groupedRatings[student][dimension]?.reduce((a, b) => a + b, 0) /
+            groupedRatings[student][dimension]?.length || 0
+      ),
+      backgroundColor: `rgba(${(index * 40) % 255}, ${(index * 60) % 255}, ${(index * 80) % 255}, 0.7)`,
+    })),
+  };
+
   const pieChartData = {
-    labels: averageRatings.map((data) => data.dimension),
+    labels: dimensions,
     datasets: [
       {
-        data: averageRatings.map((data) => parseFloat(data.average)),
-        backgroundColor: ['#4682B4', '#87CEEB', '#1F2D3D', '#FF9F40', '#FF6384'],
-      },
-    ],
-  };
-
-  const barChartData = {
-    labels: Object.keys(dimensionRatings),
-    datasets: [
-      {
-        label: 'Ratings',
-        data: Object.values(dimensionRatings).map((ratings) =>
-          ratings.reduce((sum, val) => sum + val, 0) / ratings.length
+        data: dimensions.map(
+          (dimension) =>
+            students.reduce(
+              (sum, student) =>
+                sum +
+                (groupedRatings[student][dimension]?.reduce((a, b) => a + b, 0) /
+                  groupedRatings[student][dimension]?.length || 0),
+              0
+            ) / students.length
         ),
-        backgroundColor: '#4682B4',
+        backgroundColor: ['#4682B4', '#87CEEB', '#1F2D3D', '#FF9F40', '#FF6384'],
       },
     ],
   };
 
   return (
     <div className="visualize-page">
-      <button className="back-button" onClick={() => navigate('/')}>
+      <button className="back-button" onClick={() => navigate('/groupevaluation')}>
         Back to Dashboard
       </button>
-      <h2>Visualize Ratings Data</h2>
+      <h2>Visualize Ratings for Group {groupId}</h2>
       <div className="chart-container">
+        <div className="chart">
+          <h3>Dimension Ratings by Student</h3>
+          <Bar data={groupedBarChartData} options={{ responsive: true, plugins: { legend: { position: 'top' } } }} />
+        </div>
         <div className="chart">
           <h3>Average Ratings by Dimension</h3>
           <Pie data={pieChartData} />
-        </div>
-        <div className="chart">
-          <h3>Dimension Ratings Comparison</h3>
-          <Bar data={barChartData} />
         </div>
       </div>
     </div>

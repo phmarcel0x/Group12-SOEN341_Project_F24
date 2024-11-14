@@ -204,7 +204,7 @@ const GroupEvaluation = () => {
               </div>
             );
           })}
-          <button className="visualize-data-button" onClick={() => navigate("/visualize-data")}> Visualize Data </button>
+          <button className="visualize-data-button" onClick={() => navigate(`/visualize-data?groupId=${selectedGroup}`)}> Visualize Data </button>
         </div>
       ) : (
         selectedGroup && <p>No evaluations found for this group.</p>

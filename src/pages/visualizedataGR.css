@@ -1,4 +1,3 @@
-/* Visualize Page Container */
 .visualize-page {
     display: flex;
     flex-direction: column;
@@ -8,7 +7,6 @@
     min-height: 100vh;
 }
 
-/* Back Button */
 .back-button {
     align-self: flex-start;
     background-color: #34495e;
@@ -26,7 +24,6 @@
     background-color: #1f2d3d;
 }
 
-/* Chart Container */
 .chart-container {
     display: flex;
     flex-wrap: wrap;
@@ -38,7 +35,7 @@
 
 .chart {
     width: 100%;
-    max-width: 500px;
+    max-width: 600px;
     background-color: #ffffff;
     border-radius: 12px;
     padding: 20px;
