@@ -64,8 +64,8 @@ const Register = () => {
       <div className="login-register-container">
         <form onSubmit={handleSubmit}>
           <div className="form-field-wrapper">
-            <label>Role:</label>
-            <select required value={role} onChange={(e) => setRole(e.target.value)} className="form-control">
+            <label htmlFor="role">Role:</label>
+            <select id="role" required value={role} onChange={(e) => setRole(e.target.value)} className="form-control">
               <option value="" disabled>Select Role</option>
               <option value="Instructor">Instructor</option>
               <option value="Student">Student</option>
@@ -136,7 +136,7 @@ const Register = () => {
             </div>
           </div>
 
-          {error && <p style={{ color: 'red' }}>{error}</p>}
+          {error && <p role="alert" style={{ color: 'red' }}>{error}</p>}
 
           <div className="form-field-wrapper">
             <input type="submit" value="Register" className="btn" />
