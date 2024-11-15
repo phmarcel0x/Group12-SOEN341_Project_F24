@@ -1,0 +1,14 @@
+Here are the new features/enhancements of the peer assessment app introduced during Sprint 3:
+
+- Graphical visualisation
+Instructors can now see student data sorted in two different types of graphical formats. One of which is the
+Spider Graph, where the instructor can compare a student's strong and weak points, and even compare them to
+other students within that same student's group. Another format that is available is the Bar Graph, where each
+of the student's evaluation critera are also shown compared to eachother.
+
+- Grade contesting
+When the grades are made available for students to see upon their login, students will have the ability to
+contest their given grade if they feel like the grade given to them by their peers did not reflect their
+true contribution to the work. A red button directly below their average score display will be available for
+them to press, which will allow them to also write a quick message to their respective instructor, inwhich
+upon sending, will alert the instructor via a notification.
