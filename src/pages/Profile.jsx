@@ -1,3 +1,5 @@
+
+// Profile.jsx 
 import React, { useState, useEffect } from 'react';
 import { getAuth } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
@@ -8,8 +10,8 @@ import { db } from '../../firebaseConfig';
 const Profile = () => {
   const [userName, setUserName] = useState('');
   const [role, setRole] = useState('');  // Store the user's role
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
+  const [loading, setLoading] = useState(true); 
   const auth = getAuth();
 
   useEffect(() => {
@@ -44,11 +46,11 @@ const Profile = () => {
   if (!isLoggedIn) {
     return (
       <div className="container">
-          <h1>Please sign in to view your profile.</h1>
-        </div>
+        <h1>Please sign in to view your profile.</h1>
+      </div>
     );
   }
-  
+
   if (loading) {
     return (
       <div className="container">

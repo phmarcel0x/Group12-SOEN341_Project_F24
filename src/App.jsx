@@ -10,28 +10,30 @@ import InstructorDashboard from './pages/InstructorDashboard';
 import StudentDashboard from './pages/StudentDashboard';
 import Evaluation from './pages/Evaluation';
 import Confirmation from './pages/Confirmation';
-import Result from './pages/Result';
-
+import Submission from './pages/Submission';
+import GroupEvaluation from './pages/GroupEvaluation';
+import VisualizeData from './pages/VisualizeData';
 
 function App() {
-
   return (
     <Router>
-        <Header/>
-        <Routes>
-          <Route path="/login" element={<Login/>}/>
-          <Route path="/register" element={<Register/>}/>
-          <Route path="/" element={<Home/>}/>
-          <Route path="/profile" element={<Profile/>}/>
-          <Route path="/instructor-dashboard" element={<InstructorDashboard/>}/> {/* Add route for Instructor */}
-          <Route path="/student-dashboard" element={<StudentDashboard/>}/> {/* Add route for Student */}
-          <Route path="/evaluation" element={<Evaluation/>}/>
-          <Route path="/result" element={<Result/>}/>
-          <Route path="/confirmation" element={<Confirmation/>}/>
-        </Routes>
-        <Footer/>
+      <Header />
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/instructor-dashboard" element={<InstructorDashboard />} />
+        <Route path="/student-dashboard" element={<StudentDashboard />} />
+        <Route path="/evaluation" element={<Evaluation />} />
+        <Route path="/confirmation" element={<Confirmation />} />
+        <Route path="/submission" element={<Submission />} />
+        <Route path="/groupevaluation" element={<GroupEvaluation />} />
+        <Route path="/visualize-data" element={<VisualizeData />} />
+      </Routes>
+      <Footer />
     </Router>
-  )
+  );
 }
 
 export default App;

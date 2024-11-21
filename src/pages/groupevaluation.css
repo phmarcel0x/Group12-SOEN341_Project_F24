@@ -1,0 +1,189 @@
+/* groupevaluation.css */
+/* Main page container */
+.groupevaluation-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background-color: #f5f7fa; /* Slightly lighter background for better contrast */
+}
+
+/* Main container for Group Selection and Evaluations */
+.groupevaluation-container {
+    width: 100%;
+    max-width: 1250px; /* Adjusted width for better responsiveness */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading styles */
+h2, h3 {
+    color: #34495e;
+    text-align: center;
+}
+
+h2 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+h3 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+/* Centered dropdown for group selection */
+.group-select {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    background-color: #ffffff;
+}
+
+/* Average Rating Table section
+.average-rating-section {
+    margin-bottom: 30px;
+    text-align: center;
+    justify-content: right;
+} */
+
+/* Summary text for evaluation sections */
+.summary-text {
+    font-size: 24px;
+    font-weight: 600;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    color: #2c3e50;
+    text-align: center;
+    width: 100%;
+    max-width: 800px;
+}
+
+/* Evaluation Results Section */
+.evaluation-results {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Container for Evaluation Tables */
+.evaluation-table-container {
+    width: 100%;
+    max-width: 800px;
+    margin-top: 20px;
+    display: flex;
+    /* justify-content: center; */
+}
+
+/* Evaluation Table */
+.evaluation-table {
+    width: 100%;
+    max-width: 800px; /* Ensures all tables match in width */
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.evaluation-table th, 
+.evaluation-table td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.evaluation-table th {
+    background: linear-gradient(90deg, #1f2d3d, #4682B4);
+    color: #fff;
+    font-weight: bold;
+    width: 16.66%; /* Distribute columns equally for consistent alignment */
+}
+
+.evaluation-table td {
+    font-size: 14px;
+    width: 16.66%; /* Match header widths */
+}
+
+.evaluation-table tr:hover {
+    background-color: #f0f8ff; /* Subtle hover effect for rows */
+}
+
+/* Evaluation Table Section Styling */
+.evaluation-table-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.evaluation-table-section h3 {
+    color: #34495e;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+/* Card-like container for evaluator data */
+.evaluator-card, .average-rating-section {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    justify-items: center;
+}
+
+/* Subtitle for evaluator details */
+.evaluator-subtitle {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+/* Adjust the comments table styling */
+.comments-table th {
+    background: linear-gradient(90deg, #1a2c3d, #5a8fc2);
+}
+
+.comments-table td {
+    font-style: italic;
+    color: #555;
+}
+
+.visualize-data-button {
+    background-color: #27ae60;
+    color: #fff;
+    padding: 12px 24px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.visualize-data-button:hover {
+    background-color: #1f2d3d;
+}
+
+.back-button:hover {
+    background-color: #555;
+}

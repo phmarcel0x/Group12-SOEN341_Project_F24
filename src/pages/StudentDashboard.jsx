@@ -1,17 +1,17 @@
-// StudentDashboard.jsx
-
 import React, { useEffect, useState } from "react";
-import { collection, query, where, getDocs, onSnapshot } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
 import { db, auth } from "../../firebaseConfig";
-import './studentDB.css'
-import { Link } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
+import "./studentDB.css";
+import { Link, useNavigate } from "react-router-dom";
 
 const StudentDashboard = () => {
   const [team, setTeam] = useState(null);
   const [teamMembers, setTeamMembers] = useState([]);
   const [groups, setGroups] = useState([]);
   const [students, setStudents] = useState([]);
+  const [evaluations, setEvaluations] = useState([]);
+  const [loggedInUserId, setLoggedInUserId] = useState(null);
+  const [overallGrade, setOverallGrade] = useState(null); // State to store overall grade
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,8 +19,8 @@ const StudentDashboard = () => {
       try {
         const user = auth.currentUser;
         if (!user) return;
+        setLoggedInUserId(user.uid);
 
-        // Query to find the group that contains the logged-in student's UID
         const q = query(collection(db, "groups"), where("members", "array-contains", user.uid));
         const querySnapshot = await getDocs(q);
 
@@ -28,13 +28,12 @@ const StudentDashboard = () => {
           const teamData = querySnapshot.docs[0].data();
           setTeam({ id: querySnapshot.docs[0].id, ...teamData });
 
-          // Fetching team members' details
           const membersDetails = [];
           for (let memberId of teamData.members) {
             const studentDoc = await getDocs(query(collection(db, "users"), where("__name__", "==", memberId)));
             if (!studentDoc.empty) {
               const studentData = studentDoc.docs[0].data();
-              membersDetails.push({ name: studentData.name, email: studentData.email });
+              membersDetails.push({ id: memberId, name: studentData.name, email: studentData.email });
             }
           }
           setTeamMembers(membersDetails);
@@ -44,25 +43,64 @@ const StudentDashboard = () => {
       }
     };
 
+    const fetchOverallGrade = async () => {
+      try {
+        const user = auth.currentUser; // Ensure the current user is fetched
+        if (!user) {
+          console.error("User not logged in.");
+          return;
+        }
+    
+        const gradeDocRef = doc(db, "overall grades", user.uid); // Fetch grade by UID
+        const gradeDoc = await getDoc(gradeDocRef);
+    
+        if (gradeDoc.exists()) {
+          setOverallGrade(gradeDoc.data().grade); // Set the grade in state
+        } else {
+          console.warn(`No grade found for UID: ${user.uid}`);
+          setOverallGrade("N/A");
+        }
+      } catch (error) {
+        console.error("Error fetching overall grade: ", error);
+      }
+    };
+    
+
     const fetchAllGroupsAndStudents = async () => {
-      // Subscribe to changes in the 'groups' collection
-      const unsubscribeGroups = onSnapshot(collection(db, "groups"), (snapshot) => {
-        const fetchedGroups = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        setGroups(fetchedGroups);
-      });
+      try {
+        const groupSnapshot = await getDocs(collection(db, "groups"));
+        const fetchedGroups = [];
 
-      // Fetch all users with the role "Student"
-      const q = query(collection(db, "users"), where("role", "==", "Student"));
-      const querySnapshot = await getDocs(q);
-      const fetchedStudents = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setStudents(fetchedStudents);
+        groupSnapshot.forEach(doc => {
+          const groupData = doc.data();
+          fetchedGroups.push({
+            id: doc.id,
+            name: groupData.name,
+            members: groupData.members
+          });
+        });
 
-      return () => {
-        unsubscribeGroups();
-      };
+        const studentSnapshot = await getDocs(query(collection(db, "users"), where("role", "==", "Student")));
+        const fetchedStudents = studentSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+        // Populate groups with student names for display
+        const groupsWithNames = fetchedGroups.map(group => ({
+          ...group,
+          memberNames: group.members.map(memberId => {
+            const student = fetchedStudents.find(student => student.id === memberId);
+            return student ? student.name : "Unknown Student";
+          })
+        }));
+
+        setGroups(groupsWithNames);
+        setStudents(fetchedStudents);
+      } catch (error) {
+        console.error("Error fetching groups and students:", error);
+      }
     };
 
     fetchStudentTeam();
+    fetchOverallGrade();
     fetchAllGroupsAndStudents();
   }, []);
 
@@ -70,8 +108,22 @@ const StudentDashboard = () => {
     <div>
       {team ? (
         <div>
-          <h2 className="text-position">You are assigned to: {team.name} </h2>
-          <h2> The following are your team members:</h2>
+          <h2 className="text-position">You are assigned to: {team.name}</h2>
+          <div className="grade-card-container">
+          <div className="grade-card">
+            <h3 className="grade-title">Your Overall Grade</h3>
+            <div className="grade-value">
+              {overallGrade !== null ? overallGrade : "Loading..."}
+            </div>
+            <button
+              className="contest-grade-button"
+              onClick={() => navigate("/contest-grade")}
+            >
+              Contest Grade
+            </button>
+          </div>
+        </div>
+          <h2>The following are your team members:</h2>
           <table className="team-table">
             <thead>
               <tr>
@@ -92,19 +144,15 @@ const StudentDashboard = () => {
       ) : (
         <p>You are not assigned to any team yet.</p>
       )}
+      <div className="button-container">
+        <button
+          className="evaluate-button"
+          onClick={() => navigate("/evaluation", { state: { teamMembers } })}
+        >
+          Evaluate your team members
+        </button>
+      </div>
       <h2 className="text-position">The other groups of this course are as follows:</h2>
-      {/* <ul>
-        {groups.map(group => (
-          <li key={group.id}>
-            <strong>{group.name}</strong>
-            <p>Members: {group.members.map(memberId => {
-              const student = students.find(student => student.id === memberId);
-              return student ? student.name : "Unknown Student";
-            }).join(", ")}</p>
-          </li>
-        ))}
-      </ul> */}
-
       <table className="group-table-student">
         <thead>
           <tr>
@@ -116,27 +164,11 @@ const StudentDashboard = () => {
           {groups.map(group => (
             <tr key={group.id}>
               <td><strong>{group.name}</strong></td>
-              <td>
-                {group.members.map(memberId => {
-                  const student = students.find(student => student.id === memberId);
-                  return student ? student.name : "Unknown Student";
-                }).join(", ")}
-              </td>
+              <td>{group.memberNames.join(", ")}</td>
             </tr>
           ))}
         </tbody>
       </table>
-
-      <div>
-      <div className="button-container">
-          <button
-            className="evaluate-button"
-            onClick={() => navigate("/evaluation", { state: { teamMembers } })}
-          >
-            Evaluate your team members
-          </button>
-        </div>
-      </div>
     </div>
   );
 };

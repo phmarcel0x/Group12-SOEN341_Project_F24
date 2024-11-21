@@ -1,6 +1,9 @@
+// Evaluation.jsx
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { auth } from "../../firebaseConfig";
+import { auth, db } from "../../firebaseConfig"; // Firebase config
+import { collection, addDoc, query, where, getDocs } from 'firebase/firestore'; // Firestore methods
 import './evaluation.css';
 
 const Evaluation = () => {
@@ -27,6 +30,17 @@ const Evaluation = () => {
             setFilteredMembers(filtered);
         }
     }, [teamMembers]);
+
+    const fetchStudentGroupId = async (userId) => {
+        // Query the 'groups' collection to find the group where the student is a member
+        const q = query(collection(db, "groups"), where("members", "array-contains", userId));
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+            // Return the groupId from the 'groups' collection
+            return querySnapshot.docs[0].id;
+        }
+        return null; // Handle cases where the user is not part of any group
+    };
 
     const handleSelectDimension = (dimension) => {
         setSelectedDimension(dimension);
@@ -66,71 +80,70 @@ const Evaluation = () => {
         }));
     };
 
-    const handleSubmit = () => {
-        // Debugging: Log the data that will be passed to the confirmation page
-        console.log('Evaluation Data:', evaluationData);
-        console.log('Selected Members:', selectedMembers);
-
-        // Make sure there is evaluation data to pass
-        if (Object.keys(evaluationData).length === 0 || selectedMembers.length === 0) {
-            alert("Please evaluate at least one member and dimension.");
-            return;
+    const handleSubmit = async () => {
+        const user = auth.currentUser;
+        const userId = user.uid;
+        const groupId = await fetchStudentGroupId(userId);
+    
+        if (groupId) {
+            // Navigate to the Confirmation page, passing evaluation data via state without uploading
+            navigate("/confirmation", {
+                state: { evaluationData, selectedMembers, dimensions, groupId, userId }
+            });
+        } else {
+            console.error("Error: No groupId found for the user");
         }
-
-        // Navigate to the confirmation page
-        navigate("/confirmation", { state: { evaluationData, selectedMembers, dimensions } });
     };
 
     return (
         <div>
             <div className="evaluation-title"> Evaluation</div>
-            <p className='evaluate-p'>Select members to evaluate</p>
-
-            <div className='evaluate-div'>
-                <table className='evaluation-table'>
-                    <thead>
-                        <tr>
-                            <th>Members</th>
-                            <th>Evaluate</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {filteredMembers.map((member, index) => (
-                            <tr key={index}>
-                                <td>{member.name}</td>
-                                <td>
-                                    <label>
-                                        <input
-                                            type="checkbox"
-                                            name="selectedMember"
-                                            className="checkmark"
-                                            onClick={() => handleSelectMember(member.name)}
-                                            checked={selectedMembers.includes(member.name)}
-                                        />
-                                        <span className="checkmark"></span>
-                                    </label>
-                                </td>
+            <p className="evaluate-p">Select members to evaluate</p>
+    
+            <div className="evaluate-div">
+                <div className="evaluation-table-wrapper"> {/* Wrapper for centering */}
+                    <table className="evaluation-table">
+                        <thead>
+                            <tr>
+                                <th>Members</th>
+                                <th>Evaluate</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-
+                        </thead>
+                        <tbody>
+                            {filteredMembers.map((member, index) => (
+                                <tr key={index}>
+                                    <td>{member.name}</td>
+                                    <td>
+                                        <label>
+                                            <input
+                                                type="checkbox"
+                                                name="selectedMember"
+                                                className="checkmark"
+                                                onClick={() => handleSelectMember(member.name)}
+                                                checked={selectedMembers.includes(member.name)}
+                                            />
+                                            <span className="checkmark"></span>
+                                        </label>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+    
                 <div className="dimensions-container">
                     <div className="scroll-bar">
-                    {dimensions.map((dimension) => (
-                                <div
-                                    key={dimension}
-                                    className={`dimension-box ${selectedDimension === dimension ? "selected" : ""}`}
-                                    onClick={() => handleSelectDimension(dimension)}
-                                >
-                                    {dimension}
-                                </div>
-                            ))}
+                        {dimensions.map((dimension) => (
+                            <div
+                                key={dimension}
+                                className={`dimension-box ${selectedDimension === dimension ? "selected" : ""}`}
+                                onClick={() => handleSelectDimension(dimension)}
+                            >
+                                {dimension}
+                            </div>
+                        ))}
                     </div>
                 </div>
-
-            
-
 
                 {selectedDimension && selectedMembers.length > 0 && (
                     selectedMembers.map((member) => (
@@ -164,10 +177,9 @@ const Evaluation = () => {
                     ))
                 )}
 
-              
-<div className="button-container">
+                <div className="button-container">
                     <button className="back-button" onClick={() => navigate("/profile")}>Go Back</button>
-                    <button className="submit-button" onClick={handleSubmit}>Submit</button>
+                    <button className="submit-button" onClick={handleSubmit}>Confirm</button>
                 </div>
             </div>
         </div>
