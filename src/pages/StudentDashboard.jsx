@@ -1,18 +1,45 @@
 import React, { useEffect, useState } from "react";
-import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, getDoc, addDoc } from "firebase/firestore";
 import { db, auth } from "../../firebaseConfig";
 import "./studentDB.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const StudentDashboard = () => {
   const [team, setTeam] = useState(null);
   const [teamMembers, setTeamMembers] = useState([]);
   const [groups, setGroups] = useState([]);
   const [students, setStudents] = useState([]);
-  const [evaluations, setEvaluations] = useState([]);
   const [loggedInUserId, setLoggedInUserId] = useState(null);
   const [overallGrade, setOverallGrade] = useState(null); // State to store overall grade
+  const [isSent, setIsSent] = useState(false); // Notification state
+  const [isReceived, setIsReceived] = useState(false); // Notification state
+  const [isLoading, setIsLoading] = useState(false); // Loading state for the button
+
   const navigate = useNavigate();
+
+  const handleNotification = async () => {
+    try {
+      const user = auth.currentUser;
+      if (!user) {
+        console.error("User not logged in.");
+        return;
+      }
+
+      // Add a notification to the 'notifications' collection in Firestore
+      await addDoc(collection(db, "notifications"), {
+        title: "Grade Contested",
+        message: `${user.email} has contested their grade.`,
+        userId: user.uid,
+        timestamp: new Date(), // Optional: Add a timestamp for sorting
+      });
+      setIsSent(true); // Mark the notification as sent
+      setTimeout(() => {
+        setIsReceived(true); // Simulate notification receipt
+      }, 2000);
+    } catch (error) {
+      console.error("Error sending notification: ", error);
+    }
+  };
 
   useEffect(() => {
     const fetchStudentTeam = async () => {
@@ -45,15 +72,15 @@ const StudentDashboard = () => {
 
     const fetchOverallGrade = async () => {
       try {
-        const user = auth.currentUser; // Ensure the current user is fetched
+        const user = auth.currentUser;
         if (!user) {
           console.error("User not logged in.");
           return;
         }
-    
+
         const gradeDocRef = doc(db, "overall grades", user.uid); // Fetch grade by UID
         const gradeDoc = await getDoc(gradeDocRef);
-    
+
         if (gradeDoc.exists()) {
           setOverallGrade(gradeDoc.data().grade); // Set the grade in state
         } else {
@@ -64,7 +91,6 @@ const StudentDashboard = () => {
         console.error("Error fetching overall grade: ", error);
       }
     };
-    
 
     const fetchAllGroupsAndStudents = async () => {
       try {
@@ -76,7 +102,7 @@ const StudentDashboard = () => {
           fetchedGroups.push({
             id: doc.id,
             name: groupData.name,
-            members: groupData.members
+            members: groupData.members,
           });
         });
 
@@ -89,7 +115,7 @@ const StudentDashboard = () => {
           memberNames: group.members.map(memberId => {
             const student = fetchedStudents.find(student => student.id === memberId);
             return student ? student.name : "Unknown Student";
-          })
+          }),
         }));
 
         setGroups(groupsWithNames);
@@ -110,19 +136,30 @@ const StudentDashboard = () => {
         <div>
           <h2 className="text-position">You are assigned to: {team.name}</h2>
           <div className="grade-card-container">
-          <div className="grade-card">
-            <h3 className="grade-title">Your Overall Grade</h3>
-            <div className="grade-value">
-              {overallGrade !== null ? overallGrade : "Loading..."}
+            <div className="grade-card">
+              <h3 className="grade-title">Your Overall Grade</h3>
+              <div className="grade-value">
+                {overallGrade !== null ? overallGrade : "Loading..."}
+              </div>
+              <button
+                className="contest-grade-button"
+                onClick={async () => {
+                  setIsLoading(true);
+                  try {
+                    await handleNotification();
+                  } catch (error) {
+                    console.error("Error contesting grade:", error);
+                  } finally {
+                    setIsLoading(false);
+                  }
+                }}
+                disabled={isLoading}
+              >
+                {isLoading ? "Sending..." : "Contest Grade"}
+              </button>
+              {isSent && <p className="confirmation-message">Your grade contest notification has been successfully sent!</p>}
             </div>
-            <button
-              className="contest-grade-button"
-              onClick={() => navigate("/contest-grade")}
-            >
-              Contest Grade
-            </button>
           </div>
-        </div>
           <h2>The following are your team members:</h2>
           <table className="team-table">
             <thead>
