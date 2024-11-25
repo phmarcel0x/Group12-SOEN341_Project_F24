@@ -197,6 +197,13 @@ p{
   box-shadow: 0 0 5px #c0392b;
 }
 
+.confirmation-message {
+  color: green;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+
 
 @media (max-width: 768px) {
 
