@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { auth, db } from "../../firebaseConfig"; // Firebase config
 import { collection, addDoc, query, where, getDocs } from 'firebase/firestore'; // Firestore methods
-import './evaluation.css';
+import './css-file/evaluation.css';
 
 const Evaluation = () => {
     const location = useLocation();

@@ -1,4 +1,7 @@
 module.exports = {
   testEnvironment: 'jest-environment-jsdom',
-  // other configuration options
+  moduleNameMapper: {
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+  },
+  // Add any other configuration options here
 };

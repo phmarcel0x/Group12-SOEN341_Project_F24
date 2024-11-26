@@ -4,12 +4,12 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
-import Register from '../pages/Register';
+import Register from '../Register';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { setDoc } from 'firebase/firestore';
 
 // Mock firebaseConfig.js and Firebase Auth/Firestore functions
-jest.mock('../../firebaseConfig', () => ({
+jest.mock('../../../firebaseConfig', () => ({
     auth: { currentUser: null },
     db: {}, // Mock Firestore Database instance
     rtdb: {}, // Mock Realtime Database instance

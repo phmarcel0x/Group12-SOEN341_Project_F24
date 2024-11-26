@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import { useNavigate, useLocation } from 'react-router-dom';
-import './instructorDB.css';
+import './css-file/instructorDB.css';
 
 const InstructorDashboard = () => {
   const [groupName, setGroupName] = useState("");

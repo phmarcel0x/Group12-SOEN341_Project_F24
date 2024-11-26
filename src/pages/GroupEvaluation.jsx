@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { collection, query, where, getDocs, setDoc, doc } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import { useNavigate } from "react-router-dom";
-import "./groupevaluation.css";
+import "./css-file/groupevaluation.css";
 
 const GroupEvaluation = () => {
   const [groups, setGroups] = useState([]);

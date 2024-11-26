@@ -16,7 +16,7 @@ import {
   LineElement,
 } from 'chart.js';
 import { Bar, Radar } from 'react-chartjs-2';
-import './visualizedataGR.css';
+import './css-file/visualizedataGR.css';
 
 ChartJS.register(
   ArcElement,

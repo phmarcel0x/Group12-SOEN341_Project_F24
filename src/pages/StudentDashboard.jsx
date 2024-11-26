@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
 import { db, auth } from "../../firebaseConfig";
-import "./studentDB.css";
+import "./css-file/studentDB.css";
 import { Link, useNavigate } from "react-router-dom";
 
 const StudentDashboard = () => {
