@@ -240,3 +240,69 @@ h2 {
   justify-content: center;
   margin-top: 20px;
 }
+
+/* Modal Styling */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 50%;
+  max-width: 600px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  position: relative;
+}
+
+.modal h2 {
+  font-size: 24px;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.modal p {
+  font-size: 18px;
+  color: #34495e;
+  margin-bottom: 20px;
+}
+
+.modal-close-button {
+  background: #e74c3c;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.modal-close-button:hover {
+  background: #c0392b;
+}
+
+.modal-content p {
+  font-size: 18px;
+  color: #34495e;
+  margin-bottom: 20px;
+  word-wrap: break-word; /* Ensure long words break to fit within the container */
+  white-space: pre-wrap; /* Preserve line breaks and wrap text */
+  max-height: 200px; /* Set a max height for the message box */
+  overflow-y: auto; /* Make the content scrollable if it exceeds the height */
+  padding: 10px;
+  border: 1px solid #ccc; /* Optional: Add a border around the message box */
+  border-radius: 8px; /* Optional: Round the corners of the message box */
+  background-color: #f9f9f9; /* Optional: Add a light background for contrast */
+}

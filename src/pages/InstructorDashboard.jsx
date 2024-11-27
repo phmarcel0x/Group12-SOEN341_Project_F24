@@ -21,6 +21,7 @@ const InstructorDashboard = () => {
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [isNotificationPanelOpen, setIsNotificationPanelOpen] = useState(false);
+  const [expandedNotification, setExpandedNotification] = useState(null); // Expanded modal notification
   const notificationRef = useRef(null);
   const [isCreating, setIsCreating] = useState(false);
   const navigate = useNavigate();
@@ -77,7 +78,10 @@ const InstructorDashboard = () => {
 
   // Close notification panel on outside click
   const handleClickOutside = (event) => {
-    if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+    if (
+      notificationRef.current &&
+      !notificationRef.current.contains(event.target)
+    ) {
       setIsNotificationPanelOpen(false);
     }
   };
@@ -130,6 +134,23 @@ const InstructorDashboard = () => {
     }
   };
 
+  // Handle group deletion
+  const handleDeleteGroup = async (groupId) => {
+    const confirmation = window.confirm(`Are you sure you want to delete this team?`);
+    if (!confirmation) return;
+
+    try {
+      await deleteDoc(doc(db, "groups", groupId));
+    } catch (error) {
+      console.error("Error deleting group:", error);
+    }
+  };
+
+  // Handle expanding a contest notification in a modal
+  const handleExpandNotification = (notification) => {
+    setExpandedNotification(notification);
+  };
+
   return (
     <div>
       <h2 style={{ textAlign: "center" }}>Create a New Group</h2>
@@ -162,17 +183,16 @@ const InstructorDashboard = () => {
                     className={`notification-item ${
                       notification.read ? "read" : "unread"
                     }`}
-                    onClick={() => markAsRead(notification.id)}
+                    onClick={() => {
+                      markAsRead(notification.id);
+                      handleExpandNotification(notification);
+                    }}
                   >
                     <p>
                       <strong>{notification.title}</strong>:{" "}
                       {getStudentName(notification.userId)} has contested their grade.
+                      <h5>Click to view details.</h5>
                     </p>
-                    {notification.explanation && (
-                      <p className="notification-explanation">
-                        <strong>Explanation:</strong> {notification.explanation}
-                      </p>
-                    )}
                   </button>
                 ))}
               </ul>
@@ -182,6 +202,28 @@ const InstructorDashboard = () => {
           </div>
         )}
       </div>
+
+      {/* Expanded Notification Modal */}
+      {expandedNotification && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2>Contest Details</h2>
+            <p>
+              <strong>Student:</strong> {getStudentName(expandedNotification.userId)}
+            </p>
+            <p>
+              <strong>Message:</strong>{" "}
+              {expandedNotification.explanation || "No explanation provided."}
+            </p>
+            <button
+              className="modal-close-button"
+              onClick={() => setExpandedNotification(null)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
 
       <h2 style={{ textAlign: "center" }}>All Students</h2>
       <table className="students-table">
@@ -199,13 +241,8 @@ const InstructorDashboard = () => {
               <td>{student.email}</td>
               <td>
                 <select
-                  onChange={(e) =>
-                    handleAssignStudentToGroup(student.id, e.target.value)
-                  }
-                  value={
-                    groups.find((group) => group.members.includes(student.id))?.id ||
-                    ""
-                  }
+                  onChange={(e) => handleAssignStudentToGroup(student.id, e.target.value)}
+                  value={groups.find((group) => group.members.includes(student.id))?.id || ""}
                 >
                   <option value="" disabled>
                     Select Team
@@ -237,18 +274,11 @@ const InstructorDashboard = () => {
               <td>{group.name}</td>
               <td>
                 {group.members
-                  .map(
-                    (memberId) =>
-                      students.find((student) => student.id === memberId)?.name ||
-                      "Unknown Student"
-                  )
+                  .map((memberId) => students.find((student) => student.id === memberId)?.name || "Unknown Student")
                   .join(", ")}
               </td>
               <td>
-                <button
-                  className="delete-button"
-                  onClick={() => handleDeleteGroup(group.id)}
-                >
+                <button className="delete-button" onClick={() => handleDeleteGroup(group.id)}>
                   Delete
                 </button>
               </td>
@@ -258,9 +288,7 @@ const InstructorDashboard = () => {
       </table>
 
       <div className="button-container">
-        <button onClick={() => navigate("/groupevaluation")}>
-          View the group evaluations
-        </button>
+        <button onClick={() => navigate("/groupevaluation")}>View the group evaluations</button>
       </div>
     </div>
   );
