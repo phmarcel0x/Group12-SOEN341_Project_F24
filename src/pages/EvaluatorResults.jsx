@@ -1,3 +1,5 @@
+// EvaluatorResults.jsx
+
 import PropTypes from "prop-types"; // Import PropTypes for validation
 import React from "react";
 import "./groupevaluation.css";
