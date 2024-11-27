@@ -1,9 +1,7 @@
-// InstructorDashboard.jsx
-
-import React, { useState, useEffect, useRef } from "react";
-import { collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, getDocs,  query, where, } from "firebase/firestore";
-import { db } from "../../firebaseConfig";
+import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, query, updateDoc, where } from "firebase/firestore";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { db } from "../../firebaseConfig";
 import "./instructorDB.css";
 
 const InstructorDashboard = () => {
@@ -46,8 +44,7 @@ const InstructorDashboard = () => {
         id: doc.id,
         ...doc.data(),
       }));
-      // Sort notifications by timestamp (most recent first)
-      const sortedNotifications = fetchedNotifications.sort(
+      const sortedNotifications = [...fetchedNotifications].sort(
         (a, b) => b.timestamp?.toMillis() - a.timestamp?.toMillis()
       );
       setNotifications(sortedNotifications);
@@ -95,20 +92,6 @@ const InstructorDashboard = () => {
       }
     } catch (error) {
       console.error("Error marking notification as read:", error);
-    }
-  };
-
-  // Mark all notifications as read
-  const markAllAsRead = async () => {
-    try {
-      const unreadNotifications = notifications.filter((notification) => !notification.read);
-      for (const notification of unreadNotifications) {
-        const notificationRef = doc(db, "notifications", notification.id);
-        await updateDoc(notificationRef, { read: true });
-      }
-      setUnreadCount(0);
-    } catch (error) {
-      console.error("Error marking notifications as read:", error);
     }
   };
 
@@ -189,17 +172,16 @@ const InstructorDashboard = () => {
             {notifications.length > 0 ? (
               <ul>
                 {notifications.map((notification) => (
-                  <li
+                  <button
                     key={notification.id}
-                    className={`notification-item ${
-                      notification.read ? "read" : "unread"
-                    }`}
+                    className={`notification-item ${notification.read ? "read" : "unread"}`}
                     onClick={() => markAsRead(notification.id)}
                   >
                     <p>
-                      <strong>{notification.title}</strong>: {getStudentName(notification.userId)} has contested their grade.
+                      <strong>{notification.title}</strong>:{" "}
+                      {getStudentName(notification.userId)} has contested their grade.
                     </p>
-                  </li>
+                  </button>
                 ))}
               </ul>
             ) : (
