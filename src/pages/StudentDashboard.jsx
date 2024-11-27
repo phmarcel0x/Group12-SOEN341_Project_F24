@@ -1,19 +1,16 @@
+import { addDoc, collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { collection, query, where, getDocs, doc, getDoc, addDoc } from "firebase/firestore";
-import { db, auth } from "../../firebaseConfig";
-import "./studentDB.css";
 import { useNavigate } from "react-router-dom";
+import { auth, db } from "../../firebaseConfig";
+import "./studentDB.css";
 
 const StudentDashboard = () => {
   const [team, setTeam] = useState(null);
   const [teamMembers, setTeamMembers] = useState([]);
   const [groups, setGroups] = useState([]);
-  const [students, setStudents] = useState([]);
-  const [loggedInUserId, setLoggedInUserId] = useState(null);
-  const [overallGrade, setOverallGrade] = useState(null); // State to store overall grade
-  const [isSent, setIsSent] = useState(false); // Notification state
-  const [isReceived, setIsReceived] = useState(false); // Notification state
-  const [isLoading, setIsLoading] = useState(false); // Loading state for the button
+  const [overallGrade, setOverallGrade] = useState(null);
+  const [isSent, setIsSent] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -24,110 +21,83 @@ const StudentDashboard = () => {
         console.error("User not logged in.");
         return;
       }
-
-      // Add a notification to the 'notifications' collection in Firestore
       await addDoc(collection(db, "notifications"), {
         title: "Grade Contested",
         message: `${user.email} has contested their grade.`,
         userId: user.uid,
-        timestamp: new Date(), // Optional: Add a timestamp for sorting
+        timestamp: new Date(),
       });
-      setIsSent(true); // Mark the notification as sent
-      setTimeout(() => {
-        setIsReceived(true); // Simulate notification receipt
-      }, 2000);
+      setIsSent(true);
     } catch (error) {
       console.error("Error sending notification: ", error);
     }
   };
 
+  const fetchTeamData = async (teamData) => {
+    const membersDetails = [];
+    for (let memberId of teamData.members) {
+      const studentDoc = await getDocs(
+        query(collection(db, "users"), where("__name__", "==", memberId))
+      );
+      if (!studentDoc.empty) {
+        const studentData = studentDoc.docs[0].data();
+        membersDetails.push({ id: memberId, name: studentData.name, email: studentData.email });
+      }
+    }
+    return membersDetails;
+  };
+
+  const fetchStudentTeam = async () => {
+    try {
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const q = query(collection(db, "groups"), where("members", "array-contains", user.uid));
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        const teamData = querySnapshot.docs[0].data();
+        setTeam({ id: querySnapshot.docs[0].id, ...teamData });
+        const membersDetails = await fetchTeamData(teamData);
+        setTeamMembers(membersDetails);
+      }
+    } catch (error) {
+      console.error("Error fetching student team: ", error);
+    }
+  };
+
+  const fetchOverallGrade = async () => {
+    try {
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const gradeDocRef = doc(db, "overall grades", user.uid);
+      const gradeDoc = await getDoc(gradeDocRef);
+
+      setOverallGrade(gradeDoc.exists() ? gradeDoc.data().grade : "N/A");
+    } catch (error) {
+      console.error("Error fetching overall grade: ", error);
+    }
+  };
+
+  const fetchAllGroups = async () => {
+    try {
+      const groupSnapshot = await getDocs(collection(db, "groups"));
+      const fetchedGroups = groupSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        name: doc.data().name,
+        members: doc.data().members,
+      }));
+      setGroups(fetchedGroups);
+    } catch (error) {
+      console.error("Error fetching groups:", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchStudentTeam = async () => {
-      try {
-        const user = auth.currentUser;
-        if (!user) return;
-        setLoggedInUserId(user.uid);
-
-        const q = query(collection(db, "groups"), where("members", "array-contains", user.uid));
-        const querySnapshot = await getDocs(q);
-
-        if (!querySnapshot.empty) {
-          const teamData = querySnapshot.docs[0].data();
-          setTeam({ id: querySnapshot.docs[0].id, ...teamData });
-
-          const membersDetails = [];
-          for (let memberId of teamData.members) {
-            const studentDoc = await getDocs(query(collection(db, "users"), where("__name__", "==", memberId)));
-            if (!studentDoc.empty) {
-              const studentData = studentDoc.docs[0].data();
-              membersDetails.push({ id: memberId, name: studentData.name, email: studentData.email });
-            }
-          }
-          setTeamMembers(membersDetails);
-        }
-      } catch (error) {
-        console.error("Error fetching student team: ", error);
-      }
-    };
-
-    const fetchOverallGrade = async () => {
-      try {
-        const user = auth.currentUser;
-        if (!user) {
-          console.error("User not logged in.");
-          return;
-        }
-
-        const gradeDocRef = doc(db, "overall grades", user.uid); // Fetch grade by UID
-        const gradeDoc = await getDoc(gradeDocRef);
-
-        if (gradeDoc.exists()) {
-          setOverallGrade(gradeDoc.data().grade); // Set the grade in state
-        } else {
-          console.warn(`No grade found for UID: ${user.uid}`);
-          setOverallGrade("N/A");
-        }
-      } catch (error) {
-        console.error("Error fetching overall grade: ", error);
-      }
-    };
-
-    const fetchAllGroupsAndStudents = async () => {
-      try {
-        const groupSnapshot = await getDocs(collection(db, "groups"));
-        const fetchedGroups = [];
-
-        groupSnapshot.forEach(doc => {
-          const groupData = doc.data();
-          fetchedGroups.push({
-            id: doc.id,
-            name: groupData.name,
-            members: groupData.members,
-          });
-        });
-
-        const studentSnapshot = await getDocs(query(collection(db, "users"), where("role", "==", "Student")));
-        const fetchedStudents = studentSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-        // Populate groups with student names for display
-        const groupsWithNames = fetchedGroups.map(group => ({
-          ...group,
-          memberNames: group.members.map(memberId => {
-            const student = fetchedStudents.find(student => student.id === memberId);
-            return student ? student.name : "Unknown Student";
-          }),
-        }));
-
-        setGroups(groupsWithNames);
-        setStudents(fetchedStudents);
-      } catch (error) {
-        console.error("Error fetching groups and students:", error);
-      }
-    };
-
     fetchStudentTeam();
     fetchOverallGrade();
-    fetchAllGroupsAndStudents();
+    fetchAllGroups();
   }, []);
 
   return (
@@ -147,8 +117,6 @@ const StudentDashboard = () => {
                   setIsLoading(true);
                   try {
                     await handleNotification();
-                  } catch (error) {
-                    console.error("Error contesting grade:", error);
                   } finally {
                     setIsLoading(false);
                   }
@@ -157,7 +125,7 @@ const StudentDashboard = () => {
               >
                 {isLoading ? "Sending..." : "Contest Grade"}
               </button>
-              {isSent && <p className="confirmation-message">Your grade contest notification has been successfully sent!</p>}
+              {isSent && <p className="confirmation-message">Notification sent!</p>}
             </div>
           </div>
           <h2>The following are your team members:</h2>
@@ -169,8 +137,8 @@ const StudentDashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {teamMembers.map((member, index) => (
-                <tr key={index}>
+              {teamMembers.map((member) => (
+                <tr key={member.id}>
                   <td>{member.name}</td>
                   <td>{member.email}</td>
                 </tr>
@@ -198,10 +166,10 @@ const StudentDashboard = () => {
           </tr>
         </thead>
         <tbody>
-          {groups.map(group => (
+          {groups.map((group) => (
             <tr key={group.id}>
               <td><strong>{group.name}</strong></td>
-              <td>{group.memberNames.join(", ")}</td>
+              <td>{group.members.join(", ")}</td>
             </tr>
           ))}
         </tbody>

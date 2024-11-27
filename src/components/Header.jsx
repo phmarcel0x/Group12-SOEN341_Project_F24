@@ -1,9 +1,9 @@
 // Header.jsx
 
-import React, { useState, useEffect } from 'react';
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth"; // Import signOut and onAuthStateChanged from Firebase Auth
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getAuth, signOut, onAuthStateChanged } from "firebase/auth"; // Import signOut and onAuthStateChanged from Firebase Auth
-import logo from '../../images/4.svg'
+import logo from '../../images/4.svg';
 
 const Header = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false); // Track the user's login state
@@ -47,14 +47,12 @@ const Header = () => {
             </div>
 
             <div className="links--wrapper">
-                <>
-                    <Link to="/" className="header--link">Home</Link>
-                    <Link to="/profile" className="header--link">Profile</Link>
+                <Link to="/" className="header--link">Home</Link>
+                <Link to="/profile" className="header--link">Profile</Link>
 
-                    <button onClick={logoutClick} className="btn">
-                        {isLoggedIn ? "Sign Out" : "Sign In"}
-                    </button>
-                </>
+                <button onClick={logoutClick} className="btn">
+                    {isLoggedIn ? "Sign Out" : "Sign In"}
+                </button>
             </div>
         </div>
     );

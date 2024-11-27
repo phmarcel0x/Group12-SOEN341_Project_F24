@@ -1,11 +1,9 @@
-
-// Profile.jsx 
-import React, { useState, useEffect } from 'react';
 import { getAuth } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
+import { db } from '../../firebaseConfig';
 import InstructorDashboard from './InstructorDashboard';
 import StudentDashboard from './StudentDashboard';
-import { db } from '../../firebaseConfig';
 
 const Profile = () => {
   const [userName, setUserName] = useState('');
@@ -61,7 +59,7 @@ const Profile = () => {
 
   return (
     <div className="container">
-      <h1>Welcome to your profile, {userName ? userName : 'User'}.</h1>
+      <h1>Welcome to your profile, {userName || 'User'}.</h1>
       {role === 'Instructor' && <InstructorDashboard />}
       {role === 'Student' && <StudentDashboard />}
     </div>
