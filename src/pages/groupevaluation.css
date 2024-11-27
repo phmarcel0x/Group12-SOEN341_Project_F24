@@ -54,12 +54,6 @@ h3 {
     background-color: #ffffff;
 }
 
-/* Average Rating Table section
-.average-rating-section {
-    margin-bottom: 30px;
-    text-align: center;
-    justify-content: right;
-} */
 
 /* Summary text for evaluation sections */
 .summary-text {
@@ -87,7 +81,7 @@ h3 {
     max-width: 800px;
     margin-top: 20px;
     display: flex;
-    /* justify-content: center; */
+    
 }
 
 /* Evaluation Table */
