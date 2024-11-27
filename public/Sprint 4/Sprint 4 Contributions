@@ -68,11 +68,28 @@ Fabio: 40231803
 |             |                | better visualizing | implemented with a more centralized layout to |            |
 |             |                | student grades     | enhance ease of viewing                       |            | 
 |             |                |                    |                                               |            | 
-| 10/11/24    | 1 hours        |   Updated css &    | Updated the css for the groupevaluation page  | 4          |
-|             |                |    Dashboards      | of the instructor and evaluation page for the |            |
-|             |                |                    | student for better clarity                    |            |
+| 26/11/2024  | 4 hours        |    Implemented     | Enhances code Quality and security by enabling| 9          |
+|             |                |     SonarQube      | comprehensive static analysis, identifying    |            |
+|             |                |                    | code smells, bugs, and vulnerabilities, while |            |
+|             |                |                    | seamlessly integrating with CI/CD pipelines.  |            |
+|             |                |                    |                                               |            |
+|             | 1 hour         |    Implemented     | Provides real-time feedback by delivering     | 5          |
+|             |                |     SonarLint      | immediate suggestions and warnings during code|            |
+|             |                |                    | development, leveraging SonarQube's analysis  |            |
+|             |                |                    | rules.                                        |            |
+|             |                |                    |                                               |            |
+|             | 1 hour         |    Implemented     | Facilitates the identification of potential   | 5          |  
+|             |                |       ESLint       | issues, such as syntax errors and poor coding |            |
+|             |                |                    | practices, while ensuring adherence to        |            |
+|             |                |                    | established code standards.                   |            |
+|             |                |                    |                                               |            |
+|             | 1 hour         |  Code Refinement   | Utilizing tools such as SonarQube, SonarLint, | 6          |
+|             |                |                    | and ESLint enabled me to enhance code quality |            |
+|             |                |                    | by identifying and addressing issues          |            |
+|             |                |                    | effectively.                                  |            |
+ 
+Total: 13 Hours
 
-Total: 10 Hours
 
 Christopher: 40275695
 
