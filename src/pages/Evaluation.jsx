@@ -109,20 +109,18 @@ const Evaluation = () => {
                                 <tr key={member.email}>
                                     <td>{member.name}</td>
                                     <td>
-                                    <input
-  id={`checkbox-${member.name}`}
-  type="checkbox"
-  name="selectedMember"
-  className="checkmark"
-  onClick={() => handleSelectMember(member.name)}
-  checked={selectedMembers.includes(member.name)}
-/>
-<label htmlFor={`checkbox-${member.name}`}>
-  Select {member.name}
-  <span className="checkmark"></span>
-</label>
-
-                                    </td>
+    <input
+        id={`checkbox-${member.name}`}
+        type="checkbox"
+        name="selectedMember"
+        className="checkmark"
+        onClick={() => handleSelectMember(member.name)}
+        checked={selectedMembers.includes(member.name)}
+    />
+    <label htmlFor={`checkbox-${member.name}`} className="visually-hidden">
+        {`Checkbox to evaluate ${member.name}`}
+    </label>
+</td>
                                 </tr>
                             ))}
                         </tbody>
