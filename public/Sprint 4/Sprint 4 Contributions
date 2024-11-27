@@ -130,31 +130,30 @@ Evelyne:
 
 | Date        | Duration       | Task                | Description                                     | Difficulty |
 | ----------- | -------------- | ------------------  | ---------------------------------------------   | ---------- |
-| 5/11/2024   | 2 hour         | Initial system      | Develop a system to allow selection of          | 2          |
-|             |                | prototype to select | students or team members for evaluation,        |            |  
-|             |                | students to evaluate| ensuring user validation and storage of         |            |
-|             |                |                     | selected students.                              |            |
+| 21/11/2024  | 1 hour         | Revision            | Look over the new requirements for Sprint 4     | 2          |
+|             |                |                     | and completed research.                         |            |
 
-| 6/11/2024   | 3 hour         | Create an initial   | Design a prototype feedback system with a 1-5   | 3          |
-|             |                | prototype of the    | rating scale for each assessment criterion and  |            |
-|             |                | feedback rating     | ensure proper processing of feedback.           |            |
-|             |                | system              |                                                 |            |
+| 22/11/2024  | 3 hour         | Centralized Grade   | Redesigned the layout for student grade         | 3          |
+|             |                | Visualization       | visualization, ensuring a more centralized      |            |  
+|             |                |                     | and organized display to enhance ease of        |            |
+|             |                |                     | use and clarity for instructors.                |            |
 
-| 7/11/2024   | 1h 30          | Group Discussion    | Discussed more into detail about the coding     | 5          |
+| 23/11/2024  | 4 hour         | Implemented         | Added a feature to the instructor dashboard     | 5          |
+|             |                | Conditional Code    | where student comments are hidden by default.   |            |
+|             |                | Visibility          | Instructors can click a “See comment” button    |            |
+|             |                |                     | to view individual comments, improving          |            |
+|             |                |                     | readability and reducing clutter.               |            |
+
+| 24/11/2024  | 2 hour         | Group Discussion    | Discussed more into detail about the coding     | 2          |
 |             |                |                     | of the 2 new system requirements and its        |            |
 |             |                |                     | potential issues                                |            |
 
-| 9/11/2024   | 1 hour         | Include the submit  | Add a functional submit button that             | 1          |
-|             |                | button after        | activates when all required feedback sections   |            |
-|             |                | completing the      | are completed, ensuring proper feedback         |            |
-|             |                | feedback            | submission.                                     |            |
-
-| 10/11/2024  | 1 hours        |   Updated css &    | Updated the css for the groupevaluation page     | 4          |
-|             |                |    Dashboards      | of the instructor and evaluation page for the    |            |
-|             |                |                    | student for better clarity                       |            |
+| 26/11/2024  | 1 hours        |   Review           | Final revue of GitHub to ensure that all issues  | 2          |
+|             |                |                    | and details are in order.                        |            |
+|             |                |                    |                                                  |            |
 
 
-Total hours: 10.5 hr
+Total hours: 11 hrs
 
 
 Tristan:
