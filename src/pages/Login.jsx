@@ -1,8 +1,8 @@
-//Login.jsx
+// Login.jsx
 
-import React, { useState } from 'react';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, getFirestore } from 'firebase/firestore';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
@@ -19,7 +19,7 @@ const Login = () => {
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const auth = getAuth();
@@ -57,10 +57,11 @@ const Login = () => {
       <div className="login-register-container">
         <form onSubmit={handleSubmit}>
           <div className="form-field-wrapper">
-            <label>Email:</label>
+            <label htmlFor="email">Email:</label>
             <input
               required
               type="email"
+              id="email"
               name="email"
               placeholder="Enter email..."
               value={email}
@@ -69,9 +70,10 @@ const Login = () => {
           </div>
 
           <div className="form-field-wrapper password-input">
-            <label>Password:</label>
+            <label htmlFor="password">Password:</label>
             <input
               type={showPassword ? 'text' : 'password'}
+              id="password"
               name="password"
               placeholder="Enter password..."
               value={password}
@@ -81,11 +83,12 @@ const Login = () => {
             <div className="checkbox-container">
               <input
                 type="checkbox"
+                id="showPassword"
                 checked={showPassword}
                 onChange={handleTogglePasswordVisibility}
                 className="show-password-checkbox"
               />
-              <label className="checkbox-label">Show password</label>
+              <label htmlFor="showPassword" className="checkbox-label">Show password</label>
             </div>
           </div>
 
