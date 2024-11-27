@@ -1,12 +1,11 @@
-import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import React from 'react';
+import { MemoryRouter } from 'react-router-dom';
 import Login from './Login';
 
 jest.mock('firebase/auth', () => ({
-  getAuth: jest.fn(),
   signInWithEmailAndPassword: jest.fn(),
 }));
 
@@ -77,5 +76,4 @@ describe('Login Component', () => {
       expect(screen.getByText(/Invalid credentials/i)).toBeInTheDocument();
     });
   });
-
 });
