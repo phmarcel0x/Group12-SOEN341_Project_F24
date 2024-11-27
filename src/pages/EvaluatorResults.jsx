@@ -1,13 +1,21 @@
-// EvaluatorResults.jsx
-
-import PropTypes from "prop-types"; // Import PropTypes for validation
-import React from "react";
+import PropTypes from "prop-types";
+import React, { useState } from "react";
 import "./groupevaluation.css";
 
 const EvaluatorResults = ({ evaluation, dimensions, users }) => {
   const getEvaluatorName = (evaluatorId) => {
     const evaluator = users.find((user) => user.id === evaluatorId);
     return evaluator ? evaluator.name : "Unknown Evaluator";
+  };
+
+  const [expandedComments, setExpandedComments] = useState({}); // State to track expanded comments
+
+  const toggleComment = (uid, dimension) => {
+    const key = `${uid}-${dimension}`;
+    setExpandedComments((prev) => ({
+      ...prev,
+      [key]: !prev[key], // Toggle the state for the specific key
+    }));
   };
 
   const studentData = {};
@@ -56,35 +64,27 @@ const EvaluatorResults = ({ evaluation, dimensions, users }) => {
           {Object.keys(studentData).map((uid) => (
             <tr key={uid}>
               <td>{uid}</td>
-              {dimensions.map((dimension) => (
-                <td key={`${uid}-${dimension}`}>
-                  {studentData[uid].ratings[dimension] || "-"}
-                </td>
-              ))}
+              {dimensions.map((dimension) => {
+                const key = `${uid}-${dimension}`;
+                return (
+                  <td key={key} className="ratings-cell">
+                    {studentData[uid].ratings[dimension]}
+                    <span
+                      className="comment-icon"
+                      onClick={() => toggleComment(uid, dimension)}
+                      title="View Comment"
+                    >
+                      💬
+                    </span>
+                    {expandedComments[key] && (
+                      <div className="comment-box">
+                        {studentData[uid].comments[dimension]}
+                      </div>
+                    )}
+                  </td>
+                );
+              })}
               <td>{studentAverages[uid]}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <p className="evaluator-subtitle">Comments</p>
-      <table className="evaluation-table comments-table">
-        <thead>
-          <tr>
-            <th>Member</th>
-            {dimensions.map((dimension) => (
-              <th key={dimension}>{dimension}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {Object.keys(studentData).map((uid) => (
-            <tr key={uid}>
-              <td>{uid}</td>
-              {dimensions.map((dimension) => (
-                <td key={`${uid}-${dimension}-comment`}>
-                  {studentData[uid].comments[dimension] || "No comment"}
-                </td>
-              ))}
             </tr>
           ))}
         </tbody>
