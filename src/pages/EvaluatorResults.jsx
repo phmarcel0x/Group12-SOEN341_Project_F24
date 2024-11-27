@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import "./groupevaluation.css";
+import "./evaluatorresults.css";
 
 const EvaluatorResults = ({ evaluation, dimensions, users }) => {
   const getEvaluatorName = (evaluatorId) => {
@@ -69,13 +69,14 @@ const EvaluatorResults = ({ evaluation, dimensions, users }) => {
                 return (
                   <td key={key} className="ratings-cell">
                     {studentData[uid].ratings[dimension]}
-                    <span
+                    <button
                       className="comment-icon"
                       onClick={() => toggleComment(uid, dimension)}
                       title="View Comment"
+                      aria-expanded={expandedComments[key] ? "true" : "false"}
                     >
                       💬
-                    </span>
+                    </button>
                     {expandedComments[key] && (
                       <div className="comment-box">
                         {studentData[uid].comments[dimension]}
