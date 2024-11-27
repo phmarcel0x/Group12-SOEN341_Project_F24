@@ -58,10 +58,11 @@ Fabio: 40231803
 | 21/11/2024  | 1 hour         | Review Sprint 4    | Look over the new requirements for Sprint 4   | 2          |
 |             |                |                    | together with team                            |            |
 |             |                |                    |                                               |            |
-| 09/11/2024  | 4 hours        | Implemented first  | Worked with Marcelo to implement this feature | 6          |   
-|             |                |    new feature     | Allows students to contest peer evaluation    |            |
-|             |                |                    | scores                                        |            |
-|             |                |                    |                                               |            |
+| 23/11/2024  | 4 hours        |    Implemented     | Students can now challenge their grades, and  | 7          |   
+|             |                |notification feature| instructors can see all notifications, newest |            |
+|             |                |                    | first. It also shows how many notifications   |            |
+|             |                |                    | the user has and highlights the unread ones   |            |
+|             |                |                    | until the user clicks on them.                |            |
 |             |                |                    |                                               |            |
 | 10/11/24    | 4 hours        | Implemented second | Worked with Marcelo to add a feature enabling | 7          |
 |             |                |    new feature     | instructors to view team statistics with      |            |
