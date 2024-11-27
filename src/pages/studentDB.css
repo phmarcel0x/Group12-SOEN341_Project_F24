@@ -203,3 +203,31 @@ p {
     align-items: center;
   }
 }
+
+.explanation-textbox {
+  width: 100%;
+  max-width: 400px; /* Match the grade card width */
+  height: 100px; /* Adjust height as needed */
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 2px solid #ccc;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  resize: none; /* Prevent resizing for consistency */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.explanation-textbox:focus {
+  outline: none;
+  border-color: #34495e;
+  box-shadow: 0 0 8px rgba(52, 73, 94, 0.3);
+}
+
+.explanation-textbox::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+

@@ -1,4 +1,14 @@
-import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, query, updateDoc, where } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  onSnapshot,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { db } from "../../firebaseConfig";
@@ -11,6 +21,7 @@ const InstructorDashboard = () => {
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [isNotificationPanelOpen, setIsNotificationPanelOpen] = useState(false);
+  const [expandedNotification, setExpandedNotification] = useState(null); // Expanded modal notification
   const notificationRef = useRef(null);
   const [isCreating, setIsCreating] = useState(false);
   const navigate = useNavigate();
@@ -18,7 +29,10 @@ const InstructorDashboard = () => {
   // Fetch groups and students
   useEffect(() => {
     const unsubscribeGroups = onSnapshot(collection(db, "groups"), (snapshot) => {
-      const fetchedGroups = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      const fetchedGroups = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
       setGroups(fetchedGroups);
     });
 
@@ -48,7 +62,9 @@ const InstructorDashboard = () => {
         (a, b) => b.timestamp?.toMillis() - a.timestamp?.toMillis()
       );
       setNotifications(sortedNotifications);
-      setUnreadCount(sortedNotifications.filter((notification) => !notification.read).length);
+      setUnreadCount(
+        sortedNotifications.filter((notification) => !notification.read).length
+      );
     });
 
     return () => unsubscribeNotifications();
@@ -62,7 +78,10 @@ const InstructorDashboard = () => {
 
   // Close notification panel on outside click
   const handleClickOutside = (event) => {
-    if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+    if (
+      notificationRef.current &&
+      !notificationRef.current.contains(event.target)
+    ) {
       setIsNotificationPanelOpen(false);
     }
   };
@@ -115,24 +134,6 @@ const InstructorDashboard = () => {
     }
   };
 
-  // Handle student assignment to groups
-  const handleAssignStudentToGroup = async (studentId, groupId) => {
-    try {
-      const groupWithStudent = groups.find((group) => group.members.includes(studentId));
-      if (groupWithStudent) {
-        const updatedMembers = groupWithStudent.members.filter((member) => member !== studentId);
-        await updateDoc(doc(db, "groups", groupWithStudent.id), { members: updatedMembers });
-      }
-
-      const groupRef = doc(db, "groups", groupId);
-      await updateDoc(groupRef, {
-        members: [...groups.find((group) => group.id === groupId).members, studentId],
-      });
-    } catch (error) {
-      console.error("Error assigning student to group:", error);
-    }
-  };
-
   // Handle group deletion
   const handleDeleteGroup = async (groupId) => {
     const confirmation = window.confirm(`Are you sure you want to delete this team?`);
@@ -143,6 +144,11 @@ const InstructorDashboard = () => {
     } catch (error) {
       console.error("Error deleting group:", error);
     }
+  };
+
+  // Handle expanding a contest notification in a modal
+  const handleExpandNotification = (notification) => {
+    setExpandedNotification(notification);
   };
 
   return (
@@ -174,12 +180,18 @@ const InstructorDashboard = () => {
                 {notifications.map((notification) => (
                   <button
                     key={notification.id}
-                    className={`notification-item ${notification.read ? "read" : "unread"}`}
-                    onClick={() => markAsRead(notification.id)}
+                    className={`notification-item ${
+                      notification.read ? "read" : "unread"
+                    }`}
+                    onClick={() => {
+                      markAsRead(notification.id);
+                      handleExpandNotification(notification);
+                    }}
                   >
                     <p>
                       <strong>{notification.title}</strong>:{" "}
                       {getStudentName(notification.userId)} has contested their grade.
+                      <h5>Click to view details.</h5>
                     </p>
                   </button>
                 ))}
@@ -190,6 +202,28 @@ const InstructorDashboard = () => {
           </div>
         )}
       </div>
+
+      {/* Expanded Notification Modal */}
+      {expandedNotification && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2>Contest Details</h2>
+            <p>
+              <strong>Student:</strong> {getStudentName(expandedNotification.userId)}
+            </p>
+            <p>
+              <strong>Message:</strong>{" "}
+              {expandedNotification.explanation || "No explanation provided."}
+            </p>
+            <button
+              className="modal-close-button"
+              onClick={() => setExpandedNotification(null)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
 
       <h2 style={{ textAlign: "center" }}>All Students</h2>
       <table className="students-table">

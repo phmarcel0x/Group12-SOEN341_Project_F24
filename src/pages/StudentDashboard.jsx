@@ -11,6 +11,7 @@ const StudentDashboard = () => {
   const [overallGrade, setOverallGrade] = useState(null);
   const [isSent, setIsSent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [explanation, setExplanation] = useState(""); // State for explanation text
 
   const navigate = useNavigate();
 
@@ -21,13 +22,17 @@ const StudentDashboard = () => {
         console.error("User not logged in.");
         return;
       }
+
       await addDoc(collection(db, "notifications"), {
         title: "Grade Contested",
         message: `${user.email} has contested their grade.`,
+        explanation, // Include the student's explanation
         userId: user.uid,
         timestamp: new Date(),
       });
+
       setIsSent(true);
+      setExplanation(""); // Clear the text box after submission
     } catch (error) {
       console.error("Error sending notification: ", error);
     }
@@ -83,11 +88,31 @@ const StudentDashboard = () => {
   const fetchAllGroups = async () => {
     try {
       const groupSnapshot = await getDocs(collection(db, "groups"));
-      const fetchedGroups = groupSnapshot.docs.map((doc) => ({
-        id: doc.id,
-        name: doc.data().name,
-        members: doc.data().members,
-      }));
+      const fetchedGroups = [];
+
+      for (let groupDoc of groupSnapshot.docs) {
+        const groupData = groupDoc.data();
+        const membersDetails = [];
+
+        // Resolve each UID to the user's name
+        for (let memberId of groupData.members) {
+          const userQuery = query(collection(db, "users"), where("__name__", "==", memberId));
+          const userSnapshot = await getDocs(userQuery);
+          if (!userSnapshot.empty) {
+            const userData = userSnapshot.docs[0].data();
+            membersDetails.push(userData.name);
+          } else {
+            membersDetails.push("Unknown Member");
+          }
+        }
+
+        fetchedGroups.push({
+          id: groupDoc.id,
+          name: groupData.name,
+          members: membersDetails,
+        });
+      }
+
       setGroups(fetchedGroups);
     } catch (error) {
       console.error("Error fetching groups:", error);
@@ -111,6 +136,12 @@ const StudentDashboard = () => {
               <div className="grade-value">
                 {overallGrade !== null ? overallGrade : "Loading..."}
               </div>
+              <textarea
+                className="explanation-textbox"
+                value={explanation}
+                onChange={(e) => setExplanation(e.target.value)}
+                placeholder="Enter your explanation for contesting..."
+              />
               <button
                 className="contest-grade-button"
                 onClick={async () => {
