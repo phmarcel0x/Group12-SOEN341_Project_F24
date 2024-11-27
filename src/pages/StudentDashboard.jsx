@@ -83,16 +83,37 @@ const StudentDashboard = () => {
   const fetchAllGroups = async () => {
     try {
       const groupSnapshot = await getDocs(collection(db, "groups"));
-      const fetchedGroups = groupSnapshot.docs.map((doc) => ({
-        id: doc.id,
-        name: doc.data().name,
-        members: doc.data().members,
-      }));
+      const fetchedGroups = [];
+  
+      for (let groupDoc of groupSnapshot.docs) {
+        const groupData = groupDoc.data();
+        const membersDetails = [];
+  
+        // Resolve each UID to the user's name
+        for (let memberId of groupData.members) {
+          const userQuery = query(collection(db, "users"), where("__name__", "==", memberId));
+          const userSnapshot = await getDocs(userQuery);
+          if (!userSnapshot.empty) {
+            const userData = userSnapshot.docs[0].data();
+            membersDetails.push(userData.name);
+          } else {
+            membersDetails.push("Unknown Member");
+          }
+        }
+  
+        fetchedGroups.push({
+          id: groupDoc.id,
+          name: groupData.name,
+          members: membersDetails,
+        });
+      }
+  
       setGroups(fetchedGroups);
     } catch (error) {
       console.error("Error fetching groups:", error);
     }
   };
+
 
   useEffect(() => {
     fetchStudentTeam();
