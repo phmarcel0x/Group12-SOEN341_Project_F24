@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { auth, db } from '../../firebaseConfig'; // Import Firebase Auth and Firestore
 
@@ -74,8 +74,9 @@ const Register = () => {
 
           {role === "Instructor" && (
             <div className="form-field-wrapper">
-              <label>Instructor Key:</label>
+              <label htmlFor="instructorKey">Instructor Key:</label>
               <input
+                id="instructorKey"
                 type="password"
                 placeholder="Enter Instructor Key..."
                 value={instructorKey}
@@ -85,8 +86,9 @@ const Register = () => {
           )}
 
           <div className="form-field-wrapper">
-            <label>Name:</label>
+            <label htmlFor="name">Name:</label>
             <input
+              id="name"
               required
               type="text"
               placeholder="Enter name..."
@@ -96,8 +98,9 @@ const Register = () => {
           </div>
 
           <div className="form-field-wrapper">
-            <label>Email:</label>
+            <label htmlFor="email">Email:</label>
             <input
+              id="email"
               required
               type="email"
               placeholder="Enter email..."
@@ -107,8 +110,9 @@ const Register = () => {
           </div>
 
           <div className="form-field-wrapper">
-            <label>Password:</label>
+            <label htmlFor="password1">Password:</label>
             <input
+              id="password1"
               type={showPassword ? 'text' : 'password'}
               placeholder="Enter password..."
               value={password1}
@@ -117,8 +121,9 @@ const Register = () => {
           </div>
 
           <div className="form-field-wrapper">
-            <label>Confirm Password:</label>
+            <label htmlFor="password2">Confirm Password:</label>
             <input
+              id="password2"
               type={showPassword ? 'text' : 'password'}
               placeholder="Confirm password..."
               value={password2}
@@ -127,12 +132,13 @@ const Register = () => {
             />
             <div className="checkbox-container">
               <input
+                id="showPassword"
                 type="checkbox"
                 checked={showPassword}
                 onChange={handleTogglePasswordVisibility}
                 className="show-password-checkbox"
               />
-              < label className="checkbox-label">Show password</label>
+              <label htmlFor="showPassword" className="checkbox-label">Show password</label>
             </div>
           </div>
 
