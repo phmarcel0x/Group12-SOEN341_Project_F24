@@ -1,16 +1,18 @@
+import { addDoc, collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 import { auth, db } from "../../firebaseConfig";
 import "./studentDB.css";
-import { useNavigate } from "react-router-dom";
 
 const StudentDashboard = () => {
   const [team, setTeam] = useState(null);
   const [teamMembers, setTeamMembers] = useState([]);
   const [groups, setGroups] = useState([]);
-  const [overallGrade, setOverallGrade] = useState(null); // State to store overall grade
+  const [overallGrade, setOverallGrade] = useState(null);
   const [isSent, setIsSent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [explanation, setExplanation] = useState(""); // State for explanation text
+
   const navigate = useNavigate();
 
   const handleNotification = async () => {
@@ -20,13 +22,17 @@ const StudentDashboard = () => {
         console.error("User not logged in.");
         return;
       }
+
       await addDoc(collection(db, "notifications"), {
         title: "Grade Contested",
         message: `${user.email} has contested their grade.`,
+        explanation, // Include the student's explanation
         userId: user.uid,
         timestamp: new Date(),
       });
+
       setIsSent(true);
+      setExplanation(""); // Clear the text box after submission
     } catch (error) {
       console.error("Error sending notification: ", error);
     }
@@ -70,15 +76,10 @@ const StudentDashboard = () => {
       const user = auth.currentUser;
       if (!user) return;
 
-      const gradeDocRef = doc(db, "overall grades", user.uid); // Fetch grade by UID
+      const gradeDocRef = doc(db, "overall grades", user.uid);
       const gradeDoc = await getDoc(gradeDocRef);
 
-      if (gradeDoc.exists()) {
-        setOverallGrade(gradeDoc.data().grade); // Set the grade in state
-      } else {
-        console.warn(`No grade found for UID: ${user.uid}`);
-        setOverallGrade("N/A");
-      }
+      setOverallGrade(gradeDoc.exists() ? gradeDoc.data().grade : "N/A");
     } catch (error) {
       console.error("Error fetching overall grade: ", error);
     }
@@ -135,6 +136,12 @@ const StudentDashboard = () => {
               <div className="grade-value">
                 {overallGrade !== null ? overallGrade : "Loading..."}
               </div>
+              <textarea
+                className="explanation-textbox"
+                value={explanation}
+                onChange={(e) => setExplanation(e.target.value)}
+                placeholder="Enter your explanation for contesting..."
+              />
               <button
                 className="contest-grade-button"
                 onClick={async () => {

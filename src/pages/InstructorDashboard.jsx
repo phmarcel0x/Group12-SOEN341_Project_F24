@@ -1,4 +1,14 @@
-import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, query, updateDoc, where } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  onSnapshot,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { db } from "../../firebaseConfig";
@@ -18,7 +28,10 @@ const InstructorDashboard = () => {
   // Fetch groups and students
   useEffect(() => {
     const unsubscribeGroups = onSnapshot(collection(db, "groups"), (snapshot) => {
-      const fetchedGroups = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      const fetchedGroups = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
       setGroups(fetchedGroups);
     });
 
@@ -48,7 +61,9 @@ const InstructorDashboard = () => {
         (a, b) => b.timestamp?.toMillis() - a.timestamp?.toMillis()
       );
       setNotifications(sortedNotifications);
-      setUnreadCount(sortedNotifications.filter((notification) => !notification.read).length);
+      setUnreadCount(
+        sortedNotifications.filter((notification) => !notification.read).length
+      );
     });
 
     return () => unsubscribeNotifications();
@@ -115,36 +130,6 @@ const InstructorDashboard = () => {
     }
   };
 
-  // Handle student assignment to groups
-  const handleAssignStudentToGroup = async (studentId, groupId) => {
-    try {
-      const groupWithStudent = groups.find((group) => group.members.includes(studentId));
-      if (groupWithStudent) {
-        const updatedMembers = groupWithStudent.members.filter((member) => member !== studentId);
-        await updateDoc(doc(db, "groups", groupWithStudent.id), { members: updatedMembers });
-      }
-
-      const groupRef = doc(db, "groups", groupId);
-      await updateDoc(groupRef, {
-        members: [...groups.find((group) => group.id === groupId).members, studentId],
-      });
-    } catch (error) {
-      console.error("Error assigning student to group:", error);
-    }
-  };
-
-  // Handle group deletion
-  const handleDeleteGroup = async (groupId) => {
-    const confirmation = window.confirm(`Are you sure you want to delete this team?`);
-    if (!confirmation) return;
-
-    try {
-      await deleteDoc(doc(db, "groups", groupId));
-    } catch (error) {
-      console.error("Error deleting group:", error);
-    }
-  };
-
   return (
     <div>
       <h2 style={{ textAlign: "center" }}>Create a New Group</h2>
@@ -174,13 +159,20 @@ const InstructorDashboard = () => {
                 {notifications.map((notification) => (
                   <button
                     key={notification.id}
-                    className={`notification-item ${notification.read ? "read" : "unread"}`}
+                    className={`notification-item ${
+                      notification.read ? "read" : "unread"
+                    }`}
                     onClick={() => markAsRead(notification.id)}
                   >
                     <p>
                       <strong>{notification.title}</strong>:{" "}
                       {getStudentName(notification.userId)} has contested their grade.
                     </p>
+                    {notification.explanation && (
+                      <p className="notification-explanation">
+                        <strong>Explanation:</strong> {notification.explanation}
+                      </p>
+                    )}
                   </button>
                 ))}
               </ul>
@@ -207,8 +199,13 @@ const InstructorDashboard = () => {
               <td>{student.email}</td>
               <td>
                 <select
-                  onChange={(e) => handleAssignStudentToGroup(student.id, e.target.value)}
-                  value={groups.find((group) => group.members.includes(student.id))?.id || ""}
+                  onChange={(e) =>
+                    handleAssignStudentToGroup(student.id, e.target.value)
+                  }
+                  value={
+                    groups.find((group) => group.members.includes(student.id))?.id ||
+                    ""
+                  }
                 >
                   <option value="" disabled>
                     Select Team
@@ -240,11 +237,18 @@ const InstructorDashboard = () => {
               <td>{group.name}</td>
               <td>
                 {group.members
-                  .map((memberId) => students.find((student) => student.id === memberId)?.name || "Unknown Student")
+                  .map(
+                    (memberId) =>
+                      students.find((student) => student.id === memberId)?.name ||
+                      "Unknown Student"
+                  )
                   .join(", ")}
               </td>
               <td>
-                <button className="delete-button" onClick={() => handleDeleteGroup(group.id)}>
+                <button
+                  className="delete-button"
+                  onClick={() => handleDeleteGroup(group.id)}
+                >
                   Delete
                 </button>
               </td>
@@ -254,7 +258,9 @@ const InstructorDashboard = () => {
       </table>
 
       <div className="button-container">
-        <button onClick={() => navigate("/groupevaluation")}>View the group evaluations</button>
+        <button onClick={() => navigate("/groupevaluation")}>
+          View the group evaluations
+        </button>
       </div>
     </div>
   );
