@@ -140,7 +140,7 @@ const StudentDashboard = () => {
                 className="explanation-textbox"
                 value={explanation}
                 onChange={(e) => setExplanation(e.target.value)}
-                placeholder="Enter your explanation for contesting..."
+                placeholder="Enter your explanation for challenging your grade..."
               />
               <button
                 className="contest-grade-button"
@@ -154,7 +154,7 @@ const StudentDashboard = () => {
                 }}
                 disabled={isLoading}
               >
-                {isLoading ? "Sending..." : "Contest Grade"}
+                {isLoading ? "Sending..." : "Challenge Grade"}
               </button>
               {isSent && <p className="confirmation-message">Notification sent!</p>}
             </div>

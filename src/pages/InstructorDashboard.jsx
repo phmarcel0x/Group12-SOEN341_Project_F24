@@ -190,7 +190,7 @@ const InstructorDashboard = () => {
                   >
                     <p>
                       <strong>{notification.title}</strong>:{" "}
-                      {getStudentName(notification.userId)} has contested their grade.
+                      {getStudentName(notification.userId)} has challenged their grade.
                       <h5>Click to view details.</h5>
                     </p>
                   </button>

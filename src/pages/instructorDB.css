@@ -144,6 +144,14 @@ h2 {
   margin-bottom: 40px;
 }
 
+h5 {
+  font-size: 20px;
+  color: #60a7ac;
+  margin-bottom: 40px;
+  text-decoration: underline;
+  margin-top: 10px;
+}
+
 /* Notification Button and Badge */
 .notification-container {
   position: relative;
