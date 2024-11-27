@@ -78,21 +78,33 @@ Christopher: 40275695
 
 | Date        | Duration       | Task               | Description                                   | Difficulty |
 | ----------- | -------------- | ------------------ | --------------------------------------------- | ---------- |
-| 4/11/2024   | 1h 30          | Review Sprint 3    | Look over the new requirements for Sprint 3   | 2          |
-|             |                |                    | (new instructor dashboard UI)                 |            |
-| 6/11/2024   | 1h 45          | Sprint Plan 3      | Created and started assigning tasks to        | 4          |
-|             |                |                    | specified team members                        |            |
-| 6/11/2024   | 1h 20          | New issues         | Created new issues for the Dev team to start  | 3          |
-|             |                |                    | working out as soon as possible               |            |
-| 7/11/2024   | 2h             | User story test    | Tested the Dev team's initial prototype as    | 5          |
-|             |                |                    | an instructor login and provided adequate     |            |
-|             |                |                    | feedback necessary for improvement            |            |
-| 9/11/2024   | 2h 15          | More issues        | Created additional tests and assigned them,   | 6          |
-|             |                |                    | as well as performed user tests and acceptance|            |
-|             |                |                    | test for the Dev team, and provided feedback  |            |
-| 10/11/2024  | 2h30           | Emergency issues   | Added last minute emergency issues to the     | 5          |
-|             |                |                    | Sprint Plan that were discovered              |            |
-Total: around 10 hours
+| 21/11/2024  | 1h 40          | Go over Sprint 4   | Look over the new requirements for Sprint 4   | 2          |
+|             |                |                    | and start doing research on them              |            |
+|             |                |                    |                                               |            |
+| 22/11/2024  | 2h             | Sprint Plan 4      | Created and started assigning tasks to        | 3          |
+|             |                |                    | the team                                      |            |
+|             |                |                    |                                               |            |
+| 23/11/2024  | 2h 40          | User testing       | Tested the new grade contest feature as an    | 5          |
+|             |                |                    | instructor (new notification update feature)  |            |
+|             |                |                    |                                               |            |
+| 23/11/2024  | 1h             | User story         | Properly noted down and ogranized the testing | 5          |
+|             |                |                    | data and translated into a user story within  |            |
+|             |                |                    | Sprint Plan 4                                 |            |
+|             |                |                    |                                               |            |
+| 24/11/2024  | 2h 30          | New  issues        | Created new issues and tasks for the team     | 4          |
+|             |                |                    | as well as properly assigned them             |            |
+|             |                |                    |                                               |            |
+| 25/11/2024  | 1h 40          | User story 2       | Organized and properly translated new user    | 4          |
+|             |                |                    | testing data into proper user stories in      |            |
+|             |                |                    | Sprint Plan 4                                 |            |
+|             |                |                    |                                               |            |
+| 26/11/2024  | 2h 30          | Emergency issues   | Included all last minute changes and details  | 5          |
+|             |                |                    | to the Sprint Plan                            |            |
+|             |                |                    |                                               |            |
+| 26/11/2024  | 1h             | Final submission   | Upload all necessary documents to the         | 2          |
+|             |                |                    | repository and assure they are in the         |            |
+|             |                |                    | correct directories                           |            |
+Total: around 14 hours
 
 
 
