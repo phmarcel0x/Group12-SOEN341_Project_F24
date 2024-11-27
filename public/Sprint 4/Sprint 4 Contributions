@@ -1,25 +1,21 @@
-Marcelo:
+Marcelo 40200901:
 
 | Date        | Duration       | Task               | Description                                   | Difficulty |
 | ----------- | -------------- | ------------------ | --------------------------------------------- | ---------- |
-| 31/10/2024  | 2 hours        | Refactor database  | Refactored our codebase such that data        | 7          |
-|     &       |                |                    | retrieval from Firestore is now based         |            |
-| 02/11/2024  | 3 hours        |                    | on the user UIDs and the team IDs,            |            |
-|             |                |                    | instead of the user emails and the team       |            |
-|             |                |                    | names. This change was necessary to           |            |
-|             |                |                    | support the new instructor dashboard          |            |
-|             |                |                    | evaluations summary feature.                  |            |
+| 19/11/2024  | 2 hours        | Update the backend | The firebase backend shall allow instructors  | 7          |
+|      &      |                |       pt.1         | to receive a notification about a student     |            |
+| 20/11/2024  | 2 hours        |                    | in their class contesting their grade.        |            |
 |             |                |                    |                                               |            |
-| 09/11/2024  | 3 hours        | Implemented first  | Implemented the feature where a student may   | 6          |
-|             |                | new feature.       | contest their peer evaluation scores. This    |            |
-|             |                |                    | feature required changes to the backend to    |            |
-|             |                |                    | support the new data flow. A "Contest         |            |
-|             |                |                    | Score" button was added to the frontend in    |            |
-|             |                |                    | the student dashboard.                        |            |
+| 23/11/2024  | 3 hours        | click on a button  | The frontend shall allow instructors to click | 9          | 
+|      &      |                |     that says      | on a button that says "See comment" to see    |            |
+| 24/11/2024  | 1 hour         |   "See comment"    | the comment that the student left on their    |            |
+|             |                |                    | grade. Instead of having a whole table just   |            |
+|             |                |                    | for comments.                                 |            |
 |             |                |                    |                                               |            |
-| 10/11/2024  | 3 hours        | Implemented second | Implemented the feature where instructors     | 7          |
-|             |                | new feature.       | may view some statistics about the teams,     |            |
-|             |                |                    | with some graphs for visualizations.          |            |
+| 25/11/2024  | 3 hours        | Student comments   | Students shall be able to type in a pop-up    | 8          |
+|             |                |        &           | comment box after clicking on the grade       |            |
+|             |                | Update the backend | contest button to further explain why they    |            |
+|             |                |       pt. 2        | decided to contest their grade.               |            |
 |             |                |                    |                                               |            |
 Total: 11 hours
 
