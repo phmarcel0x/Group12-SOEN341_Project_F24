@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { collection, query, where, getDocs } from 'firebase/firestore';
-import { db } from '../../firebaseConfig';
-import { useNavigate, useLocation } from 'react-router-dom';
 import {
-  Chart as ChartJS,
   ArcElement,
-  Tooltip,
-  Legend,
-  CategoryScale,
-  LinearScale,
   BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
+  LineElement,
+  PointElement,
   RadarController,
   RadialLinearScale,
-  PointElement,
-  LineElement,
+  Tooltip,
 } from 'chart.js';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
 import { Bar, Radar } from 'react-chartjs-2';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { db } from '../../firebaseConfig';
 import './visualizedataGR.css';
 
 ChartJS.register(
@@ -33,11 +33,10 @@ ChartJS.register(
 
 const VisualizeData = () => {
   const [groupData, setGroupData] = useState([]);
-  const [groupName, setGroupName] = useState('');
+  const [groupName, setGroupName] = useState('Unknown Group');
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Extract the groupId from the URL query parameters
   const groupId = new URLSearchParams(location.search).get('groupId');
 
   const contrastingColors = [
@@ -56,76 +55,83 @@ const VisualizeData = () => {
       navigate('/');
       return;
     }
-
-    const fetchGroupData = async () => {
-      const q = query(collection(db, 'evaluations'), where('groupId', '==', groupId));
-      const groupSnapshot = await getDocs(q);
-      const fetchedData = groupSnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setGroupData(fetchedData);
-
-      const groupQuery = query(collection(db, 'groups'), where('__name__', '==', groupId));
-      const groupSnapshotName = await getDocs(groupQuery);
-      const fetchedGroup = groupSnapshotName.docs.map((doc) => doc.data());
-      setGroupName(fetchedGroup[0]?.name || 'Unknown Group');
-    };
-
-    fetchGroupData();
+    fetchGroupData(groupId);
   }, [groupId, navigate]);
+
+  const fetchGroupData = async (id) => {
+    try {
+      const fetchedEvaluations = await fetchEvaluations(id);
+      setGroupData(fetchedEvaluations);
+
+      const fetchedGroupName = await fetchGroupName(id);
+      setGroupName(fetchedGroupName || 'Unknown Group');
+    } catch (error) {
+      console.error('Error fetching group data:', error);
+    }
+  };
+
+  const fetchEvaluations = async (id) => {
+    const q = query(collection(db, 'evaluations'), where('groupId', '==', id));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  };
+
+  const fetchGroupName = async (id) => {
+    const q = query(collection(db, 'groups'), where('__name__', '==', id));
+    const snapshot = await getDocs(q);
+    const groupData = snapshot.docs.map((doc) => doc.data());
+    return groupData[0]?.name;
+  };
 
   const processGroupedData = () => {
     const groupedData = {};
 
     groupData.forEach((evaluation) => {
-      Object.keys(evaluation.evaluationData || {}).forEach((dimension) => {
-        Object.keys(evaluation.evaluationData[dimension] || {}).forEach((student) => {
-          if (!groupedData[student]) groupedData[student] = {};
-          if (!groupedData[student][dimension]) groupedData[student][dimension] = [];
-          groupedData[student][dimension].push(
-            parseFloat(evaluation.evaluationData[dimension][student]?.rating) || 0
-          );
-        });
-      });
+      processEvaluationData(evaluation, groupedData);
     });
 
     return groupedData;
   };
 
-  const groupedRatings = processGroupedData();
+  const processEvaluationData = (evaluation, groupedData) => {
+    Object.keys(evaluation.evaluationData || {}).forEach((dimension) => {
+      processDimensionData(evaluation.evaluationData[dimension], dimension, groupedData);
+    });
+  };
 
-  const dimensions = Object.keys(
-    groupedRatings[Object.keys(groupedRatings)[0]] || {}
-  ); // Get dimension keys
-  const students = Object.keys(groupedRatings); // Get student keys
+  const processDimensionData = (dimensionData, dimension, groupedData) => {
+    Object.keys(dimensionData || {}).forEach((student) => {
+      groupedData[student] = groupedData[student] || {};
+      groupedData[student][dimension] = groupedData[student][dimension] || [];
+      groupedData[student][dimension].push(parseFloat(dimensionData[student]?.rating) || 0);
+    });
+  };
+
+  const groupedRatings = processGroupedData();
+  const dimensions = Object.keys(groupedRatings[Object.keys(groupedRatings)[0]] || {});
+  const students = Object.keys(groupedRatings);
+
+  const calculateAverageRatings = (student, dimension) =>
+    groupedRatings[student][dimension]?.reduce((a, b) => a + b, 0) /
+      groupedRatings[student][dimension]?.length || 0;
+
+  const createChartData = (dataProcessor) =>
+    students.map((student, index) => ({
+      label: student,
+      data: dimensions.map((dimension) => dataProcessor(student, dimension)),
+      backgroundColor: contrastingColors[index % contrastingColors.length],
+      borderColor: contrastingColors[index % contrastingColors.length].replace('0.7', '0.8'),
+      borderWidth: 2,
+    }));
 
   const groupedBarChartData = {
     labels: dimensions,
-    datasets: students.map((student, index) => ({
-      label: student,
-      data: dimensions.map(
-        (dimension) =>
-          groupedRatings[student][dimension]?.reduce((a, b) => a + b, 0) /
-            groupedRatings[student][dimension]?.length || 0
-      ),
-      backgroundColor: contrastingColors[index % contrastingColors.length],
-    })),
+    datasets: createChartData(calculateAverageRatings),
   };
 
   const radarChartData = {
     labels: dimensions,
-    datasets: students.map((student, index) => ({
-      label: student,
-      data: dimensions.map(
-        (dimension) =>
-          groupedRatings[student][dimension]?.reduce((a, b) => a + b, 0) /
-            groupedRatings[student][dimension]?.length || 0
-      ),
-      backgroundColor: `${contrastingColors[index % contrastingColors.length].replace('0.7', '0.2')}`,
-      borderColor: contrastingColors[index % contrastingColors.length].replace('0.7', '0.8'),
-      borderWidth: 2,
-    })),
+    datasets: createChartData((student, dimension) => calculateAverageRatings(student, dimension)),
   };
 
   return (
@@ -137,11 +143,17 @@ const VisualizeData = () => {
       <div className="chart-container">
         <div className="chart">
           <h3>Dimension-Wise Student Comparison</h3>
-          <Radar data={radarChartData} options={{ responsive: true, plugins: { legend: { position: 'top' } } }} />
+          <Radar
+            data={radarChartData}
+            options={{ responsive: true, plugins: { legend: { position: 'top' } } }}
+          />
         </div>
         <div className="chart">
           <h3>Dimension Ratings by Student</h3>
-          <Bar data={groupedBarChartData} options={{ responsive: true, plugins: { legend: { position: 'top' } } }} />
+          <Bar
+            data={groupedBarChartData}
+            options={{ responsive: true, plugins: { legend: { position: 'top' } } }}
+          />
         </div>
       </div>
     </div>
