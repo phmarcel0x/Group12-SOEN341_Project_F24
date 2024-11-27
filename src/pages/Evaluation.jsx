@@ -1,9 +1,7 @@
-// Evaluation.jsx
-
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { collection, getDocs, query, where } from 'firebase/firestore'; // Updated Firestore methods
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { auth, db } from "../../firebaseConfig"; // Firebase config
-import { collection, addDoc, query, where, getDocs } from 'firebase/firestore'; // Firestore methods
 import './evaluation.css';
 
 const Evaluation = () => {
@@ -32,11 +30,9 @@ const Evaluation = () => {
     }, [teamMembers]);
 
     const fetchStudentGroupId = async (userId) => {
-        // Query the 'groups' collection to find the group where the student is a member
         const q = query(collection(db, "groups"), where("members", "array-contains", userId));
         const querySnapshot = await getDocs(q);
         if (!querySnapshot.empty) {
-            // Return the groupId from the 'groups' collection
             return querySnapshot.docs[0].id;
         }
         return null; // Handle cases where the user is not part of any group
@@ -86,7 +82,6 @@ const Evaluation = () => {
         const groupId = await fetchStudentGroupId(userId);
     
         if (groupId) {
-            // Navigate to the Confirmation page, passing evaluation data via state without uploading
             navigate("/confirmation", {
                 state: { evaluationData, selectedMembers, dimensions, groupId, userId }
             });
@@ -97,11 +92,11 @@ const Evaluation = () => {
 
     return (
         <div>
-            <div className="evaluation-title"> Evaluation</div>
+            <div className="evaluation-title">Evaluation</div>
             <p className="evaluate-p">Select members to evaluate</p>
     
             <div className="evaluate-div">
-                <div className="evaluation-table-wrapper"> {/* Wrapper for centering */}
+                <div className="evaluation-table-wrapper">
                     <table className="evaluation-table">
                         <thead>
                             <tr>
@@ -110,20 +105,23 @@ const Evaluation = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredMembers.map((member, index) => (
-                                <tr key={index}>
+                            {filteredMembers.map((member) => (
+                                <tr key={member.email}>
                                     <td>{member.name}</td>
                                     <td>
-                                        <label>
-                                            <input
-                                                type="checkbox"
-                                                name="selectedMember"
-                                                className="checkmark"
-                                                onClick={() => handleSelectMember(member.name)}
-                                                checked={selectedMembers.includes(member.name)}
-                                            />
-                                            <span className="checkmark"></span>
-                                        </label>
+                                    <input
+  id={`checkbox-${member.name}`}
+  type="checkbox"
+  name="selectedMember"
+  className="checkmark"
+  onClick={() => handleSelectMember(member.name)}
+  checked={selectedMembers.includes(member.name)}
+/>
+<label htmlFor={`checkbox-${member.name}`}>
+  Select {member.name}
+  <span className="checkmark"></span>
+</label>
+
                                     </td>
                                 </tr>
                             ))}
@@ -134,13 +132,14 @@ const Evaluation = () => {
                 <div className="dimensions-container">
                     <div className="scroll-bar">
                         {dimensions.map((dimension) => (
-                            <div
+                            <button
                                 key={dimension}
+                                type="button"
                                 className={`dimension-box ${selectedDimension === dimension ? "selected" : ""}`}
                                 onClick={() => handleSelectDimension(dimension)}
                             >
                                 {dimension}
-                            </div>
+                            </button>
                         ))}
                     </div>
                 </div>
