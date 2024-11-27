@@ -7,7 +7,7 @@
     "liveServer.settings.donotShowInfoMsg": true,
     "cmake.showOptionsMovedNotification": false,
   
-    // SonarLint connected mode configuration
+   
     "sonarlint.connectedMode.connections.sonarqube": [
       {
         "serverId": "my-sonarqube-server",
@@ -19,13 +19,13 @@
       "projectKey": "Group12-SOEN341_Project_F24"
     },
   
-    // Firebase-related settings
+   
     "firebase.projectId": "soen341-project-group12",
     "firebase.storageBucket": "soen341-project-group12.appspot.com",
     "firebase.apiKey": "AIzaSyC-GgVnoeRB7KSgRIEBTpyNrtCuUKjk4TA",
     "firebase.authDomain": "soen341-project-group12.firebaseapp.com",
   
-    // Editor settings for better development
+   
     "editor.tabSize": 2,
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
@@ -33,16 +33,16 @@
       "source.fixAll.eslint": true
     },
   
-    // Linter and code quality settings
+   
     "eslint.validate": ["javascript", "javascriptreact"],
     "eslint.workingDirectories": [{ "mode": "auto" }],
   
-    // Prettier configuration for formatting
+    
     "prettier.singleQuote": true,
     "prettier.semi": true,
     "prettier.trailingComma": "es5",
   
-    // Debugging settings
+  
     "debug.node.autoAttach": "on",
     "launch": {
     "configurations": [
@@ -56,18 +56,18 @@
     ]
 },
   
-    // Git settings for version control
+  
     "git.enableSmartCommit": true,
     "git.autofetch": true,
   
-    // File exclusion settings
+    
     "files.exclude": {
       "**/node_modules": true,
       "**/.git": true,
       "**/.DS_Store": true
     },
   
-    // Terminal configuration for better logging
+   
     "terminal.integrated.defaultProfile.windows": "PowerShell",
     "terminal.integrated.profiles.windows": {
       "PowerShell": {
