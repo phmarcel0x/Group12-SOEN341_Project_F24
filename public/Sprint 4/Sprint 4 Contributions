@@ -64,11 +64,10 @@ Fabio: 40231803
 |             |                |                    | the user has and highlights the unread ones   |            |
 |             |                |                    | until the user clicks on them.                |            |
 |             |                |                    |                                               |            |
-| 10/11/24    | 4 hours        | Implemented second | Worked with Marcelo to add a feature enabling | 7          |
-|             |                |    new feature     | instructors to view team statistics with      |            |
-|             |                |                    | graphical visualizations                      |            |
-|             |                |                    |                                               |            |
-|             |                |                    |                                               |            |
+| 24/11/2024  | 1 hour         | Improved UI for    | The visualization of student grades has been  | 3          |
+|             |                | better visualizing | implemented with a more centralized layout to |            |
+|             |                | student grades     | enhance ease of viewing                       |            | 
+|             |                |                    |                                               |            | 
 | 10/11/24    | 1 hours        |   Updated css &    | Updated the css for the groupevaluation page  | 4          |
 |             |                |    Dashboards      | of the instructor and evaluation page for the |            |
 |             |                |                    | student for better clarity                    |            |
