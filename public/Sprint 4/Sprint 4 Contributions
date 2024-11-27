@@ -1,0 +1,149 @@
+Marcelo:
+
+| Date        | Duration       | Task               | Description                                   | Difficulty |
+| ----------- | -------------- | ------------------ | --------------------------------------------- | ---------- |
+| 31/10/2024  | 2 hours        | Refactor database  | Refactored our codebase such that data        | 7          |
+|     &       |                |                    | retrieval from Firestore is now based         |            |
+| 02/11/2024  | 3 hours        |                    | on the user UIDs and the team IDs,            |            |
+|             |                |                    | instead of the user emails and the team       |            |
+|             |                |                    | names. This change was necessary to           |            |
+|             |                |                    | support the new instructor dashboard          |            |
+|             |                |                    | evaluations summary feature.                  |            |
+|             |                |                    |                                               |            |
+| 09/11/2024  | 3 hours        | Implemented first  | Implemented the feature where a student may   | 6          |
+|             |                | new feature.       | contest their peer evaluation scores. This    |            |
+|             |                |                    | feature required changes to the backend to    |            |
+|             |                |                    | support the new data flow. A "Contest         |            |
+|             |                |                    | Score" button was added to the frontend in    |            |
+|             |                |                    | the student dashboard.                        |            |
+|             |                |                    |                                               |            |
+| 10/11/2024  | 3 hours        | Implemented second | Implemented the feature where instructors     | 7          |
+|             |                | new feature.       | may view some statistics about the teams,     |            |
+|             |                |                    | with some graphs for visualizations.          |            |
+|             |                |                    |                                               |            |
+Total: 11 hours
+
+
+Yash: 40248536
+
+| Date        | Duration       | Task               | Description                                   | Difficulty |
+| ----------- | -------------- | ------------------ | --------------------------------------------- | ---------- |
+| 10/28/2024  | 2 hour         | CI/CD Pipeline     | Enhanced the CI/CD pipeline by integrating    | 3          |
+|             |                | Updates            | additional checks  improving error handling,  |            |
+|             |                |                    | and optimizing the build process for faster   |            |
+              |                |                    | and more reliable deployments.                |            |
+|             |                |                    |                                               |            |
+| 31/11/24    | 3 hours        | Unit Testing       | Added unit tests to cover edge cases,         | 5          |
+|             |                | (Different Cases)  | improving test coverage and ensuring code     |            |
+|             |                |                    | stability and reliability.                    |            |
+|             |                |                    |                                               |            |
+| 5/11/24     | 3 hours        | Code Refactoring   | Refactored critical sections of the codebase  | 2          |
+|             |                |                    | to improve readability, maintainability, and  |            |
+|             |                |                    | performance, ensuring backward                |            |
+|             |                |                    | compatibility.                                |            |
+|             |                |                    |                                               |            |
+| 7/11/24     | 2 hours        | GitHub Branch      | DCorrected and standardized the GitHub        | 3          |
+|             |                | Structure Fix      | branching strategy to streamline              |            |
+|             |                |                    | collaboration and improve version control     |            |
+|             |                |                    | workflows.                                    |            |
+|             |                |                    |                                               |            |
+
+Total hours: 10 hours
+
+
+Fabio: 40231803
+
+| Date        | Duration       | Task               | Description                                   | Difficulty |
+| ----------- | -------------- | ------------------ | --------------------------------------------- | ---------- |
+| 01/11/2024  | 1 hour         | Review Sprint 3    | Look over the new requirements for Sprint 3   | 2          |
+|             |                |                    | together with team                            |            |
+|             |                |                    |                                               |            |
+| 09/11/2024  | 4 hours        | Implemented first  | Worked with Marcelo to implement this feature | 6          |   
+|             |                |    new feature     | Allows students to contest peer evaluation    |            |
+|             |                |                    | scores                                        |            |
+|             |                |                    |                                               |            |
+|             |                |                    |                                               |            |
+| 10/11/24    | 4 hours        | Implemented second | Worked with Marcelo to add a feature enabling | 7          |
+|             |                |    new feature     | instructors to view team statistics with      |            |
+|             |                |                    | graphical visualizations                      |            |
+|             |                |                    |                                               |            |
+|             |                |                    |                                               |            |
+| 10/11/24    | 1 hours        |   Updated css &    | Updated the css for the groupevaluation page  | 4          |
+|             |                |    Dashboards      | of the instructor and evaluation page for the |            |
+|             |                |                    | student for better clarity                    |            |
+
+Total: 10 Hours
+
+Christopher: 40275695
+
+| Date        | Duration       | Task               | Description                                   | Difficulty |
+| ----------- | -------------- | ------------------ | --------------------------------------------- | ---------- |
+| 4/11/2024   | 1h 30          | Review Sprint 3    | Look over the new requirements for Sprint 3   | 2          |
+|             |                |                    | (new instructor dashboard UI)                 |            |
+| 6/11/2024   | 1h 45          | Sprint Plan 3      | Created and started assigning tasks to        | 4          |
+|             |                |                    | specified team members                        |            |
+| 6/11/2024   | 1h 20          | New issues         | Created new issues for the Dev team to start  | 3          |
+|             |                |                    | working out as soon as possible               |            |
+| 7/11/2024   | 2h             | User story test    | Tested the Dev team's initial prototype as    | 5          |
+|             |                |                    | an instructor login and provided adequate     |            |
+|             |                |                    | feedback necessary for improvement            |            |
+| 9/11/2024   | 2h 15          | More issues        | Created additional tests and assigned them,   | 6          |
+|             |                |                    | as well as performed user tests and acceptance|            |
+|             |                |                    | test for the Dev team, and provided feedback  |            |
+| 10/11/2024  | 2h30           | Emergency issues   | Added last minute emergency issues to the     | 5          |
+|             |                |                    | Sprint Plan that were discovered              |            |
+Total: around 10 hours
+
+
+
+Evelyne:
+
+| Date        | Duration       | Task                | Description                                     | Difficulty |
+| ----------- | -------------- | ------------------  | ---------------------------------------------   | ---------- |
+| 5/11/2024   | 2 hour         | Initial system      | Develop a system to allow selection of          | 2          |
+|             |                | prototype to select | students or team members for evaluation,        |            |  
+|             |                | students to evaluate| ensuring user validation and storage of         |            |
+|             |                |                     | selected students.                              |            |
+
+| 6/11/2024   | 3 hour         | Create an initial   | Design a prototype feedback system with a 1-5   | 3          |
+|             |                | prototype of the    | rating scale for each assessment criterion and  |            |
+|             |                | feedback rating     | ensure proper processing of feedback.           |            |
+|             |                | system              |                                                 |            |
+
+| 7/11/2024   | 1h 30          | Group Discussion    | Discussed more into detail about the coding     | 5          |
+|             |                |                     | of the 2 new system requirements and its        |            |
+|             |                |                     | potential issues                                |            |
+
+| 9/11/2024   | 1 hour         | Include the submit  | Add a functional submit button that             | 1          |
+|             |                | button after        | activates when all required feedback sections   |            |
+|             |                | completing the      | are completed, ensuring proper feedback         |            |
+|             |                | feedback            | submission.                                     |            |
+
+| 10/11/2024  | 1 hours        |   Updated css &    | Updated the css for the groupevaluation page     | 4          |
+|             |                |    Dashboards      | of the instructor and evaluation page for the    |            |
+|             |                |                    | student for better clarity                       |            |
+
+
+Total hours: 10.5 hr
+
+
+Tristan:
+
+| Date        | Duration       | Task               | Description                                   | Difficulty |
+| ----------- | -------------- | ------------------ | --------------------------------------------- | ---------- |
+| 05/11/2024  | 1h 20          | Sprint 3 review    | Explore the requirements of sprint 3 
+                                                      and steps we will take to complete them       | 3          |
+| 7/11/2024   | 45             | Meeting (1)        | Take the notes and plans for meeting one 
+                                                      and compile them into a single document       | 3          |
+| 8 /11/2024  | 1h 40          | Sprint plan        | Worked and updated the sprint plan based off
+                                                      comments and goals decided by the team        | 5          |
+| 10/11/2024  | 1h             | Tests              | Tested the dev teams software and gave 
+                                                      feedback to improve the software              | 4          |
+| 10/11/2024  | 2h             | Sprint plan        | Update the sprint plan with user stories 
+                                                       from the testing                             | 3          |
+| 10/11/2024  | 1h 30          | Meeting            | Communication with the team to ensure all
+                                                      documents are ready for submission            | 3          |
+| 10/11/2024  | 1h             | Review             | Final revue of GitHub to ensure clear 
+                                                      structure                                     | 3          |
+
+Total time: 9h 30
