@@ -1,8 +1,8 @@
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where, setDoc, doc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { db } from "../../firebaseConfig";
-import EvaluatorResults from "./EvaluatorResults"; // Import the new component
+import EvaluatorResults from "./EvaluatorResults";
 import "./groupevaluation.css";
 
 const GroupEvaluation = () => {
@@ -10,6 +10,7 @@ const GroupEvaluation = () => {
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [evaluations, setEvaluations] = useState([]);
   const [users, setUsers] = useState([]);
+  const [averageRatings, setAverageRatings] = useState({});
   const navigate = useNavigate();
 
   const dimensions = [
@@ -40,42 +41,50 @@ const GroupEvaluation = () => {
 
     const q = query(collection(db, "evaluations"), where("groupId", "==", groupId));
     const evaluationSnapshot = await getDocs(q);
-    setEvaluations(evaluationSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+    const fetchedEvaluations = evaluationSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    setEvaluations(fetchedEvaluations);
+
+    calculateAndWriteAverages(fetchedEvaluations);
   };
 
-  const calculateConsolidatedAverages = () => {
-    const studentAverages = {};
+  const calculateAndWriteAverages = async (evaluations) => {
+    const ratingSums = {};
+    const ratingCounts = {};
 
     evaluations.forEach((evaluation) => {
-      // Go through each evaluation and aggregate "Average Across All" for each student
-      const evaluationData = evaluation.evaluationData || {};
+      Object.keys(evaluation.overallRatings || {}).forEach((key) => {
+        const rating = parseFloat(evaluation.overallRatings[key]);
+        const user = users.find((user) => user.name === key || user.id === key);
 
-      Object.keys(evaluationData).forEach((dimension) => {
-        const dimensionData = evaluationData[dimension];
-        Object.keys(dimensionData || {}).forEach((uid) => {
-          const rating = dimensionData[uid]?.rating;
-          if (!isNaN(parseFloat(rating))) {
-            if (!studentAverages[uid]) {
-              studentAverages[uid] = { total: 0, count: 0 };
-            }
-            studentAverages[uid].total += parseFloat(rating);
-            studentAverages[uid].count += 1;
-          }
-        });
+        if (user && !isNaN(rating)) {
+          ratingSums[user.id] = (ratingSums[user.id] || 0) + rating;
+          ratingCounts[user.id] = (ratingCounts[user.id] || 0) + 1;
+        }
       });
     });
 
-    const consolidatedAverages = {};
-    Object.keys(studentAverages).forEach((uid) => {
-      consolidatedAverages[uid] = (
-        studentAverages[uid].total / studentAverages[uid].count
-      ).toFixed(2);
+    const averages = {};
+    Object.keys(ratingSums).forEach((uid) => {
+      averages[uid] = (ratingSums[uid] / ratingCounts[uid]).toFixed(2);
     });
 
-    return consolidatedAverages;
-  };
+    setAverageRatings(averages);
 
-  const consolidatedAverages = calculateConsolidatedAverages();
+    const overallGradesRef = collection(db, "overall grades");
+    const batchPromises = Object.entries(averages).map(([uid, avgRating]) =>
+      setDoc(doc(overallGradesRef, uid), { grade: parseFloat(avgRating) })
+    );
+
+    try {
+      await Promise.all(batchPromises);
+      console.log("Overall grades updated successfully!");
+    } catch (error) {
+      console.error("Error updating overall grades in Firestore: ", error);
+    }
+  };
 
   const getStudentName = (uid) => {
     const user = users.find((user) => user.id === uid);
@@ -102,7 +111,7 @@ const GroupEvaluation = () => {
         </select>
 
         {/* Consolidated Average Overall Ratings Table */}
-        {selectedGroup && Object.keys(consolidatedAverages).length > 0 && (
+        {selectedGroup && Object.keys(averageRatings).length > 0 && (
           <div className="average-rating-section">
             <h3>Average Overall Ratings for Each Student</h3>
             <table className="evaluation-table">
@@ -113,7 +122,7 @@ const GroupEvaluation = () => {
                 </tr>
               </thead>
               <tbody>
-                {Object.entries(consolidatedAverages).map(([uid, avgRating]) => (
+                {Object.entries(averageRatings).map(([uid, avgRating]) => (
                   <tr key={uid}>
                     <td>{getStudentName(uid)}</td>
                     <td>{avgRating}</td>

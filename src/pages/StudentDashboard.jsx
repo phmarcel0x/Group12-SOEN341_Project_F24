@@ -1,17 +1,16 @@
-import { addDoc, collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
 import { auth, db } from "../../firebaseConfig";
 import "./studentDB.css";
+import { useNavigate } from "react-router-dom";
 
 const StudentDashboard = () => {
   const [team, setTeam] = useState(null);
   const [teamMembers, setTeamMembers] = useState([]);
   const [groups, setGroups] = useState([]);
-  const [overallGrade, setOverallGrade] = useState(null);
+  const [overallGrade, setOverallGrade] = useState(null); // State to store overall grade
   const [isSent, setIsSent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
   const navigate = useNavigate();
 
   const handleNotification = async () => {
@@ -71,10 +70,15 @@ const StudentDashboard = () => {
       const user = auth.currentUser;
       if (!user) return;
 
-      const gradeDocRef = doc(db, "overall grades", user.uid);
+      const gradeDocRef = doc(db, "overall grades", user.uid); // Fetch grade by UID
       const gradeDoc = await getDoc(gradeDocRef);
 
-      setOverallGrade(gradeDoc.exists() ? gradeDoc.data().grade : "N/A");
+      if (gradeDoc.exists()) {
+        setOverallGrade(gradeDoc.data().grade); // Set the grade in state
+      } else {
+        console.warn(`No grade found for UID: ${user.uid}`);
+        setOverallGrade("N/A");
+      }
     } catch (error) {
       console.error("Error fetching overall grade: ", error);
     }
@@ -84,11 +88,11 @@ const StudentDashboard = () => {
     try {
       const groupSnapshot = await getDocs(collection(db, "groups"));
       const fetchedGroups = [];
-  
+
       for (let groupDoc of groupSnapshot.docs) {
         const groupData = groupDoc.data();
         const membersDetails = [];
-  
+
         // Resolve each UID to the user's name
         for (let memberId of groupData.members) {
           const userQuery = query(collection(db, "users"), where("__name__", "==", memberId));
@@ -100,20 +104,19 @@ const StudentDashboard = () => {
             membersDetails.push("Unknown Member");
           }
         }
-  
+
         fetchedGroups.push({
           id: groupDoc.id,
           name: groupData.name,
           members: membersDetails,
         });
       }
-  
+
       setGroups(fetchedGroups);
     } catch (error) {
       console.error("Error fetching groups:", error);
     }
   };
-
 
   useEffect(() => {
     fetchStudentTeam();
