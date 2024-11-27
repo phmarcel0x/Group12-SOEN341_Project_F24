@@ -144,19 +144,19 @@ Tristan:
 
 | Date        | Duration       | Task               | Description                                   | Difficulty |
 | ----------- | -------------- | ------------------ | --------------------------------------------- | ---------- |
-| 05/11/2024  | 1h 20          | Sprint 3 review    | Explore the requirements of sprint 3 
+| 13/11/2024  | 1h 20          | Sprint 4 review    | Explore the requirements of sprint 4 
                                                       and steps we will take to complete them       | 3          |
-| 7/11/2024   | 45             | Meeting (1)        | Take the notes and plans for meeting one 
-                                                      and compile them into a single document       | 3          |
-| 8 /11/2024  | 1h 40          | Sprint plan        | Worked and updated the sprint plan based off
+| 14/11/2024  | 45             | Task assignment    | Discuss and assign tasks to team members and
+                                                      establish roles                               | 3          |
+| 14/11/2024  | 1h 30          | Sprint plan        | Worked and updated the sprint plan based off
                                                       comments and goals decided by the team        | 5          |
-| 10/11/2024  | 1h             | Tests              | Tested the dev teams software and gave 
-                                                      feedback to improve the software              | 4          |
-| 10/11/2024  | 2h             | Sprint plan        | Update the sprint plan with user stories 
-                                                       from the testing                             | 3          |
-| 10/11/2024  | 1h 30          | Meeting            | Communication with the team to ensure all
-                                                      documents are ready for submission            | 3          |
+| 19/11/2024  | 1h             | Tests              | Tested the dev teams improvements
+                                                      (contest grade feature) and gave feedback     | 4          |
+| 20/11/2024  | 1h 20          | Sprint plan        | Update the sprint plan with user stories 
+                                                       from the testing and modified some tasks     | 3          |
+| 23/11/2024  | 1h 30          | GitHub translation | Translate all sprint plan information into
+                                                      GitHub issues                                 | 3          |
 | 10/11/2024  | 1h             | Review             | Final revue of GitHub to ensure clear 
-                                                      structure                                     | 3          |
+                                                      structure and correct information             | 3          |
 
-Total time: 9h 30
+Total time: 8h 25
