@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { db } from "../../firebaseConfig";
 import EvaluatorResults from "./EvaluatorResults";
-import "./groupevaluation.css";
+import "./css-files/groupevaluation.css";
 
 const GroupEvaluation = () => {
   const [groups, setGroups] = useState([]);

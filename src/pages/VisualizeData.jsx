@@ -16,7 +16,7 @@ import React, { useEffect, useState } from 'react';
 import { Bar, Radar } from 'react-chartjs-2';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { db } from '../../firebaseConfig';
-import './visualizedataGR.css';
+import './css-files/visualizedataGR.css';
 
 ChartJS.register(
   ArcElement,

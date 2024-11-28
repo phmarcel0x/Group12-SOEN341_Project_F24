@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import "./EvaluatorResults.css";
+import "./css-files/EvaluatorResults.css";
 
 const EvaluatorResults = ({ evaluation, dimensions, users }) => {
   const getEvaluatorName = (evaluatorId) => {

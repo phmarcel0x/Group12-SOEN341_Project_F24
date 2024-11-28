@@ -2,7 +2,7 @@ import { addDoc, collection, doc, getDoc, getDocs, query, where } from "firebase
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../../firebaseConfig";
-import "./studentDB.css";
+import "./css-files/studentDB.css";
 
 const StudentDashboard = () => {
   const [team, setTeam] = useState(null);

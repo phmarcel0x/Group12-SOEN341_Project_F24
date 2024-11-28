@@ -12,7 +12,7 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { db } from "../../firebaseConfig";
-import "./instructorDB.css";
+import "./css-files/instructorDB.css";
 
 const InstructorDashboard = () => {
   const [groupName, setGroupName] = useState("");

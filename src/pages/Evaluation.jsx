@@ -2,7 +2,7 @@ import { collection, getDocs, query, where } from 'firebase/firestore'; // Updat
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { auth, db } from "../../firebaseConfig"; // Firebase config
-import './evaluation.css';
+import './css-files/evaluation.css';
 
 const Evaluation = () => {
     const location = useLocation();

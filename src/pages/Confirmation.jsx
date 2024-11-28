@@ -4,7 +4,7 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { db } from "../../firebaseConfig";
 import { collection, query, where, getDocs, addDoc, updateDoc, doc } from "firebase/firestore";
-import './confirmation.css';
+import './css-files/confirmation.css';
 
 const Confirmation = () => {
     const location = useLocation();
