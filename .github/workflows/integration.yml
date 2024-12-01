@@ -12,7 +12,6 @@ on:
       - Deployment
       - test-case
 
-
 jobs:
   build:
 
@@ -23,7 +22,12 @@ jobs:
         node-version: [20.x]
 
     steps:
+    # Checkout the code
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Ensure full repo cloning for proper SonarQube analysis
+    
+    # Set up Node.js
     - name: Set up Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
@@ -41,3 +45,26 @@ jobs:
     # Run tests
     - name: Run Tests
       run: npm test
+    
+    # SonarQube Analysis
+    - name: SonarQube Analysis
+      uses: sonarsource/sonarqube-scan-action@v3
+      env:
+        SONAR_TOKEN: squ_af3b8845a792d5ea15055f0db2f4e2dbf52ff985
+        SONAR_HOST_URL: http://localhost:9000
+    
+    # Optional: Enforce SonarQube Quality Gate
+    # Uncomment to fail the build if the Quality Gate fails
+    # - name: Enforce Quality Gate
+    #   uses: sonarsource/sonarqube-quality-gate-action@master
+    #   timeout-minutes: 5
+    #   env:
+    #     SONAR_TOKEN: squ_af3b8845a792d5ea15055f0db2f4e2dbf52ff985
+
+    # Prettier Formatting
+    - name: Run Prettier
+      run: npx prettier --check .
+
+    # Lint with ESLint
+    - name: Lint with ESLint
+      run: npx eslint . --ext .js,.jsx --fix
