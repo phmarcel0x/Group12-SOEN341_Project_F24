@@ -1,16 +1,73 @@
-name: Test Runner
+name: integration
 
 on:
   push:
-    branches:
+    branches: 
       - main
+      - Deployment
+      - test-case
+  pull_request:
+    branches: 
+      - main
+      - Deployment
+      - test-case
 
 jobs:
-  test:
+  build:
+
     runs-on:
       - self-hosted
       - Windows
-      - X64
+      - X64  # Updated to match your runner's labels
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
     steps:
-    - name: Verify Runner
-      run: echo "Runner is active and picking up jobs!"
+    # Checkout the code
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Ensure full repo cloning for proper SonarQube analysis
+    
+    # Set up Node.js
+    - name: Set up Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    
+    # Install dependencies
+    - name: Install Dependencies
+      run: npm ci
+    
+    # Build the project
+    - name: Build Project
+      run: npm run build --if-present
+    
+    # Run tests
+    - name: Run Tests
+      run: npm test
+    
+    # SonarQube Analysis
+    - name: SonarQube Analysis
+      uses: sonarsource/sonarqube-scan-action@v3
+      env:
+        SONAR_TOKEN: squ_af3b8845a792d5ea15055f0db2f4e2dbf52ff985
+        SONAR_HOST_URL: http://localhost:9000
+    
+    # Optional: Enforce SonarQube Quality Gate
+    # Uncomment to fail the build if the Quality Gate fails
+    # - name: Enforce Quality Gate
+    #   uses: sonarsource/sonarqube-quality-gate-action@master
+    #   timeout-minutes: 5
+    #   env:
+    #     SONAR_TOKEN: squ_af3b8845a792d5ea15055f0db2f4e2dbf52ff985
+
+    # Prettier Formatting
+    - name: Run Prettier
+      run: npx prettier --check .
+
+    # Lint with ESLint
+    - name: Lint with ESLint
+      run: npx eslint . --ext .js,.jsx --fix
