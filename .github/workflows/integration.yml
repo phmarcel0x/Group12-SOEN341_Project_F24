@@ -2,42 +2,111 @@ name: integration
 
 on:
   push:
-    branches: 
+    branches:
       - main
       - Deployment
       - test-case
   pull_request:
-    branches: 
+    branches:
       - main
       - Deployment
       - test-case
 
-
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+      - Windows
+      - X64  # Matches your runner's labels
 
     strategy:
       matrix:
         node-version: [20.x]
 
     steps:
+    # Checkout the code
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Ensure full repo cloning for proper SonarQube analysis
+
+    # Set up Node.js
     - name: Set up Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    
+
     # Install dependencies
     - name: Install Dependencies
       run: npm ci
-    
+
     # Build the project
     - name: Build Project
       run: npm run build --if-present
-    
+
     # Run tests
     - name: Run Tests
       run: npm test
+
+    # Set JAVA_HOME and Path in cmd
+    - name: Set JAVA_HOME
+      shell: cmd
+      run: |
+        setx JAVA_HOME "C:\Program Files\Java\jdk-17"
+        setx PATH "%JAVA_HOME%\bin;%PATH%"
+        echo JAVA_HOME=%JAVA_HOME%
+        echo PATH=%PATH%
+
+    # Debug JAVA_HOME and Path
+    - name: Debug JAVA_HOME and Path
+      shell: cmd
+      run: |
+        echo JAVA_HOME=%JAVA_HOME%
+        echo PATH=%PATH%
+        where java
+
+    # Setup SonarScanner in PowerShell
+    - name: Setup SonarScanner
+      shell: powershell
+      run: |
+        $env:SONAR_SCANNER_VERSION = "6.2.0.4584"
+        $env:SONAR_DIRECTORY = [System.IO.Path]::Combine($(get-location).Path, ".sonar")
+        $env:SONAR_SCANNER_HOME = "$env:SONAR_DIRECTORY/sonar-scanner-$env:SONAR_SCANNER_VERSION-windows-x64"
+        if (!(Test-Path -Path $env:SONAR_SCANNER_HOME)) {
+          New-Item -ItemType Directory -Force -Path $env:SONAR_DIRECTORY
+          Invoke-WebRequest `
+            -Uri "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$env:SONAR_SCANNER_VERSION-windows-x64.zip" `
+            -OutFile "$env:SONAR_DIRECTORY\sonar-scanner.zip"
+          Add-Type -AssemblyName System.IO.Compression.FileSystem
+          [System.IO.Compression.ZipFile]::ExtractToDirectory(
+            "$env:SONAR_DIRECTORY\sonar-scanner.zip",
+            "$env:SONAR_DIRECTORY"
+          )
+          Remove-Item "$env:SONAR_DIRECTORY\sonar-scanner.zip" -Force
+        }
+        $env:Path += ";$env:SONAR_SCANNER_HOME\bin"
+        Write-Host "SonarScanner set up at: $env:SONAR_SCANNER_HOME"
+
+    # # Run SonarQube Analysis using SonarScanner CLI in cmd
+    # - name: Run SonarScanner
+    #   shell: cmd
+    #   env:
+    #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    #   run: |
+    #     "C:\Users\Administrator\actions-runner\_work\Group12-SOEN341_Project_F24\Group12-SOEN341_Project_F24\src\pages\.vscode\bin\sonar-scanner.bat" ^
+    #       -Dsonar.projectKey=Group12-SOEN341_Project_F24 ^
+    #       -Dsonar.projectName=Group12-SOEN341_Project_F24 ^
+    #       -Dsonar.sources=. ^
+    #       -Dsonar.exclusions=node_modules/**,dist/**,build/** ^
+    #       -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info ^
+    #       -Dsonar.sourceEncoding=UTF-8 ^
+    #       -Dsonar.host.url=http://localhost:9000 ^
+    #       -Dsonar.login=%SONAR_TOKEN%
+
+ # Prettier Formatting
+    - name: Run Prettier
+      run: npx prettier --write .  # Automatically fix issues
+
+    # Lint with ESLint
+    - name: Lint with ESLint
+      run: npx eslint . --ext .js,.jsx --fix  # Automatically fix linting issues
