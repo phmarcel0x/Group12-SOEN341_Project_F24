@@ -67,11 +67,14 @@ jobs:
           )
           Remove-Item "$env:SONAR_DIRECTORY/sonar-scanner.zip" -Force
         }
-        $env:Path += ";$env:SONAR_SCANNER_HOME\bin"
+        $env:Path += ";$env:SONAR_SCANNER_HOME/bin"
 
     # Run SonarQube Analysis using SonarScanner CLI
     - name: Run SonarScanner
       shell: cmd
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        JAVA_HOME: "C:\\Program Files\\Java\\jdk-17"  # Set JAVA_HOME explicitly
       run: |
         src\pages\.vscode\bin\sonar-scanner.bat ^
           -Dsonar.projectKey=Group12-SOEN341_Project_F24 ^
@@ -82,8 +85,6 @@ jobs:
           -Dsonar.sourceEncoding=UTF-8 ^
           -Dsonar.host.url=http://localhost:9000 ^
           -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
     # Prettier Formatting
     - name: Run Prettier
