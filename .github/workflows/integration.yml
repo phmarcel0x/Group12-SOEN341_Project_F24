@@ -48,19 +48,12 @@ jobs:
     - name: Run Tests
       run: npm test
 
-    # Set up JAVA_HOME
+    # Set JAVA_HOME environment variable
     - name: Set JAVA_HOME
       run: |
-        $env:JAVA_HOME = "C:\Program Files\Java\jdk-17"  # Adjust to the correct Java path on your system
+        $env:JAVA_HOME = "C:\Program Files\Java\jdk-17"  # Update this to the actual path
         $env:Path += ";$env:JAVA_HOME\bin"
         java -version  # Verify Java installation
-
-    # Set up SonarScanner path
-    - name: Set SonarScanner Path
-      run: |
-        $env:SONAR_SCANNER_HOME = "${{ github.workspace }}\\src\\pages\\.vscode"
-        $env:Path += ";$env:SONAR_SCANNER_HOME\\bin"
-        Write-Host "SonarScanner path set to: $env:SONAR_SCANNER_HOME\\bin"
     
     # SonarQube Analysis using SonarScanner CLI
     - name: Run SonarScanner
