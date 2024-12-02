@@ -2,12 +2,12 @@ name: integration
 
 on:
   push:
-    branches: 
+    branches:
       - main
       - Deployment
       - test-case
   pull_request:
-    branches: 
+    branches:
       - main
       - Deployment
       - test-case
@@ -28,56 +28,50 @@ jobs:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0  # Ensure full repo cloning for proper SonarQube analysis
-    
+
     # Set up Node.js
     - name: Set up Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    
+
     # Install dependencies
     - name: Install Dependencies
       run: npm ci
-    
+
     # Build the project
     - name: Build Project
       run: npm run build --if-present
-    
+
     # Run tests
     - name: Run Tests
       run: npm test
 
-    # Download and set up SonarScanner
+    # Setup SonarScanner
     - name: Setup SonarScanner
       run: |
         $env:SONAR_SCANNER_VERSION = "6.2.0.4584"
         $env:SONAR_DIRECTORY = [System.IO.Path]::Combine($(get-location).Path, ".sonar")
         $env:SONAR_SCANNER_HOME = "$env:SONAR_DIRECTORY/sonar-scanner-$env:SONAR_SCANNER_VERSION-windows-x64"
         if (!(Test-Path -Path $env:SONAR_SCANNER_HOME)) {
+          New-Item -ItemType Directory -Force -Path $env:SONAR_DIRECTORY
           Invoke-WebRequest `
             -Uri "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$env:SONAR_SCANNER_VERSION-windows-x64.zip" `
-            -OutFile "$env:SONAR_DIRECTORY\sonar-scanner.zip"
+            -OutFile "$env:SONAR_DIRECTORY/sonar-scanner.zip"
           Add-Type -AssemblyName System.IO.Compression.FileSystem
           [System.IO.Compression.ZipFile]::ExtractToDirectory(
-            "$env:SONAR_DIRECTORY\sonar-scanner.zip",
+            "$env:SONAR_DIRECTORY/sonar-scanner.zip",
             "$env:SONAR_DIRECTORY"
           )
-          Remove-Item "$env:SONAR_DIRECTORY\sonar-scanner.zip" -Force
+          Remove-Item "$env:SONAR_DIRECTORY/sonar-scanner.zip" -Force
         }
-        $env:Path += ";$env:SONAR_SCANNER_HOME\bin"
-    
-    # Ensure JAVA_HOME is set
-    - name: Set JAVA_HOME
-      run: |
-        $env:JAVA_HOME = "C:\Program Files\Java\jdk-17"
-        $env:Path += ";$env:JAVA_HOME\bin"
-      shell: powershell
+        $env:Path += ";$env:SONAR_SCANNER_HOME/bin"
 
-    # SonarQube Analysis using SonarScanner CLI
+    # Run SonarQube Analysis using SonarScanner CLI
     - name: Run SonarScanner
       run: |
-        src\pages\.vscode\bin\sonar-scanner.bat ^
+        sonar-scanner.bat ^
           -Dsonar.projectKey=Group12-SOEN341_Project_F24 ^
           -Dsonar.projectName=Group12-SOEN341_Project_F24 ^
           -Dsonar.sources=. ^
