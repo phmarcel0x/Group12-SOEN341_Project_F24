@@ -14,11 +14,10 @@ on:
 
 jobs:
   build:
-
     runs-on:
       - self-hosted
       - Windows
-      - X64  # Updated to match your runner's labels
+      - X64  # Matches your runner's labels
 
     strategy:
       matrix:
@@ -49,21 +48,21 @@ jobs:
     - name: Run Tests
       run: npm test
     
-    # SonarQube Analysis
-    - name: SonarQube Analysis
-      uses: sonarsource/sonarqube-scan-action@v3
+    # SonarQube Analysis using SonarScanner CLI
+    - name: Run SonarScanner
+      run: |
+        sonar-scanner.bat ^
+          -Dsonar.projectKey=Group12-SOEN341_Project_F24 ^
+          -Dsonar.projectName=Group12-SOEN341_Project_F24 ^
+          -Dsonar.sources=. ^
+          -Dsonar.exclusions=node_modules/**,dist/**,build/** ^
+          -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info ^
+          -Dsonar.sourceEncoding=UTF-8 ^
+          -Dsonar.host.url=http://localhost:9000 ^
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
       env:
-        SONAR_TOKEN: squ_af3b8845a792d5ea15055f0db2f4e2dbf52ff985
-        SONAR_HOST_URL: http://localhost:9000
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     
-    # Optional: Enforce SonarQube Quality Gate
-    # Uncomment to fail the build if the Quality Gate fails
-    # - name: Enforce Quality Gate
-    #   uses: sonarsource/sonarqube-quality-gate-action@master
-    #   timeout-minutes: 5
-    #   env:
-    #     SONAR_TOKEN: squ_af3b8845a792d5ea15055f0db2f4e2dbf52ff985
-
     # Prettier Formatting
     - name: Run Prettier
       run: npx prettier --check .
