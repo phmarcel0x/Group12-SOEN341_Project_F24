@@ -48,6 +48,13 @@ jobs:
     - name: Run Tests
       run: npm test
 
+    # Set up JAVA_HOME
+    - name: Set JAVA_HOME
+      run: |
+        $env:JAVA_HOME = "C:\Program Files\Java\jdk-17"  # Adjust to the correct Java path on your system
+        $env:Path += ";$env:JAVA_HOME\bin"
+        java -version  # Verify Java installation
+
     # Set up SonarScanner path
     - name: Set SonarScanner Path
       run: |
