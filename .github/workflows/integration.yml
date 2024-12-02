@@ -67,11 +67,12 @@ jobs:
           Remove-Item "$env:SONAR_DIRECTORY/sonar-scanner.zip" -Force
         }
         $env:Path += ";$env:SONAR_SCANNER_HOME/bin"
+      shell: pwsh
 
     # Run SonarQube Analysis using SonarScanner CLI
     - name: Run SonarScanner
       run: |
-        sonar-scanner.bat ^
+        src\pages\.vscode\bin\sonar-scanner.bat ^
           -Dsonar.projectKey=Group12-SOEN341_Project_F24 ^
           -Dsonar.projectName=Group12-SOEN341_Project_F24 ^
           -Dsonar.sources=. ^
@@ -82,6 +83,7 @@ jobs:
           -Dsonar.login=${{ secrets.SONAR_TOKEN }}
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      shell: cmd
 
     # Prettier Formatting
     - name: Run Prettier
