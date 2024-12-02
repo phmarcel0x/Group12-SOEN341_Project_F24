@@ -48,16 +48,34 @@ jobs:
     - name: Run Tests
       run: npm test
 
-    # Set JAVA_HOME environment variable
+    # Download and set up SonarScanner
+    - name: Setup SonarScanner
+      run: |
+        $env:SONAR_SCANNER_VERSION = "6.2.0.4584"
+        $env:SONAR_DIRECTORY = [System.IO.Path]::Combine($(get-location).Path, ".sonar")
+        $env:SONAR_SCANNER_HOME = "$env:SONAR_DIRECTORY/sonar-scanner-$env:SONAR_SCANNER_VERSION-windows-x64"
+        if (!(Test-Path -Path $env:SONAR_SCANNER_HOME)) {
+          Invoke-WebRequest `
+            -Uri "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$env:SONAR_SCANNER_VERSION-windows-x64.zip" `
+            -OutFile "$env:SONAR_DIRECTORY\sonar-scanner.zip"
+          Add-Type -AssemblyName System.IO.Compression.FileSystem
+          [System.IO.Compression.ZipFile]::ExtractToDirectory(
+            "$env:SONAR_DIRECTORY\sonar-scanner.zip",
+            "$env:SONAR_DIRECTORY"
+          )
+          Remove-Item "$env:SONAR_DIRECTORY\sonar-scanner.zip" -Force
+        }
+        $env:Path += ";$env:SONAR_SCANNER_HOME\bin"
+    
+    # Ensure JAVA_HOME is set
     - name: Set JAVA_HOME
       run: |
-        $env:JAVA_HOME = "C:\Program Files\Java\jdk-17"  # Update this to the actual path
+        $env:JAVA_HOME = "C:\Program Files\Java\jdk-17"
         $env:Path += ";$env:JAVA_HOME\bin"
-        java -version  # Verify Java installation
-    
+      shell: powershell
+
     # SonarQube Analysis using SonarScanner CLI
     - name: Run SonarScanner
-      shell: cmd
       run: |
         src\pages\.vscode\bin\sonar-scanner.bat ^
           -Dsonar.projectKey=Group12-SOEN341_Project_F24 ^
@@ -70,7 +88,7 @@ jobs:
           -Dsonar.login=${{ secrets.SONAR_TOKEN }}
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-    
+
     # Prettier Formatting
     - name: Run Prettier
       run: npx prettier --check .
