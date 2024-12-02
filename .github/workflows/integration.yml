@@ -48,14 +48,16 @@ jobs:
     - name: Run Tests
       run: npm test
 
-  # Set JAVA_HOME
+    # Set JAVA_HOME in PowerShell
     - name: Set JAVA_HOME
-    shell: cmd
+      shell: powershell
       run: |
-        set JAVA_HOME=C:\Program Files\Java\jdk-17
-        set PATH=%JAVA_HOME%\bin;%PATH%
+        $env:JAVA_HOME = "C:\Program Files\Java\jdk-17"
+        $env:Path += ";$env:JAVA_HOME\bin"
+        Write-Host "JAVA_HOME set to: $env:JAVA_HOME"
+        Write-Host "Path updated: $env:Path"
 
-    # Setup SonarScanner
+    # Setup SonarScanner in PowerShell
     - name: Setup SonarScanner
       shell: powershell
       run: |
@@ -66,22 +68,22 @@ jobs:
           New-Item -ItemType Directory -Force -Path $env:SONAR_DIRECTORY
           Invoke-WebRequest `
             -Uri "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$env:SONAR_SCANNER_VERSION-windows-x64.zip" `
-            -OutFile "$env:SONAR_DIRECTORY/sonar-scanner.zip"
+            -OutFile "$env:SONAR_DIRECTORY\sonar-scanner.zip"
           Add-Type -AssemblyName System.IO.Compression.FileSystem
           [System.IO.Compression.ZipFile]::ExtractToDirectory(
-            "$env:SONAR_DIRECTORY/sonar-scanner.zip",
+            "$env:SONAR_DIRECTORY\sonar-scanner.zip",
             "$env:SONAR_DIRECTORY"
           )
-          Remove-Item "$env:SONAR_DIRECTORY/sonar-scanner.zip" -Force
+          Remove-Item "$env:SONAR_DIRECTORY\sonar-scanner.zip" -Force
         }
-        $env:Path += ";$env:SONAR_SCANNER_HOME/bin"
+        $env:Path += ";$env:SONAR_SCANNER_HOME\bin"
+        Write-Host "SonarScanner set up at: $env:SONAR_SCANNER_HOME"
 
-    # Run SonarQube Analysis using SonarScanner CLI
+    # Run SonarQube Analysis using SonarScanner CLI in cmd
     - name: Run SonarScanner
       shell: cmd
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        JAVA_HOME: "C:\\Program Files\\Java\\jdk-17"  # Set JAVA_HOME explicitly
       run: |
         src\pages\.vscode\bin\sonar-scanner.bat ^
           -Dsonar.projectKey=Group12-SOEN341_Project_F24 ^
@@ -91,7 +93,7 @@ jobs:
           -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info ^
           -Dsonar.sourceEncoding=UTF-8 ^
           -Dsonar.host.url=http://localhost:9000 ^
-          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+          -Dsonar.login=%SONAR_TOKEN%
 
     # Prettier Formatting
     - name: Run Prettier
