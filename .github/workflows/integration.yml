@@ -54,6 +54,12 @@ jobs:
         $env:SONAR_SCANNER_VERSION = "6.2.0.4584"
         $env:SONAR_DIRECTORY = "${{ github.workspace }}\\.sonar"
         $env:SONAR_SCANNER_HOME = "$env:SONAR_DIRECTORY\\sonar-scanner-$env:SONAR_SCANNER_VERSION-windows-x64"
+        
+        # Ensure the .sonar directory exists
+        if (!(Test-Path -Path $env:SONAR_DIRECTORY)) {
+          New-Item -Path $env:SONAR_DIRECTORY -ItemType Directory
+        }
+        
         if (!(Test-Path -Path $env:SONAR_SCANNER_HOME)) {
           Invoke-WebRequest `
             -Uri "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$env:SONAR_SCANNER_VERSION-windows-x64.zip" `
