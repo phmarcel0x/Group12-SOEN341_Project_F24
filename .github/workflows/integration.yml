@@ -1,112 +1,43 @@
-name: CI Workflow
+name: integration
 
 on:
   push:
-    branches:
+    branches: 
       - main
-      - Development
+      - Deployment
+      - test-case
   pull_request:
-    branches:
+    branches: 
       - main
-      - Development
+      - Deployment
+      - test-case
+
 
 jobs:
   build:
-    runs-on:
-      - self-hosted
-      - Windows
-      - X64
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
 
     steps:
-    # Step 1: Checkout the Code
-    - name: Checkout Code
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-
-    # Step 2: Setup Node.js
-    - name: Set up Node.js
+    - uses: actions/checkout@v4
+    - name: Set up Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
-        node-version: '20.x'
+        node-version: ${{ matrix.node-version }}
         cache: 'npm'
-
-    # Step 3: Install Dependencies
+    
+    # Install dependencies
     - name: Install Dependencies
       run: npm ci
-
-    # Step 4: Build the Project
+    
+    # Build the project
     - name: Build Project
       run: npm run build --if-present
-
-    # Step 5: Run Tests
+    
+    # Run tests
     - name: Run Tests
       run: npm test
-
-    # Step 6: Setup Java Environment
-    - name: Set JAVA_HOME
-      run: |
-        setx JAVA_HOME "C:\Program Files\Java\jdk-17"
-        setx PATH "%JAVA_HOME%\bin;%PATH%"
-        echo JAVA_HOME=%JAVA_HOME%
-        echo PATH=%PATH%
-      shell: cmd
-
-    # Step 7: Debug JAVA_HOME and Path
-    - name: Debug JAVA_HOME
-      shell: cmd
-      run: |
-        echo JAVA_HOME=%JAVA_HOME%
-        echo PATH=%PATH%
-        where java
-
-    # Step 8: Setup SonarScanner
-    - name: Setup SonarScanner
-      run: |
-        $env:SONAR_SCANNER_VERSION = "6.2.0.4584"
-        $env:SONAR_DIRECTORY = "$PWD/.sonar"
-        $env:SONAR_SCANNER_HOME = "$env:SONAR_DIRECTORY/sonar-scanner-$env:SONAR_SCANNER_VERSION-windows-x64"
-        if (!(Test-Path -Path $env:SONAR_SCANNER_HOME)) {
-          mkdir $env:SONAR_DIRECTORY
-          Invoke-WebRequest `
-            -Uri "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$env:SONAR_SCANNER_VERSION-windows-x64.zip" `
-            -OutFile "$env:SONAR_DIRECTORY/sonar-scanner.zip"
-          Add-Type -AssemblyName System.IO.Compression.FileSystem
-          [System.IO.Compression.ZipFile]::ExtractToDirectory(
-            "$env:SONAR_DIRECTORY/sonar-scanner.zip",
-            "$env:SONAR_DIRECTORY"
-          )
-          Remove-Item "$env:SONAR_DIRECTORY/sonar-scanner.zip" -Force
-        }
-        $env:Path += ";$env:SONAR_SCANNER_HOME/bin"
-        Write-Host "SonarScanner set up at: $env:SONAR_SCANNER_HOME"
-
-    # Step 9: Run SonarScanner
-    - name: Run SonarScanner
-      shell: cmd
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      run: |
-        .sonar/sonar-scanner-$env:SONAR_SCANNER_VERSION-windows-x64/bin/sonar-scanner.bat ^
-          -Dsonar.projectKey=Group12-SOEN341_Project_F24 ^
-          -Dsonar.sources=. ^
-          -Dsonar.exclusions=node_modules/**,dist/**,build/** ^
-          -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info ^
-          -Dsonar.sourceEncoding=UTF-8 ^
-          -Dsonar.host.url=http://localhost:9000 ^
-          -Dsonar.login=%SONAR_TOKEN%
-
-    # Step 10: Run Prettier
-    - name: Check Code Formatting with Prettier
-      run: npx prettier --check .
-
-    # Step 11: Run ESLint
-    - name: Lint JavaScript and React Code
-      run: npx eslint . --ext .js,.jsx --fix
-
-    # Step 12: Upload Build Artifacts (Optional)
-    - name: Upload Build Artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: build-artifacts
-        path: ./dist
